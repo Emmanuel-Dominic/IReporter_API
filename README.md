@@ -4,3 +4,5 @@ iReporter enables any/every citizen to bring any form of corruption to the notic
 [![Build Status](https://travis-ci.org/ManuelDominic/IReporter_API.svg?branch=develop)](https://travis-ci.org/ManuelDominic/IReporter_API)
 
 [![Coverage Status](https://coveralls.io/repos/github/ManuelDominic/IReporter_API/badge.svg?branch=develop)](https://coveralls.io/github/ManuelDominic/IReporter_API?branch=develop)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/b1d60dcdfe7abdbbfdd6/maintainability)](https://codeclimate.com/github/ManuelDominic/IReporter_API/maintainability)
