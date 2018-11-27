@@ -9,7 +9,8 @@ install:
   - pip install coverage
 # command to run tests
 script: 
-  - pytest tests/
+  - py.test tests/
+  - py.test --cov=app
 
 after_success:
   - coveralls
