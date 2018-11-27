@@ -1,15 +1,15 @@
 language: python
 python:
-  - "3.6.6"
+  - "3.6"
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-  - pip install python-coveralls
+  - pip install coveralls
+  - pip install pytest pytest-cov
   - pip install coverage
 # command to run tests
 script: 
-  - nosetests --with-coverage --cover-tests
-  - coverage report
+  - pytest tests/
 
 after_success:
   - coveralls
