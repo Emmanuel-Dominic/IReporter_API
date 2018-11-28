@@ -1,6 +1,6 @@
 """views file for create, edit, get and delete redflad incidents"""
 from flask import Blueprint, jsonify, request, Response, json
-from IReporter_API.app.models.incident_model import Incident
+from app.models.incident_model import Incident
 
 incident_bp = Blueprint('incident_bp', __name__, url_prefix='/api/v1')
 
