@@ -40,3 +40,11 @@ class Incident:
             "comment":self.comment,
             "incidentId":self.incidentId
             }
+
+class redflag:
+
+    def __init__(self):
+        self.type = 'redflag'
+
+
+    
