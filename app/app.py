@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from IReporter_API.app.views.incident_view import incident_bp
+from app.views.incident_view import incident_bp
 
 app = Flask(__name__)
 
