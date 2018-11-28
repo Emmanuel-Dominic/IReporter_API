@@ -1,7 +1,6 @@
 """views file for create, edit, get and delete redflad incidents"""
 from flask import Blueprint, jsonify, request, Response, json
-from app.models.incident_model import Incident
-
+from IReporter_API.app.models.incident_model import Incident
 
 incident_bp = Blueprint('incident_bp', __name__, url_prefix='/api/v1')
 
@@ -14,7 +13,7 @@ incidents_db = [
         # status="under_Investigation",
         images="1.jpeg",
         videos="1.gif",
-        comment="Arnold was caught stilling jack fruit in hassan's Garden"
+        comment="Arnold was caught stealing jack fruit in hassan's Garden"
         ),
     Incident(
         location={"locationLong":"0.33737", "locationLat":"5.38974"},
@@ -34,7 +33,7 @@ incidents_db = [
         # status="rejected",
         images="3.jpeg",
         videos="3.gif",
-        comment="Hussien knocked moses's cow along masaka road, he was drank"
+        comment="Hussien knocked moses's cow along masaka road, 'he was drank'"
         )
         ]
 
@@ -45,7 +44,7 @@ def get_all_redflags():
     """docstring function that return all redflags detials"""
     redflags_list = []
     for record in incidents_db:
-        if record.type == 'redflag':
+        if record.type == "redflag":
             redflags_list.append(record.get_incident_details())
     if redflags_list:
         return jsonify({

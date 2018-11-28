@@ -1,5 +1,6 @@
 from flask import json
 import unittest
+import datetime
 from IReporter_API.app.app import app
 
 
@@ -21,14 +22,13 @@ class TestCase(unittest.TestCase):
         self.assertEqual(json.loads(data),message)
 
     def test_get_all_redflags(self):
-        response = self.client.get('/redflags')
+        response = self.client.get('api/v1/redflags')
         data = response.data.decode()
-        message = {"status": 200, "data": {
-            "data": [
+        message = {"data": [
             {
-            "comment": "Arnold was caught stilling jack fruit in hassan's Garden",
+            "comment": "Arnold was caught stealing jack fruit in hassan's Garden",
             "createdBy": 2,
-            "createdOn": "Wed, 28 Nov 2018 13:54:02 GMT",
+            "createdOn": datetime.datetime.now(),
             "images": "1.jpeg",
             "incidentId": 1,
             "location": "0.39737 , 9.38974",
@@ -37,9 +37,9 @@ class TestCase(unittest.TestCase):
             "videos": "1.gif"
             },
             {
-            "comment": "Hussien knocked moses's cow along masaka road, he was drank",
+            "comment": "Hussien knocked moses's cow along masaka road, 'he was drank'",
             "createdBy": 2,
-            "createdOn": "Wed, 28 Nov 2018 13:54:02 GMT",
+            "createdOn": datetime.datetime.now(),
             "images": "3.jpeg",
             "incidentId": 3,
             "location": "0.39737 , 9.38974",
@@ -49,8 +49,8 @@ class TestCase(unittest.TestCase):
             }
             ],
             "status": 200
-            }}
-        self.assertEqual(json.loads(data),message)
+            },
+        self.assertEqual(data,message)
 
 
 if __name__ == '__main__':
