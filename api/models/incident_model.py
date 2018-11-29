@@ -6,7 +6,7 @@ class Incident:
     incidentId = 1
 
     def __init__(self, createdBy, type, location, comment,images,videos):
-        self.createdOn = datetime.datetime.now()
+        self.createdOn = datetime.datetime.today()
         self.createdBy = createdBy
         self.type = type
         self.set_location(location)
@@ -45,6 +45,3 @@ class redflag:
 
     def __init__(self):
         self.type = 'redflag'
-
-
-    
