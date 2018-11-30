@@ -3,10 +3,10 @@
 [![Build Status](https://travis-ci.org/ManuelDominic/IReporter_API.svg?branch=develop)](https://travis-ci.org/ManuelDominic/IReporter_API) [![Coverage Status](https://coveralls.io/repos/github/ManuelDominic/IReporter_API/badge.svg?branch=develop)](https://coveralls.io/github/ManuelDominic/IReporter_API?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/b1d60dcdfe7abdbbfdd6/maintainability)](https://codeclimate.com/github/ManuelDominic/IReporter_API/maintainability)
 
 
-##About
+## About
 iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public. Users can also report on things that needs government intervention
 
-##Features
+## Features
 Users can create an account and log in
 
 Users can create a red-flag record (An incident linked to corruption
@@ -27,17 +27,17 @@ Users can add images to their red-flag or intervention records, to support their
 
 Users can add videos to their red-flag or intervention records, to support their claims
 
-##Getting Started
+## Getting Started
 Clone the project from this [![link](https://github.com/ManuelDominic/IReporter_API.git)]
 
-##Prerequisites
+## Prerequisites
 A computer with an operating system (Linux, MacOS or Windows can do the job) Python 3.7
 Pytest or any other preffered python tesing tool
 Postman to test the API endpoints
 A preffered text editor
 Git to keep track of the different project branches
 
-##Installing
+## Installing
 Clone the project from this [![link](https://github.com/ManuelDominic/IReporter_API.git)]
 
 Open your terminal or command prompt for linux users
@@ -51,10 +51,10 @@ $ git checkout develop
 $ pip install -r requirements.txt
 $ python run.py
 
-##Deployment
+## Deployment
 The API is hosted on Heroku. Use the [![link](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
 
-##Testing the Api
+## Testing the Api
 Run the command below to install pytest in your virtual environment
 ```
 $ pip install pytest
@@ -63,26 +63,26 @@ Run the tests
 ```
 $ pytest -v
 ```
-##Endpoints
+## Endpoints
 Endpoint | GET /api/v1/incidents | GET /api/v1/incidents/<incident_id> | DELETE /api/v1/incidents/<incident_id> | PATCH /api/v1/incidents/<incident_id>/comment | PATCH /api/v1/incidents/<incident_id>/status | POST /api/v1/incidents | POST /api/v1/users | POST /api/v1/users/login | PATCH /api/v1/incidents/<incident_id>/location |
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |---
 Functionality | Fetch all incident records | Fetch a specific incident record | Delete a specific incident record | Edit incident record's comment | Change incident record's status | Create an incident record | Create user account | Login user or admin | Edit incident record's location |
 
 
-##Built With
+## Built With
 Python 3.7.0 Flask (A python microframework)
 
-##Tools Used
+## Tools Used
 ```
 Pylint
 Pytest
 Virtual environment
 ```
 
-#Authors
+# Authors
 Matembu Emmanuel Dominic
 
 Email : ematembu2@gmail.com
 
-##Acknowledgements
+## Acknowledgements
 Acknowledgement to the Almighty God and Andela for making cohort 15 possible where cadidates are motivated.

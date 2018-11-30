@@ -4,11 +4,11 @@ import datetime
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from api.views.redflag_view import redflag_bp
+from api.views.intervention_view import intervention_bp
 from api import app
 
-new_redflag= {
-    "comment": "Arnold was caught stealing jack fruit in hassan's Garden",
+new_intervention= {
+    "comment": "Jinja bridge needs construction",
     "createdBy": 2,
     "images": "1.jpeg",
     "locationLong": "6.66666" ,
@@ -17,11 +17,11 @@ new_redflag= {
     "videos": "1.gif"
 
  }
-new_redflag_response = {
+new_intervention_response = {
     "data": [
         {
             "id": 2,
-            "message": "Created red-flag record"
+            "message": "Created intervention record"
         }
     ],
     "status": 200
@@ -51,7 +51,7 @@ def get_incidents_by_type(incident_type):
             )
     return all_incidents
 
-class TestRedflag(unittest.TestCase):
+class TestIntervention(unittest.TestCase):
 
     def setUp(self):
         self.app = app
@@ -61,25 +61,19 @@ class TestRedflag(unittest.TestCase):
         self.client = app.test_client()
 
 
-    def test_index(self):
-        response = self.client.get('/api/v1/')
+    def test_get_all_intervention(self):
+        response = self.client.get('/api/v1/intervention')
         data = response.data.decode()
-        message = {'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}
-        self.assertEqual(json.loads(data),message)
-
-    def test_get_all_redflags(self):
-        response = self.client.get('/api/v1/red-flags')
-        data = response.data.decode()
-        message = {"data":get_incidents_by_type("red-flag"), "status": 200}
+        message = {"data":get_incidents_by_type("intervention"), "status": 200}
         self.assertEqual(len(json.loads(data)),len(message))
 
 
-    def test_get_specific_redflags(self):
-        response = self.client.get('/api/v1/red-flags/1')
+    def test_get_specific_intervention(self):
+        response = self.client.get('/api/v1/intervention/1')
         data = response.data.decode()
         message = {
             "data": {
-                "comment": "Arnold was caught stealing jack fruit in hassan's Garden",
+                "comment": "Mbale highway needs construction",
                 "createdBy": 2,
                 "createdOn": "Fri, 30 Nov 2018 13:09:32 GMT",
                 "images": "1.jpeg",
@@ -94,30 +88,30 @@ class TestRedflag(unittest.TestCase):
         self.assertEqual(json.loads(data),message)
 
 
-    def test_create_redflag(self):
-        response = self.client.post('/api/v1/red-flags', content_type="application/json",data=json.dumps(new_redflag))
+    def test_create_intervention(self):
+        response = self.client.post('/api/v1/intervention', content_type="application/json",data=json.dumps(new_intervention))
         data = response.data.decode()
-        self.assertEqual(json.loads(data),new_redflag_response)
+        self.assertEqual(json.loads(data),new_intervention_response)
 
-    def test_update_redflag_location(self):
-        response = self.client.patch('/api/v1/red-flags/1/location', content_type="application/json",data=json.dumps(new_location))
+    def test_update_intervention_location(self):
+        response = self.client.patch('/api/v1/intervention/1/location', content_type="application/json",data=json.dumps(new_location))
         data = response.data.decode()
-        message = {"data": [{"id": 1, "message": "Updated red-flag record's location"}],
+        message = {"data": [{"id": 1, "message": "Updated intervention record's location"}],
             "status": 200}
         self.assertEqual(json.loads(data),message)
 
 
-    def test_update_redflag_comment(self):
-        response = self.client.patch('/api/v1/red-flags/1/comment', content_type="application/json",data=json.dumps(new_comment))
+    def test_update_intervention_comment(self):
+        response = self.client.patch('/api/v1/intervention/1/comment', content_type="application/json",data=json.dumps(new_comment))
         data = response.data.decode()
-        message = {"data": [{"id": 1, "message": "Updated red-flag record's comment"}],
+        message = {"data": [{"id": 1, "message": "Updated intervention record's comment"}],
             "status": 200}
         self.assertEqual(json.loads(data),message)
 
-    def test_delete_redflag(self):
-        response = self.client.delete('/api/v1/red-flags/2')
+    def test_delete_intervention(self):
+        response = self.client.delete('/api/v1/intervention/2')
         data = response.data.decode()
-        message = {"data": [{"id": 2, "message": "red-flag record has been deleted"}],
+        message = {"data": [{"id": 2, "message": "intervention record has been deleted"}],
             "status": 200}
         self.assertEqual(json.loads(data),message)
 
