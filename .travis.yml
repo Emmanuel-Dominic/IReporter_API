@@ -8,9 +8,9 @@ install:
   - pip install pytest pytest-cov
   - pip install coverage
 # command to run tests
-script: 
+script:
   - py.test tests/
-  - py.test --cov=app
+  - py.test --cov=.
 
 after_success:
   - coveralls
