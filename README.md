@@ -64,9 +64,9 @@ Run the tests
 $ pytest -v
 ```
 ##Endpoints
-Endpoint | GET /api/v1/incidents | GET /api/v1/incidents/<incident_id> | DELETE /api/v1/incidents/<incident_id> | PATCH /api/v1/incidents/<incident_id>/comment | PATCH /api/v1/incidents/<incident_id>/status | POST /api/v1/incidents | POST /api/v1/users | POST /api/v1/users/login | PATCH /api/v1/incidents/<incident_id>/location | 
+Endpoint | GET /api/v1/incidents | GET /api/v1/incidents/<incident_id> | DELETE /api/v1/incidents/<incident_id> | PATCH /api/v1/incidents/<incident_id>/comment | PATCH /api/v1/incidents/<incident_id>/status | POST /api/v1/incidents | POST /api/v1/users | POST /api/v1/users/login | PATCH /api/v1/incidents/<incident_id>/location |
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |---
-Functionality | Fetch all incident records | Fetch a specific incident record | Delete a specific incident record | Edit incident record's comment | Change incident record's status | Create an incident record | Create user account | Login user or admin | Edit incident record's location | 
+Functionality | Fetch all incident records | Fetch a specific incident record | Delete a specific incident record | Edit incident record's comment | Change incident record's status | Create an incident record | Create user account | Login user or admin | Edit incident record's location |
 
 
 ##Built With
