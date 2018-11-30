@@ -43,7 +43,7 @@ class Incident:
             }
 
 
-class Red_flag(Incident):
+class RedFlag(Incident):
 
     def __init__(self, createdBy, location, comment,images,videos):
         Incident.__init__(self, createdBy, location, comment,images,videos)
