@@ -1,59 +1,26 @@
 """views file for create, edit, get and delete redflad incidents"""
 from flask import Blueprint, jsonify, request, Response, json
 from api.models.incident_model import Incident
+from api.models.incident_model import Red_flag
+from api.models.incident_model import Intervention
 
 incident_bp = Blueprint('incident_bp', __name__, url_prefix='/api/v1')
 
-incidents_db = [
-    Incident(
-        location={"locationLong":"0.39737", "locationLat":"9.38974"},
-        # createdOn="2018-11-25 22:41:14",
-        createdBy=2,
-        type='redflag',
-        # status="under_Investigation",
-        images="1.jpeg",
-        videos="1.gif",
-        comment="Arnold was caught stealing jack fruit in hassan's Garden"
-        ),
-    Incident(
-        location={"locationLong":"0.33737", "locationLat":"5.38974"},
-        # createdOn="2018-08-24 02:31:14",
-        createdBy=2,
-        type='intervention',
-        # status="resolved",
-        images="2.jpeg",
-        videos="2.gif",
-        comment="Malamba highway needs construction because it's in bad state and it's also causing alot of accidents"
-        ),
-    Incident(
-        location={"locationLong":"0.39737", "locationLat":"9.38974"},
-        # createdOn="2018-11-25 22:41:14",
-        createdBy=2,
-        type='redflag',
-        # status="rejected",
-        images="3.jpeg",
-        videos="3.gif",
-        comment="Hussien knocked moses's cow along masaka road, 'he was drank'"
-        )
-        ]
-
+incidents_db = []
 
 
 @incident_bp.route('/')
 def index():
-    try:
-        return jsonify({'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
-    except 404:
-        return jsonify({'url_prefix': 'Please include api/v1/ on the ulr'}), 200
+    return jsonify({'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
 
 
 
-@incident_bp.route('/redflags', methods=['GET'])
+@incident_bp.route('/red-flags', methods=['GET'])
 def get_all_redflags():
     """docstring function that return all redflags detials"""
     redflags_list = []
     for record in incidents_db:
-        if record.type == "redflag":
+        if record.type == "red-flag":
             redflags_list.append(record.get_incident_details())
     if redflags_list:
         return jsonify({
@@ -68,10 +35,10 @@ def get_all_redflags():
 
 
 
-@incident_bp.route('/redflags/<int:redFlagId>', methods=['GET'])
-def get_specific_redflag(redFlagId):
+@incident_bp.route('/red-flags/<int:red_Flag_Id>', methods=['GET'])
+def get_specific_redflag(red_Flag_Id):
     for record in incidents_db:
-        if record.type == 'redflag' and record.incidentId == redFlagId:
+        if record.type == 'red-flag' and record.incidentId == red_Flag_Id:
             return jsonify({
                 "status": 200,
                 "data": record.get_incident_details()
@@ -81,13 +48,13 @@ def get_specific_redflag(redFlagId):
         "error": "bad request"
     }), 200
 
-@incident_bp.route('/redflags', methods=['POST'])
+@incident_bp.route('/red-flags', methods=['POST'])
 def create_redflag():
     data = request.get_json()
     if data:
         location = {"locationLong":data["locationLong"], "locationLat":data["locationLat"]}
-        newIncident=Incident(location=location, createdBy=data['createdBy'],\
-            type=data['type'], images=data['images'], videos=data['videos'],\
+        newIncident=Red_flag(location=location, createdBy=data['createdBy'],\
+            images=data['images'], videos=data['videos'],\
             comment=data['comment'])
         incidents_db.append(newIncident)
         return jsonify({
@@ -103,37 +70,73 @@ def create_redflag():
     }), 400
 
 
-@incident_bp.route('/redflags/<int:redFlagId>/location', methods=['PATCH'])
-def update_redflag_location(redFlagId):
+@incident_bp.route('/red-flags/<int:red_Flag_Id>/location', methods=['PATCH'])
+def update_redflag_location(red_Flag_Id):
     for incident in incidents_db:
-        if incident.type == 'redflag' and incident.incidentId == redFlagId:
+        if incident.type == 'red-flag' and incident.incidentId == red_Flag_Id:
             data = request.get_json()
             location = {"locationLong":data['locationLong'], "locationLat":data['locationLat']}
             incident.set_location(location)
-        return jsonify({
-            "status": 200,
-            "data":[{
-                "id":  incident.incidentId,
-                "message": "Updated red-flag record's location"}]
-        }), 200
+            return jsonify({
+                "status": 200,
+                "data":[{
+                    "id":  incident.incidentId,
+                    "message": "Updated red-flag record's location"}]
+            }), 200
 
     return jsonify({
         "status": 404,
         "error": "bad request"
     }), 200
 
-@incident_bp.route('/redflags/<int:redFlagId>/comment', methods=['PATCH'])
-def update_redflag_comment(redFlagId):
-    for record in incidents_db:
-        if record.type == 'redflag' and record.incidentId == redFlagId:
+@incident_bp.route('/red-flags/<int:red_Flag_Id>/comment', methods=['PATCH'])
+def update_redflag_comment(red_Flag_Id):
+    for incident in incidents_db:
+        if incident.type == 'red-flag' and incident.incidentId == red_Flag_Id:
             data = request.get_json()
             comment = data['comment']
-            record.set_comment(comment)
+            incident.set_comment(comment)
+            return jsonify({
+                "status": 200,
+                "data":[{
+                    "id":  incident.get_incident_details(),
+                    "message": "Updated red-flag record's comment"}]
+            }), 200
+
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200
+
+
+@incident_bp.route('/red-flags/<int:red_Flag_Id>', methods=['DELETE'])
+def delete_redflag(red_Flag_Id):
+    for incident in incidents_db:
+        if incident.type == 'redflag' and incident.incidentId == red_Flag_Id:
+            incident_index = incidents_db.index(incident)
+            incidents_db.pop(incident_index)
+            del incident
+            return jsonify({"status": 200, "data":[{"id":  red_Flag_Id,
+                 "message": "red-flag record has been deleted"}]}), 200
+
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200
+
+
+
+@incident_bp.route('/intervention', methods=['GET'])
+def get_all_intervention():
+    """docstring function that return all redflags detials"""
+    intervention_list = []
+    for record in incidents_db:
+        if record.type == "intervention":
+            intervention_list.append(record.get_incident_details())
+    if intervention_list:
         return jsonify({
             "status": 200,
-            "data":[{
-                "id":  record.get_incident_details(),
-                "message": "Updated red-flag record's comment"}]
+            "data": intervention_list
         }), 200
 
     return jsonify({
@@ -142,17 +145,93 @@ def update_redflag_comment(redFlagId):
     }), 200
 
 
-@incident_bp.route('/redflags/<int:redFlagId>', methods=['DELETE'])
-def delete_redflag(redFlagId):
+
+@incident_bp.route('/intervention/<int:intervention_Id>', methods=['GET'])
+def get_specific_intervention(intervention_Id):
     for record in incidents_db:
-        if record.incidentId == 'redFlagId' and record.incidentId == redFlagId:
-            del record
+        if record.type == 'intervention' and record.incidentId == intervention_Id:
+            return jsonify({
+                "status": 200,
+                "data": record.get_incident_details()
+            }), 200
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200
+
+
+@incident_bp.route('/intervention', methods=['POST'])
+def create_intervention():
+    data = request.get_json()
+    if data:
+        location = {"locationLong":data["locationLong"], "locationLat":data["locationLat"]}
+        newIncident=Intervention(location=location, createdBy=data['createdBy'],\
+            images=data['images'], videos=data['videos'],\
+            comment=data['comment'])
+        incidents_db.append(newIncident)
         return jsonify({
             "status": 200,
             "data":[{
-                "id":  record.incidentId,
-                "message": "red-flag record has been deleted"}]
+                "id":incidents_db[-1].incidentId,
+                "message": "Created intervention record"}]
         }), 200
+
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 400
+
+
+@incident_bp.route('/intervention/<int:intervention_Id>/location', methods=['PATCH'])
+def update_intervention_location(intervention_Id):
+    for incident in incidents_db:
+        if incident.type == 'intervention' and incident.incidentId == intervention_Id:
+            data = request.get_json()
+            location = {"locationLong":data['locationLong'], "locationLat":data['locationLat']}
+            incident.set_location(location)
+            return jsonify({
+                "status": 200,
+                "data":[{
+                    "id":  incident.incidentId,
+                    "message": "Updated intervention record's location"}]
+            }), 200
+
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200
+
+@incident_bp.route('/intervention/<int:intervention_Id>/comment', methods=['PATCH'])
+def update_intervention_comment(intervention_Id):
+    for incident in incidents_db:
+        if incident.type == 'intervention' and incident.incidentId == intervention_Id:
+            data = request.get_json()
+            comment = data['comment']
+            incident.set_comment(comment)
+            return jsonify({
+                "status": 200,
+                "data":[{
+                    "id":  incident.get_incident_details(),
+                    "message": "Updated intervention record's comment"}]
+            }), 200
+
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200
+
+
+@incident_bp.route('/intervention/<int:intervention_Id>', methods=['DELETE'])
+def delete_intervention(intervention_Id):
+    for incident in incidents_db:
+        if incident.type == 'intervention' and incident.incidentId == intervention_Id:
+            incident_index = incidents_db.index(incident)
+            incidents_db.pop(incident_index)
+            del incident
+        	# print(incidents_db)
+        	# break;
+            return jsonify({"status": 200, "data":[{"id":  intervention_Id,
+                 "message": "intervention record has been deleted"}]}), 200
 
     return jsonify({
         "status": 404,
