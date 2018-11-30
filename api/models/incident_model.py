@@ -5,10 +5,9 @@ class Incident:
 
     incidentId = 1
 
-    def __init__(self, createdBy, type, location, comment,images,videos):
-        self.createdOn = datetime.datetime.now()
+    def __init__(self, createdBy, location, comment,images,videos):
+        self.createdOn = datetime.datetime.today()
         self.createdBy = createdBy
-        self.type = type
         self.set_location(location)
         self.set_comment(comment)
         self.images = images
@@ -16,6 +15,7 @@ class Incident:
         self.status = 'draft'
         self.incidentId = Incident.incidentId
         Incident.incidentId += 1
+
 
     def set_location(self,location):
         self.locationLong = location['locationLong']
@@ -27,6 +27,7 @@ class Incident:
 
     def get_location(self):
         return " ".join([self.locationLong,',', self.locationLat])
+
 
     def get_incident_details(self):
         return {
@@ -41,10 +42,19 @@ class Incident:
             "incidentId":self.incidentId
             }
 
-class redflag:
 
-    def __init__(self):
-        self.type = 'redflag'
+class RedFlag(Incident):
+
+    def __init__(self, createdBy, location, comment,images,videos):
+        Incident.__init__(self, createdBy, location, comment,images,videos)
+        self.type = 'red-flag'
 
 
-    
+
+
+
+class Intervention(Incident):
+
+    def __init__(self, createdBy, location, comment,images,videos):
+        Incident.__init__(self, createdBy, location, comment,images,videos)
+        self.type = 'intervention'
