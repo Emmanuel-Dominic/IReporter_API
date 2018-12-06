@@ -2,6 +2,7 @@
 from flask import Blueprint, jsonify, request, Response, json
 from api.models.incident_model import Incident
 from api.models.incident_model import Intervention
+# from api.views.auth_helper import token_required,non_admin_required,admin_required
 
 intervention_bp = Blueprint('intervention_bp', __name__, url_prefix='/api/v1')
 
@@ -18,6 +19,7 @@ incidents_db[0].createdOn = "Fri, 30 Nov 2018 13:09:32 GMT"
 
 
 @intervention_bp.route('/intervention', methods=['GET'])
+
 def get_all_intervention():
     """docstring function that return all redflags detials"""
     intervention_list = []
@@ -32,6 +34,7 @@ def get_all_intervention():
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>', methods=['GET'])
+
 def get_specific_intervention(intervention_Id):
     for record in incidents_db:
         if record.type == 'intervention' and record.incidentId == intervention_Id:
@@ -51,7 +54,6 @@ def create_intervention():
     data = request.get_json()
     if data:
         try:
-
             location = {"locationLong":data["locationLong"], "locationLat":data["locationLat"]}
             newIncident=Intervention(location=location, createdBy=data['createdBy'],\
                 images=data['images'], videos=data['videos'],\
@@ -76,6 +78,8 @@ def create_intervention():
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>/location', methods=['PATCH'])
+
+
 def update_intervention_location(intervention_Id):
     for incident in incidents_db:
         if incident.type == 'intervention' and incident.incidentId == intervention_Id:
@@ -95,6 +99,8 @@ def update_intervention_location(intervention_Id):
     }), 200
 
 @intervention_bp.route('/intervention/<int:intervention_Id>/comment', methods=['PATCH'])
+
+
 def update_intervention_comment(intervention_Id):
     for incident in incidents_db:
         if incident.type == 'intervention' and incident.incidentId == intervention_Id:
@@ -115,6 +121,8 @@ def update_intervention_comment(intervention_Id):
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>', methods=['DELETE'])
+
+
 def delete_intervention(intervention_Id):
     for incident in incidents_db:
         if incident.type == 'intervention' and incident.incidentId == intervention_Id:
