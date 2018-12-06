@@ -4,12 +4,12 @@ import datetime
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from api.views.intervention_view import intervention_bp
-from api import app
+from api.views.intervention_view import intervention_bp, intervention_table
+from api.app import app
 
 new_intervention= {
     "comment": "Jinja bridge needs construction",
-    "createdBy": 2,
+    "createdBy": 3,
     "images": "1.jpeg",
     "locationLong": "6.66666" ,
     "locationLat":"7.7777",
@@ -20,7 +20,7 @@ new_intervention= {
 new_intervention_response = {
     "data": [
         {
-            "id": 2,
+            "id": 4,
             "message": "Created intervention record"
         }
     ],
@@ -34,7 +34,7 @@ new_comment = {"comment": "Sorry!, error information"}
 def get_incidents_by_type(incident_type):
     all_incidents =  []
 
-    for incident in incidents_db:
+    for incident in intervention_table:
         if incident.type ==incident_type:
             all_incidents.append(
             {
@@ -54,22 +54,19 @@ def get_incidents_by_type(incident_type):
 class TestIntervention(unittest.TestCase):
 
     def setUp(self):
-        self.app = app
         app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
         app.config['DEBUG'] = False
-        self.client = app.test_client()
-
+        self.app = app.test_client()
 
     def test_get_all_intervention(self):
-        response = self.client.get('/api/v1/intervention')
+        response = self.app.get('/api/v1/intervention')
         data = response.data.decode()
         message = {"data":get_incidents_by_type("intervention"), "status": 200}
         self.assertEqual(len(json.loads(data)),len(message))
 
 
     def test_get_specific_intervention(self):
-        response = self.client.get('/api/v1/intervention/1')
+        response = self.app.get('/api/v1/intervention/1')
         data = response.data.decode()
         message = {
             "data": {
@@ -80,7 +77,7 @@ class TestIntervention(unittest.TestCase):
                 "incidentId": 1,
                 "location": "0.33737 , 5.38974",
                 "status": "draft",
-                "type": "red-flag",
+                "type": "intervention",
                 "videos": "1.gif"
             },
             "status": 200
@@ -89,29 +86,29 @@ class TestIntervention(unittest.TestCase):
 
 
     def test_create_intervention(self):
-        response = self.client.post('/api/v1/intervention', content_type="application/json",data=json.dumps(new_intervention))
+        response = self.app.post('/api/v1/intervention', content_type="application/json",data=json.dumps(new_intervention))
         data = response.data.decode()
         self.assertEqual(json.loads(data),new_intervention_response)
 
     def test_update_intervention_location(self):
-        response = self.client.patch('/api/v1/intervention/1/location', content_type="application/json",data=json.dumps(new_location))
+        response = self.app.patch('/api/v1/intervention/2/location', content_type="application/json",data=json.dumps(new_location))
         data = response.data.decode()
-        message = {"data": [{"id": 1, "message": "Updated intervention record's location"}],
+        message = {"data": [{"id": 2, "message": "Updated intervention record's location"}],
             "status": 200}
         self.assertEqual(json.loads(data),message)
 
 
     def test_update_intervention_comment(self):
-        response = self.client.patch('/api/v1/intervention/1/comment', content_type="application/json",data=json.dumps(new_comment))
+        response = self.app.patch('/api/v1/intervention/2/comment', content_type="application/json",data=json.dumps(new_comment))
         data = response.data.decode()
-        message = {"data": [{"id": 1, "message": "Updated intervention record's comment"}],
+        message = {"data": [{"id": 2, "message": "Updated intervention record's comment"}],
             "status": 200}
         self.assertEqual(json.loads(data),message)
 
     def test_delete_intervention(self):
-        response = self.client.delete('/api/v1/intervention/2')
+        response = self.app.delete('/api/v1/intervention/4')
         data = response.data.decode()
-        message = {"data": [{"id": 2, "message": "intervention record has been deleted"}],
+        message = {"data": [{"id": 4, "message": "intervention record has been deleted"}],
             "status": 200}
         self.assertEqual(json.loads(data),message)
 
