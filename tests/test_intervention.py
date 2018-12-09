@@ -1,11 +1,11 @@
 # import json
 # import unittest
-# import os
-# import sys
-#
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-# from api.views.intervention_view import intervention_table
-# from api.app import app
+# # import os
+# # import sys
+# #
+# # sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
+# from views.intervention_view import intervention_table
+# from app import app
 #
 # new_intervention = {
 #     "comment": "Jinja bridge needs construction",

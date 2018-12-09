@@ -1,11 +1,11 @@
 # import json
 # import unittest
-# import os
-# import sys
-#
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-# from api.views.redflag_view import redflag_table
-# from api.app import app
+# # import os
+# # import sys
+# #
+# # sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
+# from views.redflag_view import redflag_table
+# from app import app
 #
 # new_redflag = {
 #     "comment": "Arnold was caught stealing jack fruit in hassan's Garden",
