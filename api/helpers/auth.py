@@ -1,7 +1,3 @@
-# import os
-# import sy/s
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-
 from functools import wraps
 import datetime
 import jwt
@@ -12,15 +8,15 @@ secret_key = "klgwso7dbnc37hgv8oiawb/we9h7_hywg8"
 
 
 def encode_token(userId):
-    token = jwt.encode({'userId': User.userId,
-                        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)},
-                       secret_key)
+    token = jwt.encode({'userId': userId,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)},
+        secret_key).decode('utf-8')
     return token
 
 
 def decode_token(token):
-    define = jwt.decode(token, secret_key, algorithms=['HS256'])
-    return define
+    decoded_token = jwt.decode(token, secret_key, algorithms=['HS256'])
+    return decoded_token
 
 
 def token_required(func):
@@ -35,11 +31,11 @@ def token_required(func):
                 return jsonify({"message": "token expired"}), 401
             except jwt.InvalidSignatureError:
                 return jsonify({"message": "Signature verification failed"}), 401
-            except jwt.InvalidTokeneError:
+            except jwt.InvalidTokenError:
                 return jsonify({"message": "Invalid Token verification failed"}), 401
         except KeyError:
             return jsonify({"message": "Missing token"}), 401
-        return wrapper
+    return wrapper
 
 
 def get_current_user():
@@ -47,7 +43,7 @@ def get_current_user():
     token = request.headers['token']
     decoded_token = decode_token(token)
     try:
-        user_id = decode_token["userId"]
+        user_id = decoded_token["userId"]
         for user_obj in users_table:
             if user_obj.userId == user_id:
                 return {"username":user_obj.userName,"email":user_obj.email,"isAdmin":user_obj.isAdmin}
@@ -70,7 +66,6 @@ def admin_required(func):
 
 def non_admin_required(func):
     """This decorator limits access to the routes to non admin user only"""
-
     @wraps(func)
     def wrapper(*args, **kwargs):
         isAdmin = get_current_user()['isAdmin']
