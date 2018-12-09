@@ -12,7 +12,7 @@ intervention_bp = Blueprint('intervention_bp', __name__, url_prefix='/api/v1')
 @admin_required
 def index():
     return jsonify({
-        'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
+        'IReporter': "Welcome and we glad to have you as our Admin."}), 200
 
 
 @intervention_bp.route('/intervention', methods=['GET'])

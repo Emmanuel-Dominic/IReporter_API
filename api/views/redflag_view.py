@@ -7,8 +7,6 @@ redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
 
 
 @redflag_bp.route('/')
-@token_required
-@non_admin_required
 def index():
     return jsonify({
         'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
