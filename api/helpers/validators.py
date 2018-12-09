@@ -22,23 +22,6 @@ def verify_login_data(func):
         if not request.data:
             return jsonify({"message": "Please provide data",
                 "example":example_login_data}),400
-        # try:
-        #     data = request.get_json()
-        #     if not data["email"]:
-        #         return jsonify({"message":"email {}".format(required_feild)}), 406
-        #     elif data["email"].isspace():
-        #         return jsonify({"message":"{} at email".format(Invalid_value_input)}), 406
-        #     elif data["password"].isspace():
-        #         return jsonify({"message":"{} at password".format(Invalid_value_input)}), 406
-        #     elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data["email"]):
-        #         return jsonify({"message":"Your email address is not valid."}), 406
-        #
-        # except AttributeError:
-        #     return jsonify({"message":"Please provide valid field for string data",
-        #         "example":example_signup_data}),400
-        # except AttributeError:
-        #     return jsonify({"message":"Please provide valid field for string data",
-        #         "example":example_signup_data}),400
         
         # if data is not of type application/json
         try:
