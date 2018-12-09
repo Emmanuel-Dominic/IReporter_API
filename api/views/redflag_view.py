@@ -1,4 +1,3 @@
-# """ review status codes"""
 from flask import Blueprint, jsonify, request
 from models.incident_model import RedFlag,redflag_table
 from helpers.auth import token_required,non_admin_required,admin_required

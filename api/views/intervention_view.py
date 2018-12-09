@@ -1,4 +1,3 @@
-# """ review status codes"""
 from flask import Blueprint, jsonify, request, Response, json
 from models.incident_model import Intervention,intervention_table
 from helpers.auth import token_required,non_admin_required,admin_required
