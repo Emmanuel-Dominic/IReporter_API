@@ -1,21 +1,21 @@
 # """ review status codes"""
 from flask import Blueprint, jsonify, request
 from models.incident_model import RedFlag,redflag_table
-
-# from api.views.auth_helper import token_required,non_admin_required,admin_required
+from helpers.auth import token_required,non_admin_required,admin_required
 
 redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
 
 
 @redflag_bp.route('/')
-#
-#
+@token_required
+@non_admin_required
 def index():
     return jsonify({
         'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
 
 
 @redflag_bp.route('/red-flags', methods=['GET'])
+@token_required
 def get_all_redflags():
     """docstring function that return all redflags detials"""
     redflags_list = []
@@ -29,6 +29,8 @@ def get_all_redflags():
 
 
 @redflag_bp.route('/red-flags/<int:red_Flag_Id>', methods=['GET'])
+@token_required
+@non_admin_required
 def get_specific_redflag(red_Flag_Id):
     for record in redflag_table:
         if record.incidentId == red_Flag_Id:
@@ -43,6 +45,8 @@ def get_specific_redflag(red_Flag_Id):
 
 
 @redflag_bp.route('/red-flags', methods=['POST'])
+@token_required
+@non_admin_required
 def create_redflag():
     data = request.get_json()
     if data:
@@ -70,6 +74,8 @@ def create_redflag():
 
 
 @redflag_bp.route('/red-flags/<int:red_Flag_Id>/location', methods=['PATCH'])
+@token_required
+@non_admin_required
 def update_redflag_location(red_Flag_Id):
     for incident in redflag_table:
         if incident.incidentId == red_Flag_Id:
@@ -90,6 +96,8 @@ def update_redflag_location(red_Flag_Id):
 
 
 @redflag_bp.route('/red-flags/<int:red_Flag_Id>/comment', methods=['PATCH'])
+@token_required
+@non_admin_required
 def update_redflag_comment(red_Flag_Id):
     for incident in redflag_table:
         if incident.incidentId == red_Flag_Id:
@@ -110,6 +118,8 @@ def update_redflag_comment(red_Flag_Id):
 
 
 @redflag_bp.route('/red-flags/<int:red_Flag_Id>', methods=['DELETE'])
+@token_required
+@non_admin_required
 def delete_redflag(red_Flag_Id):
     for incident in redflag_table:
         if incident.incidentId != red_Flag_Id:
@@ -122,3 +132,25 @@ def delete_redflag(red_Flag_Id):
             "status": 404,
             "error": "bad request"
         }), 200
+
+
+@redflag_bp.route('/red-flags/<int:red_Flag_Id>/status', methods=['PATCH'])
+@token_required
+@admin_required
+def update_redflag_status(red_Flag_Id):
+    for incident in redflag_table:
+        if incident.incidentId == red_Flag_Id:
+            data = request.get_json()
+            comment = data['status']
+            incident.set_status(status)
+            return jsonify({
+                "status": 200,
+                "data": [{
+                    "id": incident.incidentId,
+                    "message": "Updated red-flag record's status"}]
+            }), 200
+
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200

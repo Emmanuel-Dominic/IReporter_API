@@ -46,7 +46,9 @@ def get_current_user():
         user_id = decoded_token["userId"]
         for user_obj in users_table:
             if user_obj.userId == user_id:
-                return {"username":user_obj.userName,"email":user_obj.email,"isAdmin":user_obj.isAdmin}
+                return {"username":user_obj.userName,"email":user_obj.email,\
+                    "isAdmin":user_obj.isAdmin,"phoneNumber":user_obj.phoneNumber
+                    }
     except KeyError:
         return jsonify({"message": "user_id not in token"}), 401
 

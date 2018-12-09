@@ -48,7 +48,7 @@ def sign_up():
                     password=password \
                     )
     users_table.append(new_user)
-    return jsonify({"status": 201, "message": "Successfully registered", "users": data}), 201
+    return jsonify({"status": 201, "message": "Successfully registered", "users": new_user.get_user_details()}), 201
 
 
 @user_bp.route('/auth/login', methods=['POST'])
