@@ -3,7 +3,7 @@
 
 from flask import Blueprint, jsonify, request, Response, json
 from models.user_model import User,users_table
-from .auth_helper import encode_token
+from helpers.auth import encode_token, admin_required,token_required
 from helpers.validators import verify_login_data, verify_signup_data
 
 
@@ -15,6 +15,8 @@ user_bp = Blueprint('user_bp', __name__, url_prefix='/api/v1')
 
 
 @user_bp.route('/users', methods=['GET'])
+@token_required
+@admin_required
 def get_users():
     """docstring function that return all users detials"""
     users_list = []
@@ -53,11 +55,11 @@ def sign_up():
 @verify_login_data
 def login():
     data = request.get_json()
-    password = data['password']
-    email = data['email']
+    data['password']
+    data['email']
 
     for user_obj in users_table:
-        if email == user_obj.email and password == user_obj.password:
+        if data['email'] == user_obj.email and data['password'] == user_obj.password:
             return jsonify({"Token": encode_token(user_obj.userId), "message": "Successfully logged In"})
 
     return jsonify({"message": "Invalid credentials, Please try again"}), 401
