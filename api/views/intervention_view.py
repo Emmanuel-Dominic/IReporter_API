@@ -1,14 +1,22 @@
 # """ review status codes"""
 from flask import Blueprint, jsonify, request, Response, json
 from models.incident_model import Intervention,intervention_table
-
-# from api.views.auth_helper import token_required,non_admin_required,admin_required
+from helpers.auth import token_required,non_admin_required,admin_required
 
 intervention_bp = Blueprint('intervention_bp', __name__, url_prefix='/api/v1')
 
 
 
+@intervention_bp.route('/admin')
+@token_required
+@admin_required
+def index():
+    return jsonify({
+        'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
+
+
 @intervention_bp.route('/intervention', methods=['GET'])
+@token_required
 def get_all_intervention():
     """docstring function that return all redflags detials"""
     intervention_list = []
@@ -23,6 +31,8 @@ def get_all_intervention():
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>', methods=['GET'])
+@token_required
+@non_admin_required
 def get_specific_intervention(intervention_Id):
     for record in intervention_table:
         if record.incidentId == intervention_Id:
@@ -37,6 +47,8 @@ def get_specific_intervention(intervention_Id):
 
 
 @intervention_bp.route('/intervention', methods=['POST'])
+@token_required
+@non_admin_required
 def create_intervention():
     data = request.get_json()
     if data:
@@ -65,6 +77,8 @@ def create_intervention():
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>/location', methods=['PATCH'])
+@token_required
+@non_admin_required
 def update_intervention_location(intervention_Id):
     for incident in intervention_table:
         if incident.incidentId == intervention_Id:
@@ -85,6 +99,8 @@ def update_intervention_location(intervention_Id):
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>/comment', methods=['PATCH'])
+@token_required
+@non_admin_required
 def update_intervention_comment(intervention_Id):
     for incident in intervention_table:
         if incident.incidentId == intervention_Id:
@@ -105,6 +121,8 @@ def update_intervention_comment(intervention_Id):
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>', methods=['DELETE'])
+@token_required
+@non_admin_required
 def delete_intervention(intervention_Id):
     for incident in intervention_table:
         if incident.incidentId == intervention_Id:
@@ -113,6 +131,28 @@ def delete_intervention(intervention_Id):
             del incident
             return jsonify({"status": 200, "data": [{"id": intervention_Id,
                                                      "message": "intervention record has been deleted"}]}), 200
+
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200
+
+
+@intervention_bp.route('/intervention/<int:intervention_Id>/status', methods=['PATCH'])
+@token_required
+@admin_required
+def update_intervention_status(intervention_Id):
+    for incident in intervention_table:
+        if incident.incidentId == intervention_Id:
+            data = request.get_json()
+            comment = data['status']
+            incident.set_status(status)
+            return jsonify({
+                "status": 200,
+                "data": [{
+                    "id": incident.get_incident_details(),
+                    "message": "Updated intervention record's status"}]
+            }), 200
 
     return jsonify({
         "status": 404,

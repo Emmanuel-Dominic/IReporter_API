@@ -24,6 +24,9 @@ class Incident:
     def set_comment(self, comment):
         self.comment = comment
 
+    def set_status(self, status):
+        self.comment = status
+
     def get_location(self):
         return " ".join([self.locationLong, ',', self.locationLat])
 

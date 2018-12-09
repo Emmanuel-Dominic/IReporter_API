@@ -20,7 +20,7 @@ class User:
         User.userId += 1
 
     def get_name(self):
-        return "".join([self.firstName, self.lastName, self.otherName])
+        return "".join([self.firstName,' ', self.lastName,' ', self.otherName])
 
     def get_user_details(self):
         return {
