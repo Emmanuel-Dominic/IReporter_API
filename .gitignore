@@ -1,1 +1,7 @@
 venv
+.vscode
+__pycache__
+*.pyc
+htmlcov
+.idea
+.pytest_cache
