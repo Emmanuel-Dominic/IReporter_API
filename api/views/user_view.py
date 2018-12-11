@@ -1,6 +1,5 @@
 
 """views file for users, login, signup and logout sessions"""
-
 from flask import Blueprint, jsonify, request, Response, json
 from models.user_model import User,users_table
 from helpers.auth import encode_token, admin_required,token_required

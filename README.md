@@ -51,10 +51,29 @@ $ pip install pytest
 ```
 $ pytest -v
 ```
-## Endpoints
-Endpoint | GET /api/v1/incidents | GET /api/v1/incidents/<incident_id> | DELETE /api/v1/incidents/<incident_id> | PATCH /api/v1/incidents/<incident_id>/comment | PATCH /api/v1/incidents/<incident_id>/status | POST /api/v1/incidents | POST /api/v1/users | POST /api/v1/users/login | PATCH /api/v1/incidents/<incident_id>/location |
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |---
-Functionality | Fetch all incident records | Fetch a specific incident record | Delete a specific incident record | Edit incident record's comment | Change incident record's status | Create an incident record | Create user account | Login user or admin | Edit incident record's location |
+
+## Versioning
+```
+This is version one "v1" of the API
+```
+## End Points(Required Features)
+|                 End Point                                  |  Functionality                      |
+|  ----------------------------------------------------------|-------------------------------------
+|  POST   api/v1/auth/login                                  |  Login to application               |
+|     POST   api/v1/auth/signup                              |  Register an account                |
+|  POST   api/v1/red-flags                                   |  Create a red-flag                  |
+|  GET    api/v1/red-flags                                   |  Fetch all red-flags                |
+|  GET    api/v1/red-flags/<int:redflag_Id>                  |  Fetch a red-flag                   |
+|  PATCH  api/v1/red-flags/<int:redflag_Id>location          |  Edit red-flag location             |
+|  PATCH  api/v1/red-flags/<int:redflag_Id>comment           |  Edit red-flag comment              |
+|  POST   api/v1/intervention                                |  Create a intervention              |
+|  GET    api/v1/intervention                                |  Fetch all intervention             |
+|  GET    api/v1/intervention/<int:intervention_Id>          |  Fetch a intervention               |
+|  PATCH  api/v1/intervention/<int:intervention_Id>location  |  Edit intervention location         |
+|  PATCH  api/v1/intervention/<int:intervention_Id>comment   |  Edit intervention comment          |
+|  PATCH  api/v1/red-flags/<int:redflag_Id>status            |  Edit red-flag status               |
+|  PATCH  api/v1/intervention/<int:intervention_Id>status    |  Edit intervention status
+
 
 
 ## Built With
