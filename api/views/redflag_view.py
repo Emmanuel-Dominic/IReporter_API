@@ -5,14 +5,12 @@ from helpers.auth import token_required,non_admin_required,admin_required
 
 redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
 
-
 @redflag_bp.route('/')
 @token_required
 @non_admin_required
 def index():
     return jsonify({
         'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
-
 
 @redflag_bp.route('/red-flags', methods=['GET'])
 @token_required
@@ -28,12 +26,12 @@ def get_all_redflags():
     }), 200
 
 
-@redflag_bp.route('/red-flags/<int:red_Flag_Id>', methods=['GET'])
+@redflag_bp.route('/red-flags/<int:redflag_Id>', methods=['GET'])
 @token_required
 @non_admin_required
-def get_specific_redflag(red_Flag_Id):
+def get_specific_redflag(redflag_Id):
     for record in redflag_table:
-        if record.incidentId == red_Flag_Id:
+        if record.incidentId == redflag_Id:
             return jsonify({
                 "status": 200,
                 "data": record.get_incident_details()
@@ -42,7 +40,6 @@ def get_specific_redflag(red_Flag_Id):
         "status": 404,
         "error": "bad request"
     }), 200
-
 
 @redflag_bp.route('/red-flags', methods=['POST'])
 @token_required
@@ -73,12 +70,12 @@ def create_redflag():
         }), 200
 
 
-@redflag_bp.route('/red-flags/<int:red_Flag_Id>/location', methods=['PATCH'])
+@redflag_bp.route('/red-flags/<int:redflag_Id>/location', methods=['PATCH'])
 @token_required
 @non_admin_required
-def update_redflag_location(red_Flag_Id):
+def update_redflag_location(redflag_Id):
     for incident in redflag_table:
-        if incident.incidentId == red_Flag_Id:
+        if incident.incidentId == redflag_Id:
             data = request.get_json()
             location = {"locationLong": data['locationLong'], "locationLat": data['locationLat']}
             incident.set_location(location)
@@ -95,12 +92,12 @@ def update_redflag_location(red_Flag_Id):
     }), 200
 
 
-@redflag_bp.route('/red-flags/<int:red_Flag_Id>/comment', methods=['PATCH'])
+@redflag_bp.route('/red-flags/<int:redflag_Id>/comment', methods=['PATCH'])
 @token_required
 @non_admin_required
-def update_redflag_comment(red_Flag_Id):
+def update_redflag_comment(redflag_Id):
     for incident in redflag_table:
-        if incident.incidentId == red_Flag_Id:
+        if incident.incidentId == redflag_Id:
             data = request.get_json()
             comment = data['comment']
             incident.set_comment(comment)
@@ -117,29 +114,28 @@ def update_redflag_comment(red_Flag_Id):
     }), 200
 
 
-@redflag_bp.route('/red-flags/<int:red_Flag_Id>', methods=['DELETE'])
+@redflag_bp.route('/red-flags/<int:redflag_Id>', methods=['DELETE'])
 @token_required
 @non_admin_required
-def delete_redflag(red_Flag_Id):
+def delete_redflag(redflag_Id):
     for incident in redflag_table:
-        if incident.incidentId != red_Flag_Id:
+        if incident.incidentId != redflag_Id:
             incident_index = redflag_table.index(incident)
             redflag_table.pop(incident_index)
             del incident
-            return jsonify({"status": 200, "data": [{"id": red_Flag_Id,
+            return jsonify({"status": 200, "data": [{"id": redflag_Id,
                                                      "message": "red-flag record has been deleted"}]}), 200
         return jsonify({
             "status": 404,
             "error": "bad request"
         }), 200
 
-
-@redflag_bp.route('/red-flags/<int:red_Flag_Id>/status', methods=['PATCH'])
+@redflag_bp.route('/red-flags/<int:redflag_Id>/status', methods=['PATCH'])
 @token_required
 @admin_required
-def update_redflag_status(red_Flag_Id):
+def update_redflag_status(redflag_Id):
     for incident in redflag_table:
-        if incident.incidentId == red_Flag_Id:
+        if incident.incidentId == redflag_Id:
             data = request.get_json()
             comment = data['status']
             incident.set_status(status)
@@ -149,7 +145,6 @@ def update_redflag_status(red_Flag_Id):
                     "id": incident.incidentId,
                     "message": "Updated red-flag record's status"}]
             }), 200
-
     return jsonify({
         "status": 404,
         "error": "bad request"

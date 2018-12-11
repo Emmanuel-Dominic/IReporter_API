@@ -6,18 +6,15 @@ from models.user_model import User,users_table
 
 secret_key = "klgwso7dbnc37hgv8oiawb/we9h7_hywg8"
 
-
 def encode_token(userId):
     token = jwt.encode({'userId': userId,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)},
         secret_key).decode('utf-8')
     return token
 
-
 def decode_token(token):
     decoded_token = jwt.decode(token, secret_key, algorithms=['HS256'])
     return decoded_token
-
 
 def token_required(func):
     @wraps(func)
@@ -55,16 +52,13 @@ def get_current_user():
 
 def admin_required(func):
     """This decorator limits access to the routes to admin user only"""
-
     @wraps(func)
     def wrapper(*args, **kwargs):
         isAdmin = get_current_user()['isAdmin']
         if isAdmin:
             return func(*args, **kwargs)
         return jsonify({"messsage": "Only admin can access this route"}), 401
-
     return wrapper
-
 
 def non_admin_required(func):
     """This decorator limits access to the routes to non admin user only"""
@@ -74,5 +68,4 @@ def non_admin_required(func):
         if not isAdmin:
             return jsonify({"messsage": "Only Non admin can access this route"}), 401
         return func(*args, **kwargs)
-
     return wrapper

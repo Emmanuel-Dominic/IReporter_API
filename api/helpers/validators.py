@@ -22,7 +22,7 @@ def verify_login_data(func):
         if not request.data:
             return jsonify({"message": "Please provide data",
                 "example":example_login_data}),400
-        
+
         # if data is not of type application/json
         try:
             data = request.get_json()
@@ -65,9 +65,9 @@ def verify_signup_data(func):
                 return jsonify({"message":"userName {}".format(required_feild)}), 406
             elif len(data["password"]) < 6:
                 return jsonify({"message":"Password must be atleast six characters or more"}), 406
-            elif data["firstName"].isspace():
+            elif not data["firstName"].isalpha():
                 return jsonify({"message":"{} at firstName".format(Invalid_value_input)}), 406
-            elif data["lastName"].isspace():
+            elif not data["lastName"].isalpha():
                 return jsonify({"message":"{} at lastName".format(Invalid_value_input)}), 406
             elif data["email"].isspace():
                 return jsonify({"message":"{} at email".format(Invalid_value_input)}), 406
@@ -75,14 +75,16 @@ def verify_signup_data(func):
                 return jsonify({"message":"{} at phoneNumber".format(Invalid_value_input)}), 406
             elif data["password"].isspace():
                 return jsonify({"message":"{} at password".format(Invalid_value_input)}), 406
-            elif data["userName"].isspace():
+            elif not data["userName"].isalpha():
                 return jsonify({"message":"{} at userName".format(Invalid_value_input)}), 406
             elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data["email"]):
                 return jsonify({"message":"Your email address is not valid."}), 406
-
         except AttributeError:
             return jsonify({"message":"Please provide valid field for string data",
                 "example":example_signup_data}),400
+        except ValueError:
+            return jsonify({"message":"Please provide valid data type for fields",
+                "example":example_signup_data}),406
         except:
             return jsonify({"message":"Please provide JSON data",
                 "example":example_signup_data}),400
