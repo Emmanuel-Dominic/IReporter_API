@@ -19,8 +19,8 @@ user_bp = Blueprint('user_bp', __name__, url_prefix='/api/v1')
 def get_users():
     """docstring function that return all users detials"""
     users_list = []
-    for user in users_table[1:]:
-        users_list.append(user.get_user_details())
+    for user_obj in users_table[1:]:
+        users_list.append(user_obj.get_user_details())
     return jsonify({
         "status": 200,
         "users": users_list
@@ -38,8 +38,8 @@ def sign_up():
     password = data['password']
     userName = data['userName']
 
-    for user in users_table:
-        if email == user.email:
+    for user_obj in users_table:
+        if email == user_obj.email:
             return jsonify({"message": "sorry, Email already in use"}), 406
     new_user = User(userName=userName, \
                     name=name, email=email, \
