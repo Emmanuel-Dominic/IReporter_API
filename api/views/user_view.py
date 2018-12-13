@@ -1,13 +1,8 @@
-
-"""views file for users, login, signup and logout sessions"""
-from flask import Blueprint, jsonify, request, Response, json
-from models.user_model import User,users_table
-from helpers.auth import encode_token, admin_required,token_required
-from helpers.validators import verify_login_data, verify_signup_data
-
-
 from functools import wraps
-
+from flask import Blueprint, jsonify, request, Response, json
+from api.helpers.auth import encode_token, admin_required, token_required
+from api.helpers.validators import verify_login_data, verify_signup_data
+from api.models.user_model import User, users_table
 
 
 user_bp = Blueprint('user_bp', __name__, url_prefix='/api/v1')
@@ -47,7 +42,7 @@ def sign_up():
                     password=password \
                     )
     users_table.append(new_user)
-    return jsonify({"status": 201, "message": "Successfully registered", "users": new_user.get_user_details()}), 201
+    return jsonify({"status": 201, "message": "Successfully registered"}), 201
 
 
 @user_bp.route('/auth/login', methods=['POST'])
@@ -58,7 +53,7 @@ def login():
     data['email']
 
     for user_obj in users_table:
-        if data['email'] == user_obj.email and data['password'] == user_obj.password:
+        if data['email'] == user_obj.email and check_password(data['password']) == True:
             return jsonify({"Token": encode_token(user_obj.userId), "message": "Successfully logged In"})
 
     return jsonify({"message": "Invalid credentials, Please try again"}), 401

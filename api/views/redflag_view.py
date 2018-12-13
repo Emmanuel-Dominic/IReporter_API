@@ -1,7 +1,6 @@
-# """ review status codes"""
 from flask import Blueprint, jsonify, request
-from models.incident_model import RedFlag,redflag_table
-from helpers.auth import token_required,non_admin_required,admin_required
+from api.helpers.auth import token_required, non_admin_required, admin_required
+from api.models.incident_model import RedFlag, redflag_table
 
 redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
 

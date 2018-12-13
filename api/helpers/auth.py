@@ -1,8 +1,8 @@
-from functools import wraps
 import datetime
+from functools import wraps
 import jwt
 from flask import request, jsonify
-from models.user_model import User,users_table
+from api.models.user_model import User, users_table
 
 secret_key = "klgwso7dbnc37hgv8oiawb/we9h7_hywg8"
 
