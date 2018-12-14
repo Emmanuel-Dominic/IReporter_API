@@ -16,21 +16,21 @@ example_signup_data = {
     }
 invalid_key_msg = "Invalid Key in data,please provide valid input data"
 required_feild = "field is Required"
-Invalid_value_input = "Invalid input value"
+Invalid_value_msg = "Invalid value in data,please provide valid input data"
 
 def get_password(password):
     data = request.get_json()
     if len(data["password"]) < 6:
         return jsonify({"message":"Password must be atleast six characters or more"}), 406
     if data["password"].isspace():
-        return jsonify({"message":"{} at password".format(Invalid_value_input)}), 406
+        return jsonify({"message":"{} at password".format(Invalid_value_msg)}), 406
     if not data["password"]:
         return jsonify({"message":"password {}".format(required_feild)}), 406
 
 def get_email(email):
     data = request.get_json()
     if data["email"].isspace():
-        return jsonify({"message":"{} at email".format(Invalid_value_input)}), 406
+        return jsonify({"message":"{} at email".format(Invalid_value_msg)}), 406
     if not data["email"]:
         return jsonify({"message":"email {}".format(required_feild)}), 406
 
@@ -39,7 +39,7 @@ def get_userName(userName):
     if not data["userName"]:
         return jsonify({"message":"userName {}".format(required_feild)}), 406
     if not data["userName"].isalpha():
-        return jsonify({"message":"{} at userName".format(Invalid_value_input)}), 406
+        return jsonify({"message":"{} at userName".format(Invalid_value_msg)}), 406
 
 def get_phoneNumber(phoneNumber):
     data = request.get_json()
@@ -93,9 +93,9 @@ def verify_signup_data(func):
             if not data["lastName"]:
                 return jsonify({"message":"lastName {}".format(required_feild)}), 406
             if not data["firstName"].isalpha():
-                return jsonify({"message":"{} at firstName".format(Invalid_value_input)}), 406
+                return jsonify({"message":"{} at firstName".format(Invalid_value_msg)}), 406
             if not data["lastName"].isalpha():
-                return jsonify({"message":"{} at lastName".format(Invalid_value_input)}), 406
+                return jsonify({"message":"{} at lastName".format(Invalid_value_msg)}), 406
             # get_name(name)
             get_password(password)
             get_email(email)

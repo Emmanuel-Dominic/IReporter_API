@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, json
 import re
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,6 +12,7 @@ class User:
         self.firstName = self.set_firstName(name["firstName"])
         self.lastName = self.set_lastName(name["lastName"])
         self.otherName = self.set_otherName(name["otherName"])
+        self.name = name
         self.email = self.set_email(email)
         self.phoneNumber = self.set_phoneNumber(phoneNumber)
         self.password = self.set_password(password)
@@ -20,7 +21,6 @@ class User:
         self.userId = User.userId
         self.isAdmin = False
         User.userId += 1
-
 
     def set_password(self,password):
         self.password = generate_password_hash(password)
@@ -62,25 +62,27 @@ class User:
         self.phoneNumber = phoneNumber
 
 
-    # def get_name(self):
-        # return "".join([str(self.firstName), ' ', str(self.lastName), ' ', str(self.otherName)])
+    def get_name(self):
+        return "".join([self.name["firstName"], ' ', self.name["lastName"], ' ', self.name["otherName"]])
+
 
     def get_user_details(self):
-        return {"firstName":self.firstName,"lastName":self.lastName,\
+        data = jsonify({"firstName":self.firstName,"lastName":self.lastName,\
             "otherName":self.otherName, "userName": self.userName, \
             "email": self.email, "phoneNumber": self.phoneNumber, \
-            "isAdmin": self.isAdmin, "userId": self.userId}
+            "isAdmin": self.isAdmin, "userId": self.userId})
+        return data
 
-
-
-admin_user =User(
-    name={"firstName": "Admin", "lastName": "AdminLastname", \
-          "otherName": "Othername"},
-    userName="admin",
-    email="admin@ireporter.com",
-    phoneNumber=256700701616,
-    password="admin123"
-)
-admin_user.isAdmin = True
 users_table = []
-users_table.append(admin_user)
+
+if __name__ == '__main__':
+    admin_user =User(
+        name={"firstName": "Admin", "lastName": "AdminLastname", \
+              "otherName": "Othername"},
+        userName="admin",
+        email="admin@ireporter.com",
+        phoneNumber=256700701616,
+        password="admin123"
+    )
+    admin_user.isAdmin = True
+    users_table.append(admin_user)

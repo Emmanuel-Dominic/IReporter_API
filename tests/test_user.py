@@ -1,12 +1,31 @@
 import json
 import unittest
 from api.views.user_view import user_bp
-from api.models.user_model import users_table, get_user_details
 from api.helpers.auth import encode_token
 from api.app import app
 
 new_user = {
-    "email": "ematemwbl@mail.com",
+    "email": "ematembu@gmail.com",
+    "firstName": "manuel",
+    "lastName": "Dominic",
+    "otherName": "highway",
+    "password": "manuel123",
+    "phoneNumber": "256700701616",
+    "userName": "mats"
+}
+new_msg = {
+    "email": "ematembu@gmail.com",
+    "firstName": "manuel",
+    "lastName": "Dominic",
+    "otherName": "highway",
+    "userId": 2,
+    "phoneNumber": "256700701616",
+    "userName": "mats",
+    "isAdmin":false
+}
+
+users_list = {
+    "email": "ematembu@gmail.com",
     "firstName": "manuel",
     "lastName": "Dominic",
     "otherName": "highway",
@@ -18,7 +37,7 @@ new_user = {
 new_user_response = {
     "status": 201,
     "message": "Successfully registered",
-    "users": new_user.get_user_details()}
+    "users": new_msg}
 
 login_user = {
     "email": "admin@ireporter.com",
@@ -50,10 +69,6 @@ class TestUser(unittest.TestCase):
     def test_get_users(self):
         response = self.app.get('/api/v1/auth/login')
         data = response.data.decode()
-        users_list = []
-        for user_obj in users_table[1:]:
-            users_list.append(user_obj.get_user_details())
-        break
         message = {"status": 200, "users": users_list}
         self.assertEqual(json.loads(data), message)
 

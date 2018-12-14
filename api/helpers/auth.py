@@ -21,15 +21,15 @@ def token_required(func):
     def wrapper(*args, **kwargs):
         try:
             token = request.headers['token']
-            try:
-                decoded = decode_token(token)
-                return func(*args, **kwargs)
-            except jwt.ExpiredSignatureError:
-                return jsonify({"message": "token expired"}), 401
-            except jwt.InvalidSignatureError:
-                return jsonify({"message": "Signature verification failed"}), 401
-            except jwt.InvalidTokenError:
-                return jsonify({"message": "Invalid Token verification failed"}), 401
+            # try:
+            #     decoded = decode_token(token)
+            #     return func(*args, **kwargs)
+            # except jwt.ExpiredSignatureError:
+            #     return jsonify({"message": "token expired"}), 401
+            # except jwt.InvalidSignatureError:
+            #     return jsonify({"message": "Signature verification failed"}), 401
+            # except jwt.InvalidTokenError:
+            #     return jsonify({"message": "Invalid Token verification failed"}), 401
         except KeyError:
             return jsonify({"message": "Missing token"}), 401
     return wrapper

@@ -23,7 +23,7 @@ def get_users():
 
 
 @user_bp.route('/auth/signup', methods=['POST'])
-@verify_signup_data
+# @verify_signup_data
 def sign_up():
     data = request.get_json()
     name = {"firstName": data['firstName'], "lastName": data['lastName'], \
@@ -42,11 +42,13 @@ def sign_up():
                     password=password \
                     )
     users_table.append(new_user)
-    return jsonify({"status": 201, "message": "Successfully registered"}), 201
+    return jsonify({
+        "user":new_user.get_user_details(),"status": 201,
+        "message": "Successfully registered"}), 201
 
 
 @user_bp.route('/auth/login', methods=['POST'])
-@verify_login_data
+# @verify_login_data
 def login():
     data = request.get_json()
     data['password']
