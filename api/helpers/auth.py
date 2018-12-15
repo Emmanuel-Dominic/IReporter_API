@@ -7,9 +7,9 @@ from api.models.user_model import User, users_table
 secret_key = "klgwso7dbnc37hgv8oiawb/we9h7_hywg8"
 
 def encode_token(userId):
-    token = jwt.encode({'userId': userId,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)},
-        secret_key).decode('utf-8')
+    token = jwt.encode({'userId': userId, \
+    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)}, \
+    secret_key).decode('utf-8')
     return token
 
 def decode_token(token):
@@ -21,15 +21,15 @@ def token_required(func):
     def wrapper(*args, **kwargs):
         try:
             token = request.headers['token']
-            # try:
-            #     decoded = decode_token(token)
-            #     return func(*args, **kwargs)
-            # except jwt.ExpiredSignatureError:
-            #     return jsonify({"message": "token expired"}), 401
-            # except jwt.InvalidSignatureError:
-            #     return jsonify({"message": "Signature verification failed"}), 401
-            # except jwt.InvalidTokenError:
-            #     return jsonify({"message": "Invalid Token verification failed"}), 401
+            try:
+                decoded = decode_token(token)
+                return func(*args, **kwargs)
+            except jwt.ExpiredSignatureError:
+                return jsonify({"message": "token expired"}), 401
+            except jwt.InvalidSignatureError:
+                return jsonify({"message": "Signature verification failed"}), 401
+            except jwt.InvalidTokenError:
+                return jsonify({"message": "Invalid Token verification failed"}), 401
         except KeyError:
             return jsonify({"message": "Missing token"}), 401
     return wrapper

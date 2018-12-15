@@ -15,15 +15,16 @@ class User:
         self.name = name
         self.email = self.set_email(email)
         self.phoneNumber = self.set_phoneNumber(phoneNumber)
+        # self.password = generate_password_hash(password)
         self.password = self.set_password(password)
-        self.userName = userName
+        self.userName = self.set_userName(userName)
         self.date = datetime.datetime.now()
         self.userId = User.userId
         self.isAdmin = False
         User.userId += 1
 
     def set_password(self,password):
-        self.password = generate_password_hash(password)
+        return generate_password_hash(password)
 
     def check_password(self, password):
             return check_password_hash(self.password, password)
@@ -31,46 +32,45 @@ class User:
     def set_email(self,email):
         if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
             return jsonify({"message":"Your email address is not valid."}), 406
-        self.email = email
+        return email
 
 
     def set_userName(self,userName):
         if not isinstance(userName,str):
             return jsonify({"error":"Invalid, userName must be a string"}), 406
-        self.userName = userName
+        return userName
 
 
     def set_firstName(self,firstName):
         if not isinstance(firstName,str):
             return jsonify({"error":"Invalid, firstName must be a string"}), 406
-        self.firstName = firstName
+        return firstName
 
     def set_lastName(self,lastName):
         if not isinstance(lastName,str):
             return jsonify({"error":"Invalid, lastName must be a string"}), 406
-        self.lastName = lastName
+        return lastName
 
     def set_otherName(self,otherName):
         if not isinstance(otherName,str):
             return jsonify({"error":"Invalid, otherName must be a string"}),406
-        self.otherName = otherName
+        return otherName
 
 
     def set_phoneNumber(self,phoneNumber):
         if not isinstance(phoneNumber,int):
             return jsonify({"error":"Invalid, must be a phone number"}), 406
-        self.phoneNumber = phoneNumber
+        return phoneNumber
 
 
     def get_name(self):
-        return "".join([self.name["firstName"], ' ', self.name["lastName"], ' ', self.name["otherName"]])
+        return " ".join([self.name["firstName"], self.name["lastName"], self.name["otherName"]])
 
 
     def get_user_details(self):
-        data = jsonify({"firstName":self.firstName,"lastName":self.lastName,\
-            "otherName":self.otherName, "userName": self.userName, \
+        data = {"name":self.get_name(), "userName": self.userName, \
             "email": self.email, "phoneNumber": self.phoneNumber, \
-            "isAdmin": self.isAdmin, "userId": self.userId})
+            "isAdmin": self.isAdmin, "userId": self.userId}
         return data
 
 users_table = []

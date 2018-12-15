@@ -23,7 +23,7 @@ def get_users():
 
 
 @user_bp.route('/auth/signup', methods=['POST'])
-# @verify_signup_data
+@verify_signup_data
 def sign_up():
     data = request.get_json()
     name = {"firstName": data['firstName'], "lastName": data['lastName'], \
@@ -48,14 +48,13 @@ def sign_up():
 
 
 @user_bp.route('/auth/login', methods=['POST'])
-# @verify_login_data
+@verify_login_data
 def login():
     data = request.get_json()
-    data['password']
-    data['email']
+    password = data['password']
+    email = data['email']
 
     for user_obj in users_table:
-        if data['email'] == user_obj.email and check_password(data['password']) == True:
-            return jsonify({"Token": encode_token(user_obj.userId), "message": "Successfully logged In"})
-
+        if data['email'] == user_obj.email and user_obj.check_password(password) == True:
+                return jsonify({"Token": encode_token(user_obj.userId), "message": "Successfully logged In"})
     return jsonify({"message": "Invalid credentials, Please try again"}), 401

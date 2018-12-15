@@ -1,4 +1,5 @@
 import datetime
+from api.views.user_view import
 
 
 class Incident:
@@ -8,14 +9,64 @@ class Incident:
 
     def __init__(self, createdBy, location, comment, images, videos):
         self.createdOn = datetime.datetime.today()
+        self.locationLong = self.set_locationLong(location["locationLong"])
+        self.locationLat = self.set_locationLat(location["locationLat"])
         self.createdBy = createdBy
-        self.set_location(location)
-        self.set_comment(comment)
+        self.location = location
+        self.comment = self.set_comment(comment)
         self.images = images
         self.videos = videos
         self.status = 'draft'
         self.incidentId = Incident.incidentId
         Incident.incidentId += 1
+
+
+    def get_locatiopn(self):
+        return " ".join([self.location["locationLong"], self.location["locationLat"]])
+
+    def set_locationLong(self,locationLong):
+        if not isinstance(locationLong,int):
+            return jsonify({"error":"Invalid, locationLong must be a integer"}), 406
+        return locationLong
+
+    def set_locationLat(self,locationLat):
+        if not isinstance(locationLat,int):
+            return jsonify({"error":"Invalid, locationLat must be a integer"}), 406
+        return locationLat
+
+    def set_comment(self,comment):
+        if not isinstance(comment,str):
+            return jsonify({"error":"Invalid, otherName must be a string"}),406
+        return comment
+        
+    def set_firstName(self,firstName):
+        if not isinstance(firstName,str):
+            return jsonify({"error":"Invalid, firstName must be a string"}), 406
+        return firstName
+
+    def set_lastName(self,lastName):
+        if not isinstance(lastName,str):
+            return jsonify({"error":"Invalid, lastName must be a string"}), 406
+        return lastName
+
+    def set_otherName(self,otherName):
+        if not isinstance(otherName,str):
+            return jsonify({"error":"Invalid, otherName must be a string"}),406
+        return otherName
+    def set_firstName(self,firstName):
+        if not isinstance(firstName,str):
+            return jsonify({"error":"Invalid, firstName must be a string"}), 406
+        return firstName
+
+    def set_lastName(self,lastName):
+        if not isinstance(lastName,str):
+            return jsonify({"error":"Invalid, lastName must be a string"}), 406
+        return lastName
+
+    def set_otherName(self,otherName):
+        if not isinstance(otherName,str):
+            return jsonify({"error":"Invalid, otherName must be a string"}),406
+        return otherName
 
     def set_location(self, location):
         self.locationLong = location['locationLong']

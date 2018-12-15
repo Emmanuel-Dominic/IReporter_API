@@ -6,12 +6,9 @@ from flask import request,jsonify
 
 example_login_data = {"email":"Your email","password":"Your password"}
 example_signup_data = {
-    "firstName":"Your firstName",
-    "lastName":"Your lastName",
-    "otherName":"Your otherName",
-    "email":"Your email",
-    "phoneNumber":"Your phoneNumber",
-    "password":"Your password",
+    "firstName":"Your firstName", "lastName":"Your lastName", \
+    "otherName":"Your otherName", "email":"Your email", \
+    "phoneNumber":"Your phoneNumber", "password":"Your password", \
     "userName":"Your userName"
     }
 invalid_key_msg = "Invalid Key in data,please provide valid input data"
@@ -45,8 +42,7 @@ def get_phoneNumber(phoneNumber):
     data = request.get_json()
     if not data["phoneNumber"]:
         return jsonify({"message":"phoneNumber feild is required"}), 406
-    if data["phoneNumber"].isspace():
-        return jsonify({"message":"Invalid input phoneNumber"}), 406
+
 
 
 def verify_login_data(func):
@@ -54,7 +50,7 @@ def verify_login_data(func):
     def wrapper(*args, **kwargs):
         if not request.data:
             return jsonify({"message": "Please provide data",
-                "example":Validators.example_login_data}),400
+                "example":example_login_data}),400
 
         # if data is not of type application/json
         try:
@@ -96,7 +92,8 @@ def verify_signup_data(func):
                 return jsonify({"message":"{} at firstName".format(Invalid_value_msg)}), 406
             if not data["lastName"].isalpha():
                 return jsonify({"message":"{} at lastName".format(Invalid_value_msg)}), 406
-            # get_name(name)
+
+            # get_user_names(firstName,lastName,otherName)
             get_password(password)
             get_email(email)
             get_userName(userName)
@@ -107,9 +104,9 @@ def verify_signup_data(func):
         except ValueError:
             return jsonify({"message":"Please provide valid data type for fields",
                 "example":example_signup_data}),406
-        # except:
-        #     return jsonify({"message":"Please provide JSON data",
-        #         "example":example_signup_data}),400
+        except:
+            return jsonify({"message":"Please provide JSON data",
+                "example":example_signup_data}),400
 
         # if does not contain valid keys
         try:
