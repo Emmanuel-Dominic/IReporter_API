@@ -1,15 +1,15 @@
-from functools import wraps
 import datetime
+from functools import wraps
 import jwt
 from flask import request, jsonify
-from models.user_model import User,users_table
+from api.models.user_model import User, users_table
 
 secret_key = "klgwso7dbnc37hgv8oiawb/we9h7_hywg8"
 
 def encode_token(userId):
-    token = jwt.encode({'userId': userId,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)},
-        secret_key).decode('utf-8')
+    token = jwt.encode({'userId': userId, \
+    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)}, \
+    secret_key).decode('utf-8')
     return token
 
 def decode_token(token):
