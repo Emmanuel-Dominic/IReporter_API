@@ -38,11 +38,12 @@ class Incident:
         if not isinstance(comment,str):
             return jsonify({"error":"Invalid, otherName must be a string"}),406
         return comment
-        
-    def set_firstName(self,firstName):
-        if not isinstance(firstName,str):
-            return jsonify({"error":"Invalid, firstName must be a string"}), 406
-        return firstName
+
+    def set_status(self,status):
+        if not isinstance(status,str):
+            return jsonify({"error":"Invalid, status must be a string"}), 406
+        if status == ""
+        return status
 
     def set_lastName(self,lastName):
         if not isinstance(lastName,str):
@@ -108,6 +109,16 @@ class Intervention(Incident):
         Incident.__init__(self, createdBy, location, comment, images, videos)
         self.type = 'intervention'
 
+
+def get_incidents_by_type(incident_type):
+    incident_table= {
+        "intervention":intervention_table,
+        "red-flag":redflag_table
+    }
+    incidents_list = []
+    for record in incident_table[incident_type]:
+        incidents_list.append(record.get_incident_details())
+    return incidents_list
 
 
 intervention_table = [
