@@ -45,7 +45,7 @@ login_user = {
 }
 
 login_user_response = {
-    "Token": encode_token(user_obj.userId),
+    "Token": encode_token(userId),
     "message": "Successfully logged In"}
 
 
