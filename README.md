@@ -18,7 +18,7 @@
 - Users can add videos to their red-flag or intervention records, to support their claims
 
 ## Getting Started
-- Clone the project from this [![link](https://github.com/ManuelDominic/IReporter_API.git)]
+- Clone the project from this [[link](https://github.com/ManuelDominic/IReporter_API.git)]
 
 ## Prerequisites
 - A computer with an operating system (Linux, MacOS or Windows can do the job) Python 3.7
@@ -28,7 +28,7 @@
 - Git to keep track of the different project branches
 
 ## Installing
-- Clone the project from this [![link](https://github.com/ManuelDominic/IReporter_API.git)]
+- Clone the project from this [[link](https://github.com/ManuelDominic/IReporter_API.git)]
 - Open your terminal or command prompt for linux users
 
 ### Type
@@ -40,7 +40,7 @@
 - $ python run.py
 
 ## Deployment
-- The API is hosted on Heroku. Use the [![link](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
+- The API is hosted on Heroku. Use the [[link](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
 
 ## Testing the Api
 - Run the command below to install pytest in your virtual environment
