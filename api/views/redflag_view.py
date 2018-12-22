@@ -6,13 +6,14 @@ redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
 
 @redflag_bp.route('/')
 @token_required
-@non_admin_required
+# @non_admin_required
 def index():
     return jsonify({
         'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
 
 @redflag_bp.route('/red-flags', methods=['GET'])
 @token_required
+@non_admin_required
 def get_all_redflags():
     """docstring function that return all redflags detials"""
     redflags_list = []
@@ -41,8 +42,8 @@ def get_specific_redflag(redflag_Id):
     }), 200
 
 @redflag_bp.route('/red-flags', methods=['POST'])
-@token_required
-@non_admin_required
+# @token_required
+# @non_admin_required
 def create_redflag():
     data = request.get_json()
     if data:
@@ -71,7 +72,7 @@ def create_redflag():
 
 @redflag_bp.route('/red-flags/<int:redflag_Id>/location', methods=['PATCH'])
 @token_required
-@non_admin_required
+# @non_admin_required
 def update_redflag_location(redflag_Id):
     for incident in redflag_table:
         if incident.incidentId == redflag_Id:
@@ -93,7 +94,7 @@ def update_redflag_location(redflag_Id):
 
 @redflag_bp.route('/red-flags/<int:redflag_Id>/comment', methods=['PATCH'])
 @token_required
-@non_admin_required
+# @non_admin_required
 def update_redflag_comment(redflag_Id):
     for incident in redflag_table:
         if incident.incidentId == redflag_Id:
@@ -115,7 +116,7 @@ def update_redflag_comment(redflag_Id):
 
 @redflag_bp.route('/red-flags/<int:redflag_Id>', methods=['DELETE'])
 @token_required
-@non_admin_required
+# @non_admin_required
 def delete_redflag(redflag_Id):
     for incident in redflag_table:
         if incident.incidentId != redflag_Id:
@@ -131,7 +132,7 @@ def delete_redflag(redflag_Id):
 
 @redflag_bp.route('/red-flags/<int:redflag_Id>/status', methods=['PATCH'])
 @token_required
-@admin_required
+# @admin_required
 def update_redflag_status(redflag_Id):
     for incident in redflag_table:
         if incident.incidentId == redflag_Id:
