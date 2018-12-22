@@ -53,8 +53,7 @@ def create_intervention():
     data = request.get_json()
     if data:
         try:
-            location = {"locationLong": data["locationLong"], "locationLat": data["locationLat"]}
-            newIncident = Intervention(location=location, createdBy=data['createdBy'], \
+            newIncident = Intervention(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=data['createdBy'], \
                                        images=data['images'], videos=data['videos'], \
                                        comment=data['comment'])
         except KeyError:
@@ -83,8 +82,11 @@ def update_intervention_location(intervention_Id):
     for incident in intervention_table:
         if incident.incidentId == intervention_Id:
             data = request.get_json()
-            location = {"locationLong": data['locationLong'], "locationLat": data['locationLat']}
-            incident.set_location(location)
+            locationLong= data['locationLong']
+            locationLat= data['locationLat']
+            
+            incident.set_locationLong(locationLong)
+            incident.set_locationLat(locationLat)
             return jsonify({
                 "status": 200,
                 "data": [{
@@ -145,7 +147,7 @@ def update_intervention_status(intervention_Id):
     for incident in intervention_table:
         if incident.incidentId == intervention_Id:
             data = request.get_json()
-            comment = data['status']
+            status = data['status']
             incident.set_status(status)
             return jsonify({
                 "status": 200,

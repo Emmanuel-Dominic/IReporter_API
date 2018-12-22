@@ -8,7 +8,7 @@ secret_key = "klgwso7dbnc37hgv8oiawb/we9h7_hywg8"
 
 
 def encode_token(userId):
-    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)},
+    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
         secret_key).decode('utf-8')
     return token
 
