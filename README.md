@@ -1,6 +1,6 @@
 # IReporter_API
 
-[![Build Status](https://travis-ci.org/ManuelDominic/IReporter_API.svg?branch=master)](https://travis-ci.org/ManuelDominic/IReporter_API) [![Coverage Status](https://coveralls.io/repos/github/ManuelDominic/IReporter_API/badge.svg?branch=master)](https://coveralls.io/github/ManuelDominic/IReporter_API?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/b1d60dcdfe7abdbbfdd6/maintainability)](https://codeclimate.com/github/ManuelDominic/IReporter_API/maintainability) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/50263e1fad074ebb8f914be692d1fadc)](https://www.codacy.com/app/ManuelDominic/IReporter_API?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ManuelDominic/IReporter_API&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/ManuelDominic/IReporter_API.svg?branch=develop)](https://travis-ci.org/ManuelDominic/IReporter_API) [![Coverage Status](https://coveralls.io/repos/github/ManuelDominic/IReporter_API/badge.svg?branch=develop)](https://coveralls.io/github/ManuelDominic/IReporter_API?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/b1d60dcdfe7abdbbfdd6/maintainability)](https://codeclimate.com/github/ManuelDominic/IReporter_API/maintainability) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/50263e1fad074ebb8f914be692d1fadc)](https://www.codacy.com/app/ManuelDominic/IReporter_API?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ManuelDominic/IReporter_API&amp;utm_campaign=Badge_Grade)
 
 ## About
 - iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public. Users can also report on things that needs government intervention
@@ -18,7 +18,7 @@
 - Users can add videos to their red-flag or intervention records, to support their claims
 
 ## Getting Started
-- Clone the project from this [link !](https://github.com/ManuelDominic/IReporter_API.git)]
+- Clone the project from this [![link](https://github.com/ManuelDominic/IReporter_API.git)]
 
 ## Prerequisites
 - A computer with an operating system (Linux, MacOS or Windows can do the job) Python 3.7
@@ -28,7 +28,7 @@
 - Git to keep track of the different project branches
 
 ## Installing
-- Clone the project from this [link !](https://github.com/ManuelDominic/IReporter_API.git)]
+- Clone the project from this [![link](https://github.com/ManuelDominic/IReporter_API.git)]
 - Open your terminal or command prompt for linux users
 
 ### Type
@@ -40,7 +40,7 @@
 - $ python run.py
 
 ## Deployment
-- The API is hosted on Heroku. Use the [link !](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
+- The API is hosted on Heroku. Use the [![link](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
 
 ## Testing the Api
 - Run the command below to install pytest in your virtual environment
