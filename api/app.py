@@ -7,7 +7,7 @@ from api.views.incident_view import incident_bp
 
 app = Flask(__name__)
 
-app.register_blueprint(intervention_bp)
-app.register_blueprint(redflag_bp)
+# app.register_blueprint(intervention_bp)
+# app.register_blueprint(redflag_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(incident_bp)

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, json
 from api.helpers.auth import token_required, admin_required, non_admin_required
-from api.models.incident_model import Intervention, intervention_table
+from api.models.incident_model import Intervention, intervention_table,RedFlag,redflag_table
 from api.helpers.incidenthelper import get_incidents_by_type,get_incidents_by_type_id
 # ,get_incidents_by_type_by_given_user
 
@@ -162,8 +162,7 @@ def create_intervention():
     data = request.get_json()
     if data:
         try:
-            location = {"locationLong": data["locationLong"], "locationLat": data["locationLat"]}
-            newIncident = Intervention(location=location, createdBy=data['createdBy'], \
+            newIncident = Intervention(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=data['createdBy'], \
                                        images=data['images'], videos=data['videos'], \
                                        comment=data['comment'])
         except KeyError:
@@ -186,19 +185,18 @@ def create_intervention():
 
 
 
-@incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['POST'])
+@incident_bp.route('/auth/red-flags', methods=['POST'])
 @token_required
 def create_redflag():
     data = request.get_json()
     if data:
         try:
-            location = {"locationLong": data["locationLong"], "locationLat": data["locationLat"]}
-            newIncident = Intervention(location=location, createdBy=data['createdBy'], \
+            newIncident = RedFlag(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=data['createdBy'], \
                                        images=data['images'], videos=data['videos'], \
                                        comment=data['comment'])
         except KeyError:
             return jsonify({"Required format": {
-                "comment": "Intervention comment",
+                "comment": "RedFlag comment",
                 "createdBy": 2,
                 "images": "image name",
                 "locationLong": "0.0000",
