@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from api.helpers.auth import token_required, non_admin_required, admin_required
+from api.helpers.auth import token_required, non_admin_required, admin_required,get_current_user
 from api.models.incident_model import RedFlag, redflag_table
 
 redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
@@ -48,16 +48,15 @@ def create_redflag():
     data = request.get_json()
     if data:
         try:
-            newIncident = RedFlag(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=data['createdBy'], \
-                                       images=data['images'], videos=data['videos'], \
-                                       comment=data['comment'])
+            newIncident = RedFlag(locationLong=data["locationLong"], locationLat=data["locationLat"], \
+                                        comment=data['comment'],createdBy=get_current_user(), \
+                                       images=data['images'], videos=data['videos'])
         except KeyError:
             return jsonify({"Required format": {
                 "comment": "Redflag comment",
-                "createdBy": 2,
                 "images": "image name",
-                "locationLong": "0.0000",
-                "locationLat": "0.00000",
+                "locationLong": 0.0000,
+                "locationLat": 0.00000,
                 "videos": "video name"
             }}), 400
         redflag_table.append(newIncident)
