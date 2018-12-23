@@ -2,7 +2,7 @@ from flask import Flask
 from api.views.intervention_view import intervention_bp
 from api.views.redflag_view import redflag_bp
 from api.views.user_view import user_bp
-from api.views.incident_view import incident_bp
+# from api.views.incident_view import incident_bp
 
 
 app = Flask(__name__)
