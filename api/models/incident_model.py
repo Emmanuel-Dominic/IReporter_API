@@ -1,6 +1,6 @@
 from flask import jsonify
 import datetime
-# from api.views.user_view import
+from api.helpers.auth import get_current_user
 
 
 class Incident:
@@ -12,7 +12,6 @@ class Incident:
         self.createdOn = datetime.datetime.today()
         self.locationLong = self.set_locationLong(locationLong)
         self.locationLat = self.set_locationLat(locationLat)
-        # self.createdBy = self.get_current_user()
         self.createdBy = createdBy
         self.comment = self.set_comment(comment)
         self.images = images

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from api.helpers.auth import token_required, non_admin_required, admin_required
+from api.helpers.auth import token_required, non_admin_required, admin_required,get_current_user
 from api.models.incident_model import Intervention, intervention_table
 
 
@@ -8,8 +8,6 @@ intervention_bp = Blueprint('intervention_bp', __name__, url_prefix='/api/v1')
 
 
 @intervention_bp.route('/admin')
-@token_required
-@admin_required
 def index():
     return jsonify({
         'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
@@ -53,13 +51,12 @@ def create_intervention():
     data = request.get_json()
     if data:
         try:
-            newIncident = Intervention(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=data['createdBy'], \
+            newIncident = Intervention(locationLong=data["locationLong"], locationLat=data["locationLat"], \
                                        images=data['images'], videos=data['videos'], \
-                                       comment=data['comment'])
+                                       comment=data['comment'], createdBy=get_current_user())
         except KeyError:
             return jsonify({"Required format": {
                 "comment": "Intervention comment",
-                "createdBy": 2,
                 "images": "image name",
                 "locationLong": "0.0000",
                 "locationLat": "0.00000",

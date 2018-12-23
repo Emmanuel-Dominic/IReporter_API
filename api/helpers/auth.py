@@ -36,19 +36,6 @@ def token_required(func):
     return wrapper
 
 
-def get_current_user():
-    """Fetches current user details from database"""
-    token = request.headers['token']
-    decoded_token = decode_token(token)
-    try:
-        userId = decoded_token["userId"]
-        for user_obj in users_table:
-            if user_obj.userId == userId:
-                return userId
-    except KeyError:
-        return jsonify({"message": "userId not in token"}), 401
-
-
 def admin_required(func):
     """This decorator limits access to the routes to admin user only"""
     @wraps(func)
@@ -68,3 +55,30 @@ def non_admin_required(func):
             return jsonify({"messsage": "Only Non admin can access this route"}), 401
         return func(*args, **kwargs)
     return wrapper
+
+
+def get_current_user():
+    """Fetches current user details from database"""
+    token = request.headers['token']
+    decoded_token = decode_token(token)
+    try:
+        userId = decoded_token["userId"]
+        for user_obj in users_table:
+            if user_obj.userId == userId:
+                return userId
+    except KeyError:
+        return jsonify({"message": "userId not in token"}), 401
+
+# def get_current_user():
+#     """Fetches current user details from database"""
+#     token = request.headers['token']
+#     decoded_token = decode_token(token)
+#     try:
+#         userId = decoded_token["userId"]
+#         for user_obj in users_table:
+#             if user_obj.userId == userId:
+#                 return userId
+#             return jsonify({"message": "Invalid token"}), 401
+    # except KeyError:
+    #     return jsonify({"message": "userId not in token"}), 401
+

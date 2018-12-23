@@ -76,8 +76,7 @@ class User:
 
 users_table = []
 
-if __name__ == '__main__':
-    admin_user =User(
+admin_user =User(
         name={"firstName": "Admin", "lastName": "AdminLastname", \
               "otherName": "Othername"},
         userName="admin",
@@ -85,5 +84,7 @@ if __name__ == '__main__':
         phoneNumber=256700701616,
         password="admin123"
     )
-    admin_user.isAdmin = True
-    users_table.append(admin_user)
+admin_user.isAdmin = True
+users_table.append(admin_user)
+# if __name__ == '__main__':
+    
