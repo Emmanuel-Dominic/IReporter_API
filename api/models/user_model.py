@@ -70,7 +70,8 @@ class User:
     def get_user_details(self):
         data = {"name":self.get_name(), "userName": self.userName, \
             "email": self.email, "phoneNumber": self.phoneNumber, \
-            "isAdmin": self.isAdmin, "userId": self.userId}
+            "isAdmin": self.isAdmin, "userId": self.userId, \
+            "password": self.password}
         return data
 
 users_table = []

@@ -15,4 +15,6 @@ omit =
         api/views/user_view.py
         api/models/incident_model.py
         api/models/user_model.py
+        api/helpers/incidenthelper.py
+        api/views/incident_view.py
         run.py

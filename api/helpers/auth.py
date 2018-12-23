@@ -6,10 +6,10 @@ from api.models.user_model import User, users_table
 
 secret_key = "klgwso7dbnc37hgv8oiawb/we9h7_hywg8"
 
+
 def encode_token(userId):
-    token = jwt.encode({'userId': userId, \
-    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)}, \
-    secret_key).decode('utf-8')
+    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
+        secret_key).decode('utf-8')
     return token
 
 def decode_token(token):
@@ -32,6 +32,7 @@ def token_required(func):
                 return jsonify({"message": "Invalid Token verification failed"}), 401
         except KeyError:
             return jsonify({"message": "Missing token"}), 401
+
     return wrapper
 
 
@@ -40,22 +41,20 @@ def get_current_user():
     token = request.headers['token']
     decoded_token = decode_token(token)
     try:
-        user_id = decoded_token["userId"]
+        userId = decoded_token["userId"]
         for user_obj in users_table:
-            if user_obj.userId == user_id:
-                return {"username":user_obj.userName,"email":user_obj.email,\
-                    "isAdmin":user_obj.isAdmin,"phoneNumber":user_obj.phoneNumber
-                    }
+            if user_obj.userId == userId:
+                return userId
     except KeyError:
-        return jsonify({"message": "user_id not in token"}), 401
+        return jsonify({"message": "userId not in token"}), 401
 
 
 def admin_required(func):
     """This decorator limits access to the routes to admin user only"""
     @wraps(func)
     def wrapper(*args, **kwargs):
-        isAdmin = get_current_user()['isAdmin']
-        if isAdmin:
+        get_current_user()
+        if "isAdmin" == False:
             return func(*args, **kwargs)
         return jsonify({"messsage": "Only admin can access this route"}), 401
     return wrapper
@@ -64,8 +63,8 @@ def non_admin_required(func):
     """This decorator limits access to the routes to non admin user only"""
     @wraps(func)
     def wrapper(*args, **kwargs):
-        isAdmin = get_current_user()['isAdmin']
-        if not isAdmin:
+        get_current_user()
+        if "isAdmin" == True:
             return jsonify({"messsage": "Only Non admin can access this route"}), 401
         return func(*args, **kwargs)
     return wrapper

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from api.helpers.auth import token_required, non_admin_required, admin_required
+from api.helpers.auth import token_required, non_admin_required, admin_required,get_current_user
 from api.models.incident_model import RedFlag, redflag_table
 
 redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
@@ -13,6 +13,7 @@ def index():
 
 @redflag_bp.route('/red-flags', methods=['GET'])
 @token_required
+@non_admin_required
 def get_all_redflags():
     """docstring function that return all redflags detials"""
     redflags_list = []
@@ -47,17 +48,15 @@ def create_redflag():
     data = request.get_json()
     if data:
         try:
-            location = {"locationLong": data["locationLong"], "locationLat": data["locationLat"]}
-            newIncident = RedFlag(location=location, createdBy=data['createdBy'], \
-                                  images=data['images'], videos=data['videos'], \
-                                  comment=data['comment'])
+            newIncident = RedFlag(locationLong=data["locationLong"], locationLat=data["locationLat"], \
+                                        comment=data['comment'],createdBy=get_current_user(), \
+                                       images=data['images'], videos=data['videos'])
         except KeyError:
             return jsonify({"Required format": {
                 "comment": "Redflag comment",
-                "createdBy": 2,
                 "images": "image name",
-                "locationLong": "0.0000",
-                "locationLat": "0.00000",
+                "locationLong": 0.0000,
+                "locationLat": 0.00000,
                 "videos": "video name"
             }}), 400
         redflag_table.append(newIncident)
@@ -76,8 +75,11 @@ def update_redflag_location(redflag_Id):
     for incident in redflag_table:
         if incident.incidentId == redflag_Id:
             data = request.get_json()
-            location = {"locationLong": data['locationLong'], "locationLat": data['locationLat']}
-            incident.set_location(location)
+            locationLong= data['locationLong']
+            locationLat= data['locationLat']
+
+            incident.set_locationLong(locationLong)
+            incident.set_locationLat(locationLat)
             return jsonify({
                 "status": 200,
                 "data": [{
@@ -136,7 +138,7 @@ def update_redflag_status(redflag_Id):
     for incident in redflag_table:
         if incident.incidentId == redflag_Id:
             data = request.get_json()
-            comment = data['status']
+            status = data['status']
             incident.set_status(status)
             return jsonify({
                 "status": 200,

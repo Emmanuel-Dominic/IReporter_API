@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from api.helpers.auth import token_required, non_admin_required, admin_required
+from api.helpers.auth import token_required, non_admin_required, admin_required,get_current_user
 from api.models.incident_model import Intervention, intervention_table
 
 
@@ -53,17 +53,15 @@ def create_intervention():
     data = request.get_json()
     if data:
         try:
-            location = {"locationLong": data["locationLong"], "locationLat": data["locationLat"]}
-            newIncident = Intervention(location=location, createdBy=data['createdBy'], \
-                                       images=data['images'], videos=data['videos'], \
-                                       comment=data['comment'])
+            newIncident = Intervention(locationLong=data["locationLong"], locationLat=data["locationLat"], \
+                                        createdBy=get_current_user(), images=data['images'], \
+                                       videos=data['videos'], comment=data['comment'])
         except KeyError:
             return jsonify({"Required format": {
                 "comment": "Intervention comment",
-                "createdBy": 2,
                 "images": "image name",
-                "locationLong": "0.0000",
-                "locationLat": "0.00000",
+                "locationLong": 0.0000,
+                "locationLat": 0.00000,
                 "videos": "video name"
             }}), 400
 
@@ -83,8 +81,11 @@ def update_intervention_location(intervention_Id):
     for incident in intervention_table:
         if incident.incidentId == intervention_Id:
             data = request.get_json()
-            location = {"locationLong": data['locationLong'], "locationLat": data['locationLat']}
-            incident.set_location(location)
+            locationLong= data['locationLong']
+            locationLat= data['locationLat']
+            
+            incident.set_locationLong(locationLong)
+            incident.set_locationLat(locationLat)
             return jsonify({
                 "status": 200,
                 "data": [{
@@ -145,7 +146,7 @@ def update_intervention_status(intervention_Id):
     for incident in intervention_table:
         if incident.incidentId == intervention_Id:
             data = request.get_json()
-            comment = data['status']
+            status = data['status']
             incident.set_status(status)
             return jsonify({
                 "status": 200,

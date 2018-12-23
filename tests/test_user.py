@@ -1,6 +1,11 @@
 import json
 import unittest
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from api.views.user_view import user_bp
+from api.models.user_model import User
 from api.helpers.auth import encode_token
 from api.app import app
 
@@ -21,7 +26,7 @@ new_msg = {
     "userId": 2,
     "phoneNumber": "256700701616",
     "userName": "mats",
-    "isAdmin":false
+    "isAdmin":False
 }
 
 users_list = {
@@ -45,7 +50,7 @@ login_user = {
 }
 
 login_user_response = {
-    "Token": encode_token(user_obj.userId),
+    "Token": encode_token(User.userId),
     "message": "Successfully logged In"}
 
 
