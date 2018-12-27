@@ -80,7 +80,7 @@ def create_intervention():
 @non_admin_required
 def update_intervention_location(intervention_Id):
     for incident in intervention_table:
-        if incident.incidentId == intervention_Id:
+        if incident.incidentId == intervention_Id and incident.status == "draft":
             data = request.get_json()
             locationLong= data['locationLong']
             locationLat= data['locationLat']
@@ -105,7 +105,7 @@ def update_intervention_location(intervention_Id):
 @non_admin_required
 def update_intervention_comment(intervention_Id):
     for incident in intervention_table:
-        if incident.incidentId == intervention_Id:
+        if incident.incidentId == intervention_Id and incident.status == "draft":
             data = request.get_json()
             comment = data['comment']
             incident.set_comment(comment)
