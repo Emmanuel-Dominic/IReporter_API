@@ -5,8 +5,6 @@ from api.models.incident_model import RedFlag, redflag_table
 redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
 
 @redflag_bp.route('/')
-@token_required
-@non_admin_required
 def index():
     return jsonify({
         'IReporter': "This enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public."}), 200
@@ -65,7 +63,7 @@ def create_redflag():
             "data": [{
                 "id": redflag_table[-1].incidentId,
                 "message": "Created red-flag record"}]
-        }), 200
+        }), 201
 
 
 @redflag_bp.route('/red-flags/<int:redflag_Id>/location', methods=['PATCH'])
@@ -126,10 +124,10 @@ def delete_redflag(redflag_Id):
             del incident
             return jsonify({"status": 200, "data": [{"id": redflag_Id,
                                                      "message": "red-flag record has been deleted"}]}), 200
-        return jsonify({
-            "status": 404,
-            "error": "bad request"
-        }), 200
+    return jsonify({
+        "status": 404,
+        "error": "bad request"
+    }), 200
 
 @redflag_bp.route('/red-flags/<int:redflag_Id>/status', methods=['PATCH'])
 @token_required

@@ -6,7 +6,6 @@ import datetime
 class Incident:
     """docstring for Incident."""
 
-    incidentId = 1
 
     def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
         self.createdOn = datetime.datetime.today()
@@ -18,11 +17,6 @@ class Incident:
         self.images = images
         self.videos = videos
         self.status = 'draft'
-        self.incidentId = Incident.incidentId
-        Incident.incidentId += 1
-
-
-
 
 
     def set_locationLong(self,locationLong):
@@ -93,16 +87,24 @@ class Incident:
 
 class RedFlag(Incident):
 
+    redFlag_Id = 1
+
     def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
         Incident.__init__(self, createdBy, locationLong, locationLat, comment, images, videos)
         self.type = 'red-flag'
+        self.incidentId = RedFlag.redFlag_Id
+        RedFlag.redFlag_Id += 1
 
 
 class Intervention(Incident):
 
+    intervention_Id = 1
+
     def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
         Incident.__init__(self, createdBy, locationLong, locationLat, comment, images, videos)
         self.type = 'intervention'
+        self.incidentId = Intervention.intervention_Id
+        Intervention.intervention_Id += 1
 
 
 intervention_table = [
@@ -116,7 +118,7 @@ intervention_table = [
     ),
     Intervention(
         comment="Mbarara highway needs construction",
-        createdBy=1,
+        createdBy=2,
         images="1.jpeg",
         locationLong= 0.33737,
         locationLat= 5.38974,
@@ -134,5 +136,14 @@ redflag_table = [
         locationLong= 0.33737, 
         locationLat= 5.38974,
         videos="1.gif"
+    ),
+    RedFlag(
+        comment="james was caught idle and disorderly",
+        createdBy=2,
+        images="1.jpeg",
+        locationLong= 0.33737, 
+        locationLat= 5.38974,
+        videos="1.gif"
     )]
 redflag_table[0].createdOn = "Fri, 30 Nov 2018 13:09:32 GMT"
+redflag_table[1].createdOn = "Fri, 30 Nov 2018 12:09:32 GMT"
