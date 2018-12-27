@@ -57,9 +57,11 @@
 # class TestRedflag(unittest.TestCase):
 
 #     def setUp(self):
-#         app.config['TESTING'] = True
-#         app.config['DEBUG'] = False
-#         self.app = app.test_client()
+		 # app.config['TESTING'] = True
+  #       app.config['DEBUG'] = True
+  #       self.app = app.test_client()
+  #       self.assertFalse(app.config['softwareDeveloper.Manuel@secret_key/mats.com'] is 'my_precious')
+
 
 #     def test_index(self):
 #         response = self.app.get('/api/v1/')

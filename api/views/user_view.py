@@ -43,8 +43,9 @@ def sign_up():
                     )
     users_table.append(new_user)
     return jsonify({
-        "user":new_user.get_user_details(),"status": 201,
-        "message": "Successfully registered"}), 201
+        "status": 201,
+        "message": "Successfully registered",
+        "user":new_user.get_user_details()}), 201
 
 
 @user_bp.route('/auth/login', methods=['POST'])
@@ -56,5 +57,5 @@ def login():
 
     for user_obj in users_table:
         if data['email'] == user_obj.email and user_obj.check_password(password) == True:
-                return jsonify({"Token": encode_token(user_obj.userId), "message": "Successfully logged In"})
+                return jsonify({"token": encode_token(user_obj.userId), "message": "Successfully logged In"})
     return jsonify({"message": "Invalid credentials, Please try again"}), 401
