@@ -20,7 +20,7 @@ def get_incidents_by_type_id(incident_type,incId):
         incidents=record.get_incident_details()
         if incidents["incidentId"] == incId:
             return incidents
-        return "{} of Id {} is not found please".format(incident_type,incidentId)
+    return "{} of Id {} is not found please".format(incident_type,incidentId)
 
 
 # def get_incidents_by_type_to_admin(incident_type):

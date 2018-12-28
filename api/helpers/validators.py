@@ -59,13 +59,13 @@ def verify_login_data(func):
             return jsonify({"message":"Please provide JSON data",
                 "example":example_login_data}),400
         # if does not contain valid keys
-        try:
-            data = request.get_json()
-            password=data["password"]
-            email=data["email"]
-        except KeyError:
-            return jsonify({"message":invalid_key_msg,
-                "example":example_login_data}), 400
+        # try:
+        #     data = request.get_json()
+        #     password=data["password"]
+        #     email=data["email"]
+        # except KeyError:
+        #     return jsonify({"message":invalid_key_msg,
+        #         "example":example_login_data}), 400
         return func(*args , **kwargs)
     return wrapper
 

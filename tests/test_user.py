@@ -1,82 +1,44 @@
-# import json
-# import unittest
-# import os
-# import sys
+import json
+import unittest
+import os
+import sys
 
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-# from api.views.user_view import user_bp
-# from api.models.user_model import User
-# from api.helpers.auth import encode_token
-# from api.app import app
-
-# new_user = {
-#     "email": "ematembu@gmail.com",
-#     "firstName": "manuel",
-#     "lastName": "Dominic",
-#     "otherName": "highway",
-#     "password": "manuel123",
-#     "phoneNumber": "256700701616",
-#     "userName": "mats"
-# }
-# new_msg = {
-#     "email": "ematembu@gmail.com",
-#     "firstName": "manuel",
-#     "lastName": "Dominic",
-#     "otherName": "highway",
-#     "userId": 2,
-#     "phoneNumber": "256700701616",
-#     "userName": "mats",
-#     "isAdmin":False
-# }
-
-# users_list = {
-#     "email": "ematembu@gmail.com",
-#     "firstName": "manuel",
-#     "lastName": "Dominic",
-#     "otherName": "highway",
-#     "password": "manuel123",
-#     "phoneNumber": "256700701616",
-#     "userName": "mats"
-# }
-
-# new_user_response = {
-#     "status": 201,
-#     "message": "Successfully registered",
-#     "users": new_msg}
-
-# login_user = {
-#     "email": "admin@ireporter.com",
-#     "password": "admin123"
-# }
-
-# login_user_response = {
-#     "Token": encode_token(User.userId),
-#     "message": "Successfully logged In"}
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
+from .test_base import new_user,new_user_response,token_header,login_user,all_users_response,login_user_response
+from api.views.user_view import user_bp
+from api.models.user_model import User,users_table
+from api.helpers.auth import encode_token
+from api.app import app
 
 
-# class TestUser(unittest.TestCase):
-
-#     def setUp(self):
-#         app.config['TESTING'] = True
-#         app.config['DEBUG'] = False
-#         self.app = app.test_client()
-
-#     def test_sign_up(self):
-#         response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user))
-#         data = response.data.decode()
-#         self.assertEqual(json.loads(data), new_user_response)
-
-#     def test_login(self):
-#         response = self.app.post('/api/v1/users', content_type="application/json", data=json.dumps(login_user))
-#         data = response.data.decode()
-#         self.assertEqual(json.loads(data), login_user_response)
-
-#     def test_get_users(self):
-#         response = self.app.get('/api/v1/auth/login')
-#         data = response.data.decode()
-#         message = {"status": 200, "users": users_list}
-#         self.assertEqual(json.loads(data), message)
+class TestUser(unittest.TestCase):
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['DEBUG'] = True
+        self.app = app.test_client()
+        self.assertFalse(app.config['SECRET_KEY'] is 'softwareDeveloper.Manuel@secret_key/mats.com')
 
 
-# if __name__ == '__main__':
-#     unittest.main()
+    def test_sign_up(self):
+        response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user))
+        self.assertEqual(response.status_code,201)
+        data = response.data.decode()
+        self.assertTrue(json.loads(data), new_user_response)
+
+    def test_login(self):
+        response = self.app.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(login_user))
+        self.assertEqual(response.status_code,200)
+        data = response.data.decode()
+        self.assertTrue(json.loads(data), login_user_response)
+
+
+# 
+    def test_get_users(self):
+        response = self.app.get('/api/v1/users',headers=token_header(encode_token(1)))
+        self.assertEqual(response.status_code,200)
+        data = response.data.decode()
+        self.assertEqual(json.loads(data), all_users_response)
+
+
+if __name__ == '__main__':
+    unittest.main()
