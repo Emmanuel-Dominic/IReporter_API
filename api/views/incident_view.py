@@ -36,14 +36,14 @@ def get_all_redflag():
 @token_required
 def get_specific_intervention(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
-    return jsonify({"data":[intervention]},{
+    return jsonify({"data":[intervention.get_incident_details()]},{
         "status": 200}), 200
 
 
-@incident_bp.route('/auth/red-flags/<int:redflag_Id>', methods=['GET'])
+@incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['GET'])
 def get_specific_redflag(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
-    return jsonify({"data":[red_flag]},{
+    return jsonify({"data":[red_flag.get_incident_details()]},{
         "status": 200}), 200
 
 
@@ -51,108 +51,129 @@ def get_specific_redflag(redflag_Id):
 @token_required
 def update_intervention_location(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
-    data = request.get_json()
-    locationLong= data['locationLong']
-    locationLat= data['locationLat']
-    incidents.set_location(location)
-    return jsonify({
-        "status": 200},
-        {"data": [incident.incidentId]},
-        {"message": "Updated intervention record's location"}), 200
+    if intervention.status == "draft": 
+        data = request.get_json()
+        locationLong_value = data['locationLong']
+        locationLat_value = data['locationLat']
+        intervention.locationLong=locationLong_value
+        intervention.locationLat=locationLat_value
+        return jsonify({
+            "status": 200},
+            {"data": intervention.incidentId},
+            {"message": "Updated intervention record's location"}), 200
+    return jsonify({"message":"Sorry, intervention location update not possible"}),406
 
 
-@incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['PATCH'])
+@incident_bp.route('/auth/red-flag/<int:redflag_Id>/location', methods=['PATCH'])
 @token_required
-def update_redflag_location(intervention_Id):
+def update_redflag_location(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
-    data = request.get_json()
-    location = {"locationLong": data['locationLong'], "locationLat": data['locationLat']}
-    incidents.set_location(location)
-    return jsonify({
-        "status": 200},
-        {"data": [incidents]},
-        {"message": "Updated intervention record's location"}), 200
+    if red_flag.status == "draft":
+        data = request.get_json()
+        locationLong_value = data['locationLong']
+        locationLat_value = data['locationLat']
+        red_flag.locationLong=locationLong_value
+        red_flag.locationLat=locationLat_value
+        return jsonify({
+            "status": 200},
+            {"data": red_flag.incidentId},
+            {"message": "Updated intervention record's location"}), 200
+    return jsonify({"message":"Sorry, redflag location update not possible"}),406
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>/comment', methods=['PATCH'])
 @token_required
 def update_intervention_comment(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
-    data = request.get_json()
-    comment = data['comment']
-    incidents.set_comment(comment)
-    return jsonify({
-        "status": 200},
-        {"data": [incidents],
-        "message": "Updated intervention record's comment"
-    }), 200
+    if intervention:            
+        data = request.get_json()
+        comment_value = data['comment']
+        intervention.comment=comment_value
+        return jsonify({
+            "status": 200},
+            {"data": intervention.incidentId,
+            "message": "Updated intervention record's comment"
+        }), 200
+    return jsonify({"message":"Sorry, intervention comment update not possible"}),406
 
 
-@incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['PATCH'])
+@incident_bp.route('/auth/red-flag/<int:redflag_Id>/comment', methods=['PATCH'])
 @token_required
-def update_redflag_comment(intervention_Id):
+def update_redflag_comment(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
-    data = request.get_json()
-    comment = data['comment']
-    incident.set_comment(comment)
-    return jsonify({
-        "status": 200,
-        "data": [{
-            "id": incident.get_incident_details(),
-            "message": "Updated intervention record's comment"}]
-    }), 200
+    if red_flag:
+        data = request.get_json()
+        comment_value = data['comment']
+        red_flag.comment = comment_value
+        return jsonify({
+            "status": 200,
+            "data": [{
+                "id": red_flag.incidentId,
+                "message": "Updated intervention record's comment"}]
+        }), 200
+    return jsonify({"message":"Sorry, redflag comment update not possible"}),406
 
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>', methods=['DELETE'])
 @token_required
 def delete_intervention(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
-    incident_index = intervention_table.index(incident)
-    intervention_table.pop(incident_index)
-    del incidents
-    return jsonify({"status": 200}, 
-        {"data": [{"id": intervention_Id},
-        {"message": "intervention record has been deleted"}]}), 200
+    if intervention:
+        incident_index = intervention_table.index(intervention)
+        intervention_table.pop(incident_index)
+        del intervention
+        return jsonify({"status": 200}, 
+            {"data": [{"id": intervention_Id},
+            {"message": "intervention record has been deleted"}]}), 200
+    return jsonify({"message":"intervention of Id {} is not found please".format(intervention_Id)})
 
 
 @incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['DELETE'])
 @token_required
-def delete_redflag(intervention_Id):
+def delete_redflag(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
-    incident_index = intervention_table.index(incidents)
-    intervention_table.pop(incident_index)
-    del incidents
-    return jsonify({"status": 200}, 
-        {"data": [{"id": intervention_Id},
-        {"message": "intervention record has been deleted"}]}), 200
+    if red_flag:
+        incident_index = redflag_table.index(red_flag)
+        redflag_table.pop(incident_index)
+        del red_flag
+        return jsonify({"status": 200}, 
+            {"data": [{"id": redflag_Id},
+            {"message": "redflag record has been deleted"}]}), 200
+    return jsonify({"message":"redflag of Id {} is not found please".format(redflag_Id)})
+
 
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>/status', methods=['PATCH'])
 @token_required
 def update_intervention_status(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
-    data = request.get_json()
-    comment = data['status']
-    incidents.set_status(status)
-    return jsonify({
-        "status": 200,
-        "data": [{
-            "id": incident.get_incident_details(),
-            "message": "Updated intervention record's status"}]
-    }), 200
+    if intervention:
+        data = request.get_json()
+        status_value = data['status']
+        intervention.status=status_value
+        return jsonify({
+            "status": 200,
+            "data": [{
+                "id": intervention.incidentId,
+                "message": "Updated intervention record's status"}]
+        }), 200
+    return jsonify({"error":"Sorry, Bad request"}),400
+ 
 
 
-@incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['PATCH'])
+@incident_bp.route('/auth/red-flag/<int:redflag_Id>/status', methods=['PATCH'])
 @token_required
-def update_redflag_status(intervention_Id):
+def update_redflag_status(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
-    data = request.get_json()
-    comment = data['status']
-    incident.set_status(status)
-    return jsonify({
-        "status": 200},
-        {"data": [incident.get_incident_details()]},
-        {"message": "Updated intervention record's status"}
-    ), 200
+    if red_flag:
+        data = request.get_json()
+        status_value = data['status']
+        red_flag.status=status_value
+        return jsonify({
+            "status": 200},
+            {"data":[ {"id":red_flag.incidentId},
+            {"message": "Updated intervention record's status"}]}
+        ), 200
+    return jsonify({"error":"Sorry, Bad request"}),400
 
 
 
@@ -204,12 +225,12 @@ def create_redflag():
                 "videos": "video name"
             }}), 400
 
-        intervention_table.append(newIncident)
+        redflag_table.append(newIncident)
         return jsonify({
             "status": 200,
             "data": [{
-                "id": intervention_table[-1].incidentId,
-                "message": "Created intervention record"}]
+                "id": redflag_table[-1].incidentId,
+                "message": "Created redflag record"}]
         }), 200
 
 

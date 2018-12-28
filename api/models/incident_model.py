@@ -29,6 +29,10 @@ class Incident:
             return "Invalid, locationLat must be a integer"
         return locationLat
 
+    
+    def set_location(self):
+        return " ".join(self.locationLong, self.locationLat) 
+
     def set_comment(self,comment):
         if not isinstance(comment,str):
             return "Invalid, otherName must be a string"
