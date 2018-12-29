@@ -38,16 +38,16 @@ def token_required(func):
 
 
 def get_current_user():
-    """Fetches current user details from database"""
+    """Fetches current user details from table"""
     token = request.headers['token']
     decoded_token = decode_token(token)
-    try:
-        userId = decoded_token["userId"]
-        for user_obj in users_table:
-            if user_obj.userId == userId:
-                return {"userId": userId, "isAdmin": user_obj.isAdmin}
-    except KeyError:
-        return jsonify({"message": "userId not in token"}), 401
+    # try:
+    userId = decoded_token["userId"]
+    for user_obj in users_table:
+        if user_obj.userId == userId:
+            return {"userId": userId, "isAdmin": user_obj.isAdmin}
+    # except KeyError:
+    #     return jsonify({"message": "userId not in token"}), 401
 
 
 
