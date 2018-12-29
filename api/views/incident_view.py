@@ -7,8 +7,19 @@ from api.helpers.incidenthelper import get_incidents_by_type,get_incidents_by_ty
 incident_bp = Blueprint('incident_bp', __name__, url_prefix='/api/v1')
 
 
+
+@incident_bp.route("/")
+def index():
+    return jsonify({
+                "IReporter": "This enables any/every citizen to bring"
+                " any form of corruption to the notice of appropriate"
+                " authorities and the general public."}),200
+
+
+
 @incident_bp.route('/auth/intervention', methods=['GET'])
 @token_required
+@non_admin_required
 def get_all_intervention():
     intervention_list = []
     intervention=get_incidents_by_type("intervention")
@@ -21,6 +32,7 @@ def get_all_intervention():
 
 @incident_bp.route('/auth/red-flags', methods=['GET'])
 @token_required
+@non_admin_required
 def get_all_redflag():
     redflag_list = []
     redflag=get_incidents_by_type("redflag")
@@ -34,6 +46,7 @@ def get_all_redflag():
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>', methods=['GET'])
 @token_required
+@non_admin_required
 def get_specific_intervention(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     return jsonify({"data":[intervention.get_incident_details()]},{
@@ -41,6 +54,8 @@ def get_specific_intervention(intervention_Id):
 
 
 @incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['GET'])
+@token_required
+@non_admin_required
 def get_specific_redflag(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     return jsonify({"data":[red_flag.get_incident_details()]},{
@@ -49,6 +64,7 @@ def get_specific_redflag(redflag_Id):
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>/location', methods=['PATCH'])
 @token_required
+@non_admin_required
 def update_intervention_location(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     if intervention.status == "draft": 
@@ -66,6 +82,7 @@ def update_intervention_location(intervention_Id):
 
 @incident_bp.route('/auth/red-flag/<int:redflag_Id>/location', methods=['PATCH'])
 @token_required
+@non_admin_required
 def update_redflag_location(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     if red_flag.status == "draft":
@@ -82,6 +99,7 @@ def update_redflag_location(redflag_Id):
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>/comment', methods=['PATCH'])
 @token_required
+@non_admin_required
 def update_intervention_comment(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     if intervention.status == "draft": 
@@ -98,6 +116,7 @@ def update_intervention_comment(intervention_Id):
 
 @incident_bp.route('/auth/red-flag/<int:redflag_Id>/comment', methods=['PATCH'])
 @token_required
+@non_admin_required
 def update_redflag_comment(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     if intervention.status == "draft": 
@@ -115,6 +134,7 @@ def update_redflag_comment(redflag_Id):
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>', methods=['DELETE'])
 @token_required
+@non_admin_required
 def delete_intervention(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     if intervention:
@@ -129,6 +149,7 @@ def delete_intervention(intervention_Id):
 
 @incident_bp.route('/auth/red-flag/<int:redflag_Id>', methods=['DELETE'])
 @token_required
+@non_admin_required
 def delete_redflag(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     if red_flag:
@@ -144,6 +165,7 @@ def delete_redflag(redflag_Id):
 
 @incident_bp.route('/auth/intervention/<int:intervention_Id>/status', methods=['PATCH'])
 @token_required
+@non_admin_required
 def update_intervention_status(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     if intervention:
@@ -162,6 +184,7 @@ def update_intervention_status(intervention_Id):
 
 @incident_bp.route('/auth/red-flag/<int:redflag_Id>/status', methods=['PATCH'])
 @token_required
+@non_admin_required
 def update_redflag_status(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     if red_flag:
@@ -179,6 +202,7 @@ def update_redflag_status(redflag_Id):
 
 @incident_bp.route('/auth/intervention', methods=['POST'])
 @token_required
+@non_admin_required
 def create_intervention():
     data = request.get_json()
     if data:
@@ -210,6 +234,7 @@ def create_intervention():
 
 @incident_bp.route('/auth/red-flags', methods=['POST'])
 @token_required
+@non_admin_required
 def create_redflag():
     data = request.get_json()
     if data:
