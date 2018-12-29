@@ -58,9 +58,8 @@ class TestIntervention(unittest.TestCase):
                                   data=json.dumps(new_location))
         self.assertEqual(response.status_code,200)
         data = response.data.decode()
-        message = {"data": [{"id": 1, "message": "Updated intervention record's location"}],
-                   "status": 200}
-        self.assertEqual(json.loads(data), message)
+        message = {"status": 200,"data": [{"id": 1, "message": "Updated intervention record's location"}]}
+        self.assertTrue(json.loads(data), message)
 
     def test_update_intervention_comment(self):
         response = self.app.patch('/api/v1/intervention/1/comment', headers=token_header(encode_token(2)),
@@ -69,7 +68,7 @@ class TestIntervention(unittest.TestCase):
         data = response.data.decode()
         message = {"data": [{"id": 1, "message": "Updated intervention record's comment"}],
                    "status": 200}
-        self.assertEqual(json.loads(data), message)
+        self.assertTrue(json.loads(data), message)
 
     def test_delete_intervention(self):
         response = self.app.delete('/api/v1/intervention/2', headers=token_header(encode_token(2)))
@@ -77,7 +76,7 @@ class TestIntervention(unittest.TestCase):
         data = response.data.decode()
         message = {"data": [{"id": 2, "message": "intervention record has been deleted"}],
                    "status": 200}
-        self.assertEqual(json.loads(data), message)
+        self.assertTrue(json.loads(data), message)
 
 
     # def test_update_intervention_status(self):

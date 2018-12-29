@@ -79,7 +79,7 @@ new_intervention_response = {
             "message": "Created intervention record"
         }
     ],
-    "status": 200
+    "status": 201
 }
 new_location = {
     "locationLong": "8.555555",
@@ -104,7 +104,7 @@ new_redflag_response = {
             "message": "Created red-flag record"
         }
     ],
-    "status": 200
+    "status": 201
 }
 
 def get_incidents_by_type(incident_type):
