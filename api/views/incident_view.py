@@ -84,7 +84,7 @@ def update_redflag_location(redflag_Id):
 @token_required
 def update_intervention_comment(intervention_Id):
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
-    if intervention:            
+    if intervention.status == "draft": 
         data = request.get_json()
         comment_value = data['comment']
         intervention.comment=comment_value
@@ -100,7 +100,7 @@ def update_intervention_comment(intervention_Id):
 @token_required
 def update_redflag_comment(redflag_Id):
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
-    if red_flag:
+    if intervention.status == "draft": 
         data = request.get_json()
         comment_value = data['comment']
         red_flag.comment = comment_value
