@@ -15,7 +15,7 @@ class Incident:
         self.comment = self.set_comment(comment)
         self.images = images
         self.videos = videos
-        self.status = 'draft'
+        self.status = "draft"
 
 
     def set_locationLong(self,locationLong):

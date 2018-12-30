@@ -101,7 +101,7 @@ new_redflag_response = {
     "data": [
         {
             "id": 3,
-            "message": "Created red-flag record"
+            "message": "Created redflag record"
         }
     ],
     "status": 201
