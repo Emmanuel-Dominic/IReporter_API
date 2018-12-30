@@ -18,8 +18,17 @@ new_user = {
 "userName": "mats"
 }
 
+new_user_error_mail={
+"email": "manuel@ireporter.com",
+"firstName": "manuel",
+"lastName": "Dominic",
+"otherName": "highway",
+"password": "manuel123",
+"phoneNumber": 256700701616,
+"userName": "mats"
+}
 
-new_msg = {"status": 201,
+new_user_response = {"status": 201,
     "message": "Successfully registered",
     "user": {
         "email": "ematembu@ireporter.com",
@@ -31,18 +40,19 @@ new_msg = {"status": 201,
     }
 }
 
-new_user_response = {
-    "status": 201,
-    "message": "Successfully registered",
-    "users": new_msg
-      }
-
 login_user = {
     "password": "admin123",
     "email": "admin@ireporter.com"
 }
 
-new_status="Resloved"
+invalid_login_user={
+    "password": "admin",
+    "email": "admin@ireporter.com"
+}
+
+new_status={
+  "status":"Rejected"
+}
 
 login_user_response = {
     "token": encode_token(2),
@@ -97,6 +107,31 @@ new_redflag = {
 "videos": "1.gif"
 
 }
+
+new_error_redflag={
+"comment": "Arnold was caught stealing jack fruit in hassan's Garden",
+"locationLong": "6.66666",
+"locationLat": "7.7777",
+"type": "redflag",
+"videos": "1.gif"
+
+}
+
+new_error_intervention={
+    "comment": "Jinja bridge needs construction",
+    "locationLong": "6.66666",
+    "locationLat": "7.7777",
+    "type": "redflag",
+    "videos": "1.gif"
+
+}
+
+
+new_bad_redflag={}
+
+new_bad_intervention={}
+
+
 new_redflag_response = {
     "data": [
         {

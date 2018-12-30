@@ -122,3 +122,8 @@ def verify_signup_data(func):
 
         return func(*args , **kwargs)
     return wrapper
+
+
+
+# def not_accepted():
+#     return jsonify({"message":"Missig data, so Not Accepted"}),406

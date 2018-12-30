@@ -45,7 +45,7 @@ def get_specific_intervention(intervention_Id):
     if intervention:
         return jsonify({"data":intervention.get_incident_details(),
             "status": 200}), 200
-    return jsonify({"error":"Sorry, Bad request"}),400
+    return not_found() 
 
 
 @incident_bp.route('/red-flags/<int:redflag_Id>', methods=['GET'])
@@ -56,7 +56,7 @@ def get_specific_redflag(redflag_Id):
     if red_flag:            
         return jsonify({"data":red_flag.get_incident_details()},{
             "status": 200}), 200
-    return jsonify({"error":"Sorry, Bad request"}),400
+    return not_found() 
 
 
 @incident_bp.route('/intervention/<int:intervention_Id>/location', methods=['PATCH'])
@@ -74,7 +74,7 @@ def update_intervention_location(intervention_Id):
             "status": 200,
             "data":{"id": intervention.incidentId,
             "message": "Updated intervention record's location"}}), 200
-    return jsonify({"message":"Sorry, intervention location update not possible"}),406
+    return not_found()    
 
 
 @incident_bp.route('/red-flags/<int:redflag_Id>/location', methods=['PATCH'])
@@ -92,7 +92,7 @@ def update_redflag_location(redflag_Id):
             "status": 200,
             "data": {"id":red_flag.incidentId,
             "message": "Updated redflag record's location"}}), 200
-    return jsonify({"message":"Sorry, redflag location update not possible"}),406
+    return not_found() 
 
 
 @incident_bp.route('/intervention/<int:intervention_Id>/comment', methods=['PATCH'])
@@ -109,7 +109,7 @@ def update_intervention_comment(intervention_Id):
             "data": {"id":intervention.incidentId,
             "message": "Updated intervention record's comment"}
         }), 200
-    return jsonify({"message":"Sorry, intervention comment update not possible"}),406
+    return not_found()
 
 
 @incident_bp.route('/red-flags/<int:redflag_Id>/comment', methods=['PATCH'])
@@ -127,7 +127,7 @@ def update_redflag_comment(redflag_Id):
                 "id": red_flag.incidentId,
                 "message": "Updated redflag record's comment"}]
         }), 200
-    return jsonify({"message":"Sorry, redflag comment update not possible"}),406
+    return not_found() 
 
 
 @incident_bp.route('/intervention/<int:intervention_Id>', methods=['DELETE'])
@@ -142,8 +142,7 @@ def delete_intervention(intervention_Id):
         return jsonify({"status": 200, 
             "data": {"id": intervention_Id,
             "message": "intervention record has been deleted"}}), 200
-    return jsonify({"message":"intervention of Id {} is not found please".format(intervention_Id)})
-
+    return not_found()
 
 @incident_bp.route('/red-flags/<int:redflag_Id>', methods=['DELETE'])
 @token_required
@@ -157,8 +156,7 @@ def delete_redflag(redflag_Id):
         return jsonify({"status": 200, 
             "data": {"id": redflag_Id,
             "message": "redflag record has been deleted"}}), 200
-    return jsonify({"message":"redflag of Id {} is not found please".format(redflag_Id)})
-
+    return not_found()
 
 @incident_bp.route('/intervention/<int:intervention_Id>/status', methods=['PATCH'])
 @token_required
@@ -171,10 +169,10 @@ def update_intervention_status(intervention_Id):
         intervention.status=status_value
         return jsonify({
             "status": 200,
-            "data": {
+            "data": [{
                 "id": intervention.incidentId,
-                "message": "Updated intervention record's status"}}), 200
-    return jsonify({"error":"Sorry, Bad request"}),400
+                "message": "Updated intervention record's status"}]}), 200
+    return not_found()
  
 
 @incident_bp.route('/red-flags/<int:redflag_Id>/status', methods=['PATCH'])
@@ -189,8 +187,8 @@ def update_redflag_status(redflag_Id):
         return jsonify({
             "status": 200,
             "data": {"id":red_flag.incidentId,
-            "message": "Updated intervention record's status"}}), 200
-    return jsonify({"error":"Sorry, Bad request"}),400
+            "message": "Updated redflag record's status"}}), 200
+    return not_found()
 
 
 @incident_bp.route('/intervention', methods=['POST'])
@@ -206,7 +204,6 @@ def create_intervention():
         except KeyError:
             return jsonify({"Required format": {
                 "comment": "Intervention comment",
-                "createdBy": 2,
                 "images": "image name",
                 "locationLong": 0.0576,
                 "locationLat": 0.001516,
@@ -220,9 +217,7 @@ def create_intervention():
                 "id": intervention_table[-1].incidentId,
                 "message": "Created intervention record"}]
         }), 201
-    return jsonify({"status": 400,
-                "message": "Bad request"
-                }), 400
+    return bad_request() 
 
 
 @incident_bp.route('/red-flags', methods=['POST'])
@@ -238,7 +233,6 @@ def create_redflag():
         except KeyError:
             return jsonify({"Required format": {
                 "comment": "RedFlag comment",
-                "createdBy": 2,
                 "images": "image name",
                 "locationLong": "0.0000",
                 "locationLat": "0.00000",
@@ -252,11 +246,16 @@ def create_redflag():
                 "id": redflag_table[-1].incidentId,
                 "message": "Created redflag record"}]
         }), 201
+    return bad_request() 
 
 
+def bad_request():
+    return jsonify({"status":400, "error": "Sorry, Bad request"}),400
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+def not_found():
+    return jsonify({"status":404, "error": "Sorry, Incident Not Found"}),404
+
 
 
 # incident_bp.route('/userId/intervention', methods=['GET'])
