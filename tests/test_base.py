@@ -142,6 +142,11 @@ new_redflag_response = {
     "status": 201
 }
 
+bad_message={"status":400, "error": "Sorry, Bad request"}
+
+error = {"status":404, "error": "Sorry, Incident Not Found"}
+
+
 def get_incidents_by_type(incident_type):
     all_incidents = []
 
@@ -162,6 +167,9 @@ def get_incidents_by_type(incident_type):
             )
     return all_incidents
 
+token_expired={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU0NjI2MzQxMn0.aszd39bdMvIZnOTfMkHCH5tESTd1cfav06hs0Pp58ko"}
+
+token_Invalid={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1iLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU0NjI2MzQxMn0.aszd39bdMvIZnOTfMkHCH5tESTd1cfav06hs0Pp58ko"}
 
 
 def token_header(token):

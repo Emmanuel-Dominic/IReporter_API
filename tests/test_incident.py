@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 
 from api.models.incident_model import intervention_table,redflag_table
-from .test_base import new_intervention,new_location,new_status,new_bad_intervention,new_error_intervention,new_comment,new_error_redflag,new_intervention_response,token_header,new_bad_redflag
+from .test_base import new_intervention,error,new_location,bad_message,new_status,new_bad_intervention,new_error_intervention,new_comment,new_error_redflag,new_intervention_response,token_header,new_bad_redflag
 from api.app import app
 from .test_base import new_redflag,new_location,new_comment,new_redflag_response,token_header
 from api.helpers.auth import encode_token
@@ -63,12 +63,6 @@ class TestIntervention(unittest.TestCase):
             }
         self.assertEqual(json.loads(data), message)
 
-    def test_get_specific_intervention_with_error_id(self):
-        response = self.app.get('/api/v1/intervention/25', headers=token_header(encode_token(2)))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
 
     def test_get_specific_redflags(self):
         response = self.app.get('/api/v1/red-flags/2', headers=token_header(encode_token(2)))
@@ -96,12 +90,6 @@ class TestIntervention(unittest.TestCase):
             ]
         self.assertEqual(json.loads(data), message)
 
-    def test_get_specific_redflags_with_error_id(self):
-        response = self.app.get('/api/v1/red-flags/82', headers=token_header(encode_token(2)))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
 
     def test_update_intervention_location(self):
         response = self.app.patch('/api/v1/intervention/2/location', headers=token_header(encode_token(2)),
@@ -111,14 +99,7 @@ class TestIntervention(unittest.TestCase):
         message = {"status": 200,"data": {"id": 2, "message": "Updated intervention record's location"}}
         self.assertEqual(json.loads(data), message)
 
-    def test_update_intervention_location_with_error_id(self):
-        response = self.app.patch('/api/v1/intervention/25/location', headers=token_header(encode_token(2)),
-                                  data=json.dumps(new_location))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
-
+ 
     def test_update_redflag_location(self):
         response = self.app.patch('/api/v1/red-flags/2/location', headers=token_header(encode_token(2)),
                                   data=json.dumps(new_location))
@@ -128,13 +109,6 @@ class TestIntervention(unittest.TestCase):
                    "status": 200}
         self.assertEqual(json.loads(data), message)
 
-    def test_update_redflag_location_with_error_id(self):
-        response = self.app.patch('/api/v1/red-flags/12/location', headers=token_header(encode_token(2)),
-                                  data=json.dumps(new_location))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
 
     def test_update_redflag_comment(self):
         response = self.app.patch('/api/v1/red-flags/2/comment', headers=token_header(encode_token(2)),
@@ -145,13 +119,6 @@ class TestIntervention(unittest.TestCase):
                    "status": 200}
         self.assertEqual(json.loads(data), message)
 
-    def test_update_redflag_comment_with_error_id(self):
-        response = self.app.patch('/api/v1/red-flags/21/comment', headers=token_header(encode_token(2)),
-                                  data=json.dumps(new_comment))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
 
     def test_update_intervention_comment(self):
         response = self.app.patch('/api/v1/intervention/2/comment', headers=token_header(encode_token(2)),
@@ -162,14 +129,7 @@ class TestIntervention(unittest.TestCase):
                    "status": 200}
         self.assertEqual(json.loads(data), message)
 
-    def test_update_intervention_comment_with_error_id(self):
-        response = self.app.patch('/api/v1/intervention/45/comment', headers=token_header(encode_token(2)),
-                                  data=json.dumps(new_comment))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
-
+ 
     def test_delete_intervention(self):
         response = self.app.delete('/api/v1/intervention/3', headers=token_header(encode_token(2)))
         self.assertEqual(response.status_code,200)
@@ -178,12 +138,6 @@ class TestIntervention(unittest.TestCase):
                    "status": 200}
         self.assertEqual(json.loads(data), message)
 
-    def test_delete_intervention_with_error_id(self):
-        response = self.app.delete('/api/v1/intervention/30', headers=token_header(encode_token(2)))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
 
     def test_delete_redflag(self):
         response = self.app.delete('/api/v1/red-flags/3', headers=token_header(encode_token(2)))
@@ -193,13 +147,6 @@ class TestIntervention(unittest.TestCase):
                    "status": 200}
         self.assertEqual(json.loads(data), message)
 
-    def test_delete_redflag_with_error_id(self):
-        response = self.app.delete('/api/v1/red-flags/5', headers=token_header(encode_token(2)))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}
-        self.assertEqual(json.loads(data), error)
-
 
     def test_create_redflag(self):
         response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_redflag))
@@ -207,25 +154,6 @@ class TestIntervention(unittest.TestCase):
         data = response.data.decode()
         self.assertEqual(json.loads(data), new_redflag_response)
 
-    def test_create_redflag_key_error(self):
-        response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_error_redflag))
-        self.assertEqual(response.status_code,400)
-        data = response.data.decode()
-        message={"Required format": {
-                "comment": "RedFlag comment",
-                "images": "image name",
-                "locationLong": "0.0000",
-                "locationLat": "0.00000",
-                "videos": "video name"
-            }}
-        self.assertEqual(json.loads(data), message)
-
-    def test_create_redflag_bad_error(self):
-        response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_bad_redflag))
-        self.assertEqual(response.status_code,400)
-        data = response.data.decode()
-        message={"status":400, "error": "Sorry, Bad request"}
-        self.assertEqual(json.loads(data), message)
 
     def test_create_intervention(self):
         response = self.app.post('/api/v1/intervention', headers=token_header(encode_token(2)),
@@ -234,28 +162,7 @@ class TestIntervention(unittest.TestCase):
         data = response.data.decode()
         self.assertEqual(json.loads(data), new_intervention_response)
 
-    def test_create_intervention_key__error(self):
-        response = self.app.post('/api/v1/intervention', headers=token_header(encode_token(2)),
-                                 data=json.dumps(new_error_intervention))
-        self.assertEqual(response.status_code,400)
-        data = response.data.decode()
-        message={"Required format": {
-                "comment": "Intervention comment",
-                "images": "image name",
-                "locationLong": 0.0576,
-                "locationLat": 0.001516,
-                "videos": "video name"
-            }}
-        self.assertEqual(json.loads(data), message)
-
-    def test_create_intervention_bad__error(self):
-        response = self.app.post('/api/v1/intervention', headers=token_header(encode_token(2)),
-                                 data=json.dumps(new_bad_intervention))
-        self.assertEqual(response.status_code,400)
-        data = response.data.decode()
-        message={"status":400, "error": "Sorry, Bad request"}
-        self.assertEqual(json.loads(data), message)
-
+ 
     def test_update_intervention_status(self):
         response = self.app.patch('/api/v1/intervention/1/status', headers=token_header(encode_token(1)),
                                   data=json.dumps(new_status))
@@ -265,13 +172,6 @@ class TestIntervention(unittest.TestCase):
                    "status": 200}
         self.assertEqual(json.loads(data), message)
 
-    def test_update_intervention_status_with_error_id(self):
-        response = self.app.patch('/api/v1/intervention/12/status', headers=token_header(encode_token(1)),
-                                  data=json.dumps(new_status))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}    
-        self.assertEqual(json.loads(data), error)
 
     def test_update_redflag_status(self):
         response = self.app.patch('/api/v1/red-flags/1/status', headers=token_header(encode_token(1)),
@@ -282,13 +182,6 @@ class TestIntervention(unittest.TestCase):
                    "status": 200}
         self.assertEqual(json.loads(data), message)
 
-    def test_update_redflag_status_with_error_id(self):
-        response = self.app.patch('/api/v1/red-flags/10/status', headers=token_header(encode_token(1)),
-                                  data=json.dumps(new_status))
-        self.assertEqual(response.status_code,404)
-        data = response.data.decode()
-        error = {"status":404, "error": "Sorry, Incident Not Found"}    
-        self.assertEqual(json.loads(data), error)
-
+ 
 if __name__ == '__main__':
     unittest.main()

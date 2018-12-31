@@ -8,7 +8,7 @@ secret_key = "softwareDeveloper.Manuel@secret_key/mats.com"
 
 
 def encode_token(userId):
-    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
+    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)},
         secret_key).decode('utf-8')
     return token
 
