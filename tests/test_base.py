@@ -4,9 +4,8 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from api.helpers.auth import encode_token
-from api.models.user_model import User
-
+from api.helpers.auth import encode_token,encode_token_test
+from api.models.user_model import User, users_table
 
 new_user = {
 "email": "ematembu@ireporter.com",
@@ -171,6 +170,8 @@ token_expired={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1QiLCJhb
 
 token_Invalid={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1iLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU0NjI2MzQxMn0.aszd39bdMvIZnOTfMkHCH5tESTd1cfav06hs0Pp58ko"}
 
+
+token_signature_error={"Content-Type": "application/json","token": encode_token_test(1)}
 
 def token_header(token):
     message = {"Content-Type": "application/json","token": token}

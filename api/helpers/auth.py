@@ -70,3 +70,9 @@ def non_admin_required(func):
             return jsonify({"messsage": "Only Non admin can access this route"}), 401
         return func(*args, **kwargs)
     return wrapper
+
+
+def encode_token_test(userId):
+    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
+        "secret_key")
+    return token

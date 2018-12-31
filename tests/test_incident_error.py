@@ -163,5 +163,13 @@ class TestIntervention(unittest.TestCase):
         data = response.data.decode()
         self.assertEqual(json.loads(data), error)
 
+    def test_update_not_possible_comment(self):
+        response = self.app.patch('/api/v1/intervention/1/comment', headers=token_header(encode_token(2)),
+                                  data=json.dumps(new_comment))
+        self.assertEqual(response.status_code,406)
+        data = response.data.decode()
+        message={"status":406, "error": "Sorry, Update not Possible"}
+        self.assertEqual(json.loads(data), message)
+
 if __name__ == '__main__':
     unittest.main()

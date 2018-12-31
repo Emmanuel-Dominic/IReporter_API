@@ -2,9 +2,10 @@ import json
 import unittest
 import os
 import sys
+import jwt
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from .test_base import new_user,new_user_response,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
+from .test_base import new_user,new_user_response,token_signature_error,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
 from api.views.user_view import user_bp
 from api.models.user_model import User,users_table
 from api.helpers.auth import encode_token
@@ -71,6 +72,13 @@ class TestUser(unittest.TestCase):
         data = response.data.decode()
         token_Invalid_message={"message": "Invalid Token verification failed"}
         self.assertEqual(json.loads(data), token_Invalid_message)
+
+    def test_get_token_signature_error(self):
+        response = self.app.get('/api/v1/users',headers=token_signature_error)
+        self.assertEqual(response.status_code,401)
+        data = response.data.decode()
+        message={"message": "Signature verification failed"}
+        self.assertEqual(json.loads(data), message)
 
 
     def test_get_users_error(self):
