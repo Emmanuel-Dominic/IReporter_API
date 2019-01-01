@@ -6,11 +6,10 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 
 from api.models.incident_model import intervention_table
-from .test_base import new_intervention,invalid_key_msg,error,example_create_data,new_location,\
+from .test_base import new_intervention,invalid_key_msg,error,example_create_data,\
                         new_status,new_bad_intervention,new_error_intervention,new_comment,\
-                        new_error_redflag,token_header,new_bad_redflag
+                        new_error_redflag,token_header,new_bad_redflag,new_location
 from api.app import app
-from .test_base import new_redflag,new_location
 from api.helpers.auth import encode_token
 from api.helpers.incidenthelper import get_incidents_by_type
 

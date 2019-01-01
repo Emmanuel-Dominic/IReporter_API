@@ -90,9 +90,9 @@ def verify_login_data(func):
         except ValueError:
             return jsonify({"message":valid_type,
                 "example":example_login_data}),406
-        except:
-            return jsonify({"message":json_data,
-                "example":example_login_data}),400
+        # except:
+        #     return jsonify({"message":json_data,
+        #         "example":example_login_data}),400
         return func(*args , **kwargs)
     return wrapper
 
@@ -130,9 +130,9 @@ def verify_signup_data(func):
         except ValueError:
             return jsonify({"message":valid_type,
                 "example":example_signup_data}),400
-        except:
-            return jsonify({"message":json_data,
-                "example":example_signup_data}),400
+        # except:
+        #     return jsonify({"message":json_data,
+        #         "example":example_signup_data}),400
         return func(*args , **kwargs)
     return wrapper
 

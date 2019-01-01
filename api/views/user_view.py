@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, Response, json
+from flask import Blueprint, jsonify, request
 from api.helpers.auth import encode_token, admin_required, token_required
 from api.helpers.validators import verify_login_data, verify_signup_data
 from api.models.user_model import User, users_table
