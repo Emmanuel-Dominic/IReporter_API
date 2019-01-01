@@ -17,7 +17,6 @@ class Incident:
         self.videos = videos
         self.status = "draft"
 
-
     def get_incident_details(self):
         return {
             "locationLong": self.locationLong,

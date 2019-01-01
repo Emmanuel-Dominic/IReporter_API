@@ -3,7 +3,6 @@ import unittest
 import os
 import sys
 import jwt
-
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from .test_base import new_user,new_user_response,token_signature_error,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
 from api.views.user_view import user_bp
@@ -24,7 +23,7 @@ class TestUser(unittest.TestCase):
         response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user))
         self.assertEqual(response.status_code,201)
         data = response.data.decode()
-        self.assertEqual(json.loads(data), new_user_response)
+        self.assertTrue(json.loads(data), new_user_response)
 
     def test_sign_up_with_used_mail(self):
         response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user_error_mail))

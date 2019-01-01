@@ -49,6 +49,7 @@ def sign_up():
                 "message": "Successfully registered"}),201
 
 
+
 @user_bp.route("/auth/login", methods=["POST"])
 @verify_login_data
 def login():

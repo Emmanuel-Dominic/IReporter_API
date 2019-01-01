@@ -1,5 +1,5 @@
 # from flask import Blueprint, jsonify, request
-# from api.helpers.auth import token_required, non_admin_required, admin_required
+# from api.helpers.auth import token_required, non_admin_required, admin_required,get_current_user
 # from api.models.incident_model import Intervention, intervention_table
 
 
@@ -17,6 +17,7 @@
 
 # @intervention_bp.route('/intervention', methods=['GET'])
 # @token_required
+# @non_admin_required
 # def get_all_intervention():
 #     """docstring function that return all redflags detials"""
 #     intervention_list = []
@@ -53,16 +54,15 @@
 #     data = request.get_json()
 #     if data:
 #         try:
-#             newIncident = Intervention(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=data['createdBy'], \
-#                                        images=data['images'], videos=data['videos'], \
-#                                        comment=data['comment'])
+#             newIncident = Intervention(locationLong=data["locationLong"], locationLat=data["locationLat"], \
+#                                         createdBy=get_current_user()["userId"], images=data['images'], \
+#                                        videos=data['videos'], comment=data['comment'])
 #         except KeyError:
 #             return jsonify({"Required format": {
 #                 "comment": "Intervention comment",
-#                 "createdBy": 2,
 #                 "images": "image name",
-#                 "locationLong": "0.0000",
-#                 "locationLat": "0.00000",
+#                 "locationLong": 0.0000,
+#                 "locationLat": 0.00000,
 #                 "videos": "video name"
 #             }}), 400
 
@@ -72,7 +72,7 @@
 #             "data": [{
 #                 "id": intervention_table[-1].incidentId,
 #                 "message": "Created intervention record"}]
-#         }), 200
+#         }), 201
 
 
 # @intervention_bp.route('/intervention/<int:intervention_Id>/location', methods=['PATCH'])
@@ -80,7 +80,7 @@
 # @non_admin_required
 # def update_intervention_location(intervention_Id):
 #     for incident in intervention_table:
-#         if incident.incidentId == intervention_Id:
+#         if incident.incidentId == intervention_Id and incident.status == "draft":
 #             data = request.get_json()
 #             locationLong= data['locationLong']
 #             locationLat= data['locationLat']
@@ -105,14 +105,14 @@
 # @non_admin_required
 # def update_intervention_comment(intervention_Id):
 #     for incident in intervention_table:
-#         if incident.incidentId == intervention_Id:
+#         if incident.incidentId == intervention_Id and incident.status == "draft":
 #             data = request.get_json()
 #             comment = data['comment']
 #             incident.set_comment(comment)
 #             return jsonify({
 #                 "status": 200,
 #                 "data": [{
-#                     "id": incident.get_incident_details(),
+#                     "id": incident.incidentId,
 #                     "message": "Updated intervention record's comment"}]
 #             }), 200
 
@@ -138,25 +138,34 @@
 #         "status": 404,
 #         "error": "bad request"
 #     }), 200
+# >>>>>>> develop
 
 
-# @intervention_bp.route('/intervention/<int:intervention_Id>/status', methods=['PATCH'])
-# @token_required
-# @admin_required
-# def update_intervention_status(intervention_Id):
-#     for incident in intervention_table:
-#         if incident.incidentId == intervention_Id:
-#             data = request.get_json()
-#             status = data['status']
-#             incident.set_status(status)
-#             return jsonify({
-#                 "status": 200,
-#                 "data": [{
-#                     "id": incident.get_incident_details(),
-#                     "message": "Updated intervention record's status"}]
-#             }), 200
+# # @intervention_bp.route('/intervention/<int:intervention_Id>/status', methods=['PATCH'])
+# # @token_required
+# # @admin_required
+# # def update_intervention_status(intervention_Id):
+# #     for incident in intervention_table:
+# #         if incident.incidentId == intervention_Id:
+# #             data = request.get_json()
+# <<<<<<< ft_new_testing_formating
+# #             status = data['status']
+# #             incident.set_status(status)
+# #             return jsonify({
+# #                 "status": 200,
+# #                 "data": [{
+# #                     "id": incident.get_incident_details(),
+# =======
+# #             status = data["status"]
+# #             incident.set_status(status)
+# #             return jsonify({
+# #                 "status": 200,
+# #                 "data": [{"id": incident.incidentId,
+# >>>>>>> develop
+# #                     "message": "Updated intervention record's status"}]
+# #             }), 200
 
-#     return jsonify({
-#         "status": 404,
-#         "error": "bad request"
-#     }), 200
+# #     return jsonify({
+# #         "status": 404,
+# #         "error": "bad request"
+# #     }), 200

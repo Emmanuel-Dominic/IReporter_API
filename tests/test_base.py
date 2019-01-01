@@ -39,6 +39,7 @@ new_user_response = {"status": 201,
     }
 }
 
+
 login_user = {
     "password": "admin123",
     "email": "admin@ireporter.com"
@@ -92,6 +93,7 @@ new_intervention_response = {
             "message": "Created intervention record"
         }
     ],
+
     "status": 201
 }
 new_location = {
@@ -134,7 +136,6 @@ new_bad_redflag={}
 
 new_bad_intervention={}
 
-
 new_redflag_response = {
     "data": [
         {
@@ -169,12 +170,14 @@ def get_incidents_by_type(incident_type):
             )
     return all_incidents
 
+
 token_expired={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU0NjI2MzQxMn0.aszd39bdMvIZnOTfMkHCH5tESTd1cfav06hs0Pp58ko"}
 
 token_Invalid={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1iLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU0NjI2MzQxMn0.aszd39bdMvIZnOTfMkHCH5tESTd1cfav06hs0Pp58ko"}
 
 
 token_signature_error={"Content-Type": "application/json","token": encode_token_test(1)}
+
 
 def token_header(token):
     message = {"Content-Type": "application/json","token": token}
