@@ -62,9 +62,8 @@ $ pytest -vv --cov
 
 ## Versioning
 
-```
-This is version one "v1" of the API
-```
+-   This is version one "v1" of the API
+
 ## End Points(Required Features)
 
 |                   End Point                               |           Functionality       |
@@ -84,7 +83,6 @@ This is version one "v1" of the API
 | PATCH  api/v1/red-flags/<int:redflag_Id>status            | Edit red-flag status          |
 | PATCH  api/v1/intervention/<int:intervention_Id>status    | Edit intervention status      |
 
-
 ## Built With
 
 -   Python 3.6.6 Flask (A python microframework)
@@ -94,7 +92,6 @@ This is version one "v1" of the API
 -   Pylint
 -   Pytest
 -   Virtual environment
-
 
 ## Authors
 

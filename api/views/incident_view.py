@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify, request, json
+from flask import Blueprint, jsonify, request
 from api.helpers.auth import token_required, admin_required, non_admin_required,get_current_user
-from api.models.incident_model import Intervention, intervention_table,RedFlag,redflag_table,Incident
+from api.models.incident_model import Intervention, intervention_table,RedFlag,redflag_table
 from api.helpers.incidenthelper import get_incidents_by_type,get_incidents_by_type_id,get_incidents_by_status
 from api.helpers.validators import verify_create_incident_data
 
@@ -49,7 +49,7 @@ def get_specific_redflag(redflag_Id):
     if red_flag:
         return jsonify({"data":red_flag.get_incident_details()},{
             "status": 200}), 200
-    return not_found() 
+    return not_found()
 
 @incident_bp.route('/intervention/<int:intervention_Id>/location', methods=['PATCH'])
 @token_required
@@ -59,7 +59,7 @@ def update_intervention_location(intervention_Id):
     can_not_edit=get_incidents_by_status(incident_obj)
     if can_not_edit:
         return can_not_edit
-    else: 
+    else:
         data = request.get_json()
         locationLong_value = data['locationLong']
         locationLat_value = data['locationLat']
@@ -134,7 +134,7 @@ def delete_intervention(intervention_Id):
         incident_index = intervention_table.index(intervention)
         intervention_table.pop(incident_index)
         del intervention
-        return jsonify({"status": 200, 
+        return jsonify({"status": 200,
             "data": {"id": intervention_Id,
             "message": "intervention record has been deleted"}}), 200
     return not_found()

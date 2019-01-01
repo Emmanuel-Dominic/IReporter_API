@@ -5,7 +5,6 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from .test_base import new_user,new_user_response,token_signature_error,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
-from api.models.user_model import User
 from api.helpers.auth import encode_token
 from api.app import app
 
