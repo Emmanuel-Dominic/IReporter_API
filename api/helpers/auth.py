@@ -8,7 +8,7 @@ secret_key = "softwareDeveloper.Manuel@secret_key/mats.com"
 
 
 def encode_token(userId):
-    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
+    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)},
         secret_key).decode('utf-8')
     return token
 
@@ -38,16 +38,16 @@ def token_required(func):
 
 
 def get_current_user():
-    """Fetches current user details from database"""
+    """Fetches current user details from table"""
     token = request.headers['token']
     decoded_token = decode_token(token)
-    try:
-        userId = decoded_token["userId"]
-        for user_obj in users_table:
-            if user_obj.userId == userId:
-                return {"userId": userId, "isAdmin": user_obj.isAdmin}
-    except KeyError:
-        return jsonify({"message": "userId not in token"}), 401
+    # try:
+    userId = decoded_token["userId"]
+    for user_obj in users_table:
+        if user_obj.userId == userId:
+            return {"userId": userId, "isAdmin": user_obj.isAdmin}
+    # except KeyError:
+    #     return jsonify({"message": "userId not in token"}), 401
 
 
 
@@ -70,3 +70,9 @@ def non_admin_required(func):
             return jsonify({"messsage": "Only Non admin can access this route"}), 401
         return func(*args, **kwargs)
     return wrapper
+
+
+def encode_token_test(userId):
+    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
+        "secret_key")
+    return token
