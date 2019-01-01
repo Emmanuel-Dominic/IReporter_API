@@ -73,15 +73,15 @@ $ pytest -vv --cov
 | POST   api/v1/red-flags                                   | Create a red-flag             |
 | GET    api/v1/red-flags                                   | Fetch all red-flags           |
 | GET    api/v1/red-flags/<int:redflag_Id>                  | Fetch a red-flag              |
-| PATCH  api/v1/red-flags/<int:redflag_Id>location          | Edit red-flag location        |
-| PATCH  api/v1/red-flags/<int:redflag_Id>comment           | Edit red-flag comment         |
+| PATCH  api/v1/red-flags/<int:redflag_Id>/location         | Edit red-flag location        |
+| PATCH  api/v1/red-flags/<int:redflag_Id>/comment          | Edit red-flag comment         |
 | POST   api/v1/intervention                                | Create a intervention         |
 | GET    api/v1/intervention                                | Fetch all intervention        |
 | GET    api/v1/intervention/<int:intervention_Id>          | Fetch a intervention          |
-| PATCH  api/v1/intervention/<int:intervention_Id>location  | Edit intervention location    |
-| PATCH  api/v1/intervention/<int:intervention_Id>comment   | Edit intervention comment     |
-| PATCH  api/v1/red-flags/<int:redflag_Id>status            | Edit red-flag status          |
-| PATCH  api/v1/intervention/<int:intervention_Id>status    | Edit intervention status      |
+| PATCH  api/v1/intervention/<int:intervention_Id>/location | Edit intervention location    |
+| PATCH  api/v1/intervention/<int:intervention_Id>/comment  | Edit intervention comment     |
+| PATCH  api/v1/red-flags/<int:redflag_Id>/status           | Edit red-flag status          |
+| PATCH  api/v1/intervention/<int:intervention_Id>/status   | Edit intervention status      |
 
 ## Built With
 
