@@ -16,8 +16,10 @@ example_create_data = {"comment": "comment","images": "image name",
 invalid_key_msg = "Invalid Key in data,please provide valid input data"
 required_feild = "field is Required"
 Invalid_value_msg = "Invalid value in data,please provide valid input data"
-
-
+get_data="Please provide data"
+data_string="Please provide valid field for string data"
+valid_type="Please provide valid data type for fields"
+json_data="Please provide JSON data"
 
 
 def get_firstName(firstName):
@@ -72,7 +74,7 @@ def verify_login_data(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not request.data:
-            return jsonify({"message": "Please provide data",
+            return jsonify({"message": get_data,
                 "example":example_login_data}),400
         # if data is not of type application/json
         try:
@@ -84,13 +86,13 @@ def verify_login_data(func):
             return jsonify({"message":invalid_key_msg,
                 "example":example_login_data}), 400
         except AttributeError:
-            return jsonify({"message":"Please provide valid field for string data",
+            return jsonify({"message":data_string,
                 "example":example_login_data}),400
         except ValueError:
-            return jsonify({"message":"Please provide valid data type for fields",
+            return jsonify({"message":valid_type,
                 "example":example_login_data}),406
         except:
-            return jsonify({"message":"Please provide JSON data",
+            return jsonify({"message":json_data,
                 "example":example_login_data}),400
         return func(*args , **kwargs)
     return wrapper
@@ -100,7 +102,7 @@ def verify_signup_data(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not request.data:
-            return jsonify({"message": "Please provide data",
+            return jsonify({"message": get_data,
                 "example":example_signup_data}),400
         # if data is not of type application/json
         try:
@@ -124,13 +126,13 @@ def verify_signup_data(func):
             return jsonify({"message":invalid_key_msg,
                 "example":example_signup_data}), 400
         except AttributeError:
-            return jsonify({"message":"Please provide valid field for string data",
+            return jsonify({"message":data_string,
                 "example":example_signup_data}),400
         except ValueError:
-            return jsonify({"message":"Please provide valid data type for fields",
+            return jsonify({"message":valid_type,
                 "example":example_signup_data}),400
         except:
-            return jsonify({"message":"Please provide JSON data",
+            return jsonify({"message":json_data,
                 "example":example_signup_data}),400
         return func(*args , **kwargs)
     return wrapper
@@ -176,7 +178,7 @@ def verify_create_incident_data(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not request.data:
-            return jsonify({"message": "Please provide data",
+            return jsonify({"message": get_data,
                 "example":example_create_data}),400
         # if data is not of type application/json
         try:
@@ -196,13 +198,13 @@ def verify_create_incident_data(func):
             return jsonify({"message":invalid_key_msg,
                 "example":example_create_data}), 400
         except AttributeError:
-            return jsonify({"message":"Please provide valid field for string data",
+            return jsonify({"message":data_string,
                 "example":example_create_data}),400
         except ValueError:
-            return jsonify({"message":"Please provide valid data type for fields",
+            return jsonify({"message":valid_type,
                 "example":example_create_data}),400
         except:
-            return jsonify({"message":"Please provide JSON data",
+            return jsonify({"message":json_data,
                 "example":example_create_data}),400
         return func(*args, **kwargs)
     return wrapper
