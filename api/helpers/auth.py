@@ -2,7 +2,7 @@ import datetime
 from functools import wraps
 import jwt
 from flask import request, jsonify
-from api.models.user_model import User, users_table
+from api.models.user_model import users_table
 
 secret_key = "softwareDeveloper.Manuel@secret_key/mats.com"
 
@@ -32,8 +32,6 @@ def token_required(func):
         except KeyError:
             return jsonify({"message": "Missing token"}), 401
         return func(*args, **kwargs)
-
-
     return wrapper
 
 

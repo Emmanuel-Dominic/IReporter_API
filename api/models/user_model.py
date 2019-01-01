@@ -1,4 +1,4 @@
-from flask import jsonify, json
+from flask import jsonify
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -14,15 +14,13 @@ class User:
         self.name = name
         self.email = email
         self.phoneNumber = phoneNumber
-        self.password = self.set_password(password)
+        self.password = generate_password_hash(password)
         self.userName = userName
         self.date = datetime.datetime.now()
         self.userId = User.userId
         self.isAdmin = False
         User.userId += 1
 
-    def set_password(self,password):
-        return generate_password_hash(password)
 
     def check_password(self, password):
             return check_password_hash(self.password, password)

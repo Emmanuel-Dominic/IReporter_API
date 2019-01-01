@@ -1,5 +1,4 @@
 from functools import wraps
-import string
 import re
 from flask import request,jsonify
 
@@ -167,12 +166,6 @@ def get_status(status):
     if not data["status"].isalpha():
         return jsonify({"message":"{} string at status".format(Invalid_value_msg)}), 406
 
-def get_comment(comment):
-    data = request.get_json()
-    if not data["comment"]:
-        return jsonify({"message":"comment feild is required"}), 406
-    if not isinstance(data["comment"],str):
-        return jsonify({"message":"Invalid, comment must be a string"}),406
 
 def verify_create_incident_data(func):
     @wraps(func)
@@ -203,8 +196,8 @@ def verify_create_incident_data(func):
         except ValueError:
             return jsonify({"message":valid_type,
                 "example":example_create_data}),400
-        except:
-            return jsonify({"message":json_data,
-                "example":example_create_data}),400
+        # except:
+        #     return jsonify({"message":json_data,
+        #         "example":example_create_data}),400
         return func(*args, **kwargs)
     return wrapper

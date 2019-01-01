@@ -1,11 +1,9 @@
-from flask import jsonify
-import unittest
 import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from api.helpers.auth import encode_token,encode_token_test
-from api.models.user_model import User, users_table
+from api.models.user_model import User
 
 new_user = {
 "email": "ematembu@ireporter.com",
