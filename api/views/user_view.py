@@ -1,4 +1,3 @@
-from functools import wraps
 from flask import Blueprint, jsonify, request, Response, json
 from api.helpers.auth import encode_token, admin_required, token_required
 from api.helpers.validators import verify_login_data, verify_signup_data
@@ -55,9 +54,8 @@ def login():
     data = request.get_json()
     password = data["password"]
     email = data["email"]
-
     for user_obj in users_table:
-        if data["email"] == user_obj.email and user_obj.check_password(password) == True:
+        if email == user_obj.email and user_obj.check_password(password) == True:
             return jsonify({"token": encode_token(user_obj.userId),
                     "message": "Successfully logged In"}),200
     return jsonify({"message": "Invalid credentials, Please try again"}), 401

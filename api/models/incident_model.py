@@ -78,7 +78,7 @@ redflag_table = [
         comment="Arnold was caught stealing jack fruit in hassan's Garden",
         createdBy=2,
         images="1.jpeg",
-        locationLong= 0.33737, 
+        locationLong= 0.33737,
         locationLat= 5.38974,
         videos="1.gif"
     ),

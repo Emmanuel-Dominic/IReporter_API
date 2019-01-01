@@ -85,20 +85,18 @@ This is version one "v1" of the API
 | PATCH  api/v1/intervention/<int:intervention_Id>status    | Edit intervention status      |
 
 
-
 ## Built With
 
 -   Python 3.6.6 Flask (A python microframework)
 
 ## Tools Used
 
-```
-Pylint
-Pytest
-Virtual environment
-```
+-   Pylint
+-   Pytest
+-   Virtual environment
 
-# Authors
+
+## Authors
 
 -   Matembu Emmanuel Dominic
 -   Email : ematembu2@gmail.com
