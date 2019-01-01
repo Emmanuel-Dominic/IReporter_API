@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, json
 from api.helpers.auth import token_required, admin_required, non_admin_required,get_current_user
 from api.models.incident_model import Intervention, intervention_table,RedFlag,redflag_table,Incident
 from api.helpers.incidenthelper import get_incidents_by_type,get_incidents_by_type_id,get_incidents_by_status
+from api.helpers.validators import verify_create_incident_data
 
 incident_bp = Blueprint('incident_bp', __name__, url_prefix='/api/v1')
 
@@ -187,22 +188,13 @@ def update_redflag_status(redflag_Id):
 @incident_bp.route('/intervention', methods=['POST'])
 @token_required
 @non_admin_required
+@verify_create_incident_data
 def create_intervention():
     data = request.get_json()
     if data:
-        try:
-            newIncident = Intervention(locationLong=data["locationLong"], \
-                            locationLat=data["locationLat"], createdBy=get_current_user()["userId"], \
-                            images=data['images'], videos=data['videos'], comment=data['comment'])
-        except KeyError:
-            return jsonify({"Required format": {
-                "comment": "Intervention comment",
-                "images": "image name",
-                "locationLong": 0.0576,
-                "locationLat": 0.001516,
-                "videos": "video name"
-            }}), 400
-
+        newIncident = Intervention(locationLong=data["locationLong"], \
+                        locationLat=data["locationLat"], createdBy=get_current_user()["userId"], \
+                        images=data['images'], videos=data['videos'], comment=data['comment'])
         intervention_table.append(newIncident)
         return jsonify({
             "status": 201,
@@ -210,27 +202,17 @@ def create_intervention():
                 "id": intervention_table[-1].incidentId,
                 "message": "Created intervention record"}]
         }), 201
-    return bad_request() 
 
 @incident_bp.route('/red-flags', methods=['POST'])
 @token_required
 @non_admin_required
+@verify_create_incident_data
 def create_redflag():
     data = request.get_json()
     if data:
-        try:
-            newIncident = RedFlag(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=get_current_user()["userId"], \
-                                       images=data['images'], videos=data['videos'], \
-                                       comment=data['comment'])
-        except KeyError:
-            return jsonify({"Required format": {
-                "comment": "RedFlag comment",
-                "images": "image name",
-                "locationLong": "0.0000",
-                "locationLat": "0.00000",
-                "videos": "video name"
-            }}), 400
-
+        newIncident = RedFlag(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=get_current_user()["userId"], \
+                                   images=data['images'], videos=data['videos'], \
+                                   comment=data['comment'])
         redflag_table.append(newIncident)
         return jsonify({
             "status": 201,
@@ -238,10 +220,9 @@ def create_redflag():
                 "id": redflag_table[-1].incidentId,
                 "message": "Created redflag record"}]
         }), 201
-    return bad_request() 
 
-def bad_request():
-    return jsonify({"status":400, "error": "Sorry, Bad request"}),400
+# def bad_request():
+#     return jsonify({"status":400, "error": "Sorry, Bad request"}),400
 
 def not_found():
     return jsonify({"status":404, "error": "Sorry, Incident Not Found"}),404

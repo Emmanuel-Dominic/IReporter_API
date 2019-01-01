@@ -73,14 +73,18 @@ all_users_response = {
 
 new_intervention = {
     "comment": "Jinja bridge needs construction",
-    "createdBy": 3,
+    "createdBy": 2,
     "images": "1.jpeg",
-    "locationLong": "6.66666",
-    "locationLat": "7.7777",
+    "locationLong": 6.66666,
+    "locationLat": 7.7777,
     "type": "redflag",
     "videos": "1.gif"
-
 }
+
+example_create_data={"comment": "comment","images": "image name",
+        "locationLat": 0.111111,"locationLong": 0.1111111,"videos": "video name"}
+invalid_key_msg = "Invalid Key in data,please provide valid input data"
+
 new_intervention_response = {
     "data": [
         {
@@ -91,8 +95,8 @@ new_intervention_response = {
     "status": 201
 }
 new_location = {
-    "locationLong": "8.555555",
-    "locationLat": "5.88289"
+    "locationLong": 8.555555,
+    "locationLat": 5.88289
 }
 new_comment = {"comment": "Sorry!, error information"}
 
@@ -100,8 +104,8 @@ new_redflag = {
 "comment": "Arnold was caught stealing jack fruit in hassan's Garden",
 "createdBy": 2,
 "images": "1.jpeg",
-"locationLong": "6.66666",
-"locationLat": "7.7777",
+"locationLong": 6.66666,
+"locationLat": 7.7777,
 "type": "redflag",
 "videos": "1.gif"
 
@@ -109,8 +113,8 @@ new_redflag = {
 
 new_error_redflag={
 "comment": "Arnold was caught stealing jack fruit in hassan's Garden",
-"locationLong": "6.66666",
-"locationLat": "7.7777",
+"locationLong": 6.66666,
+"locationLat": 7.7777,
 "type": "redflag",
 "videos": "1.gif"
 
@@ -118,8 +122,8 @@ new_error_redflag={
 
 new_error_intervention={
     "comment": "Jinja bridge needs construction",
-    "locationLong": "6.66666",
-    "locationLat": "7.7777",
+    "locationLong": 6.66666,
+    "locationLat": 7.7777,
     "type": "redflag",
     "videos": "1.gif"
 
@@ -141,7 +145,6 @@ new_redflag_response = {
     "status": 201
 }
 
-bad_message={"status":400, "error": "Sorry, Bad request"}
 
 error = {"status":404, "error": "Sorry, Incident Not Found"}
 

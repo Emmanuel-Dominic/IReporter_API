@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 
 from api.models.incident_model import intervention_table,redflag_table
-from .test_base import new_intervention,error,new_location,bad_message,new_status,new_bad_intervention,new_error_intervention,new_comment,new_error_redflag,new_intervention_response,token_header,new_bad_redflag
+from .test_base import new_intervention,invalid_key_msg,error,example_create_data,new_location,new_status,new_bad_intervention,new_error_intervention,new_comment,new_error_redflag,new_intervention_response,token_header,new_bad_redflag
 from api.app import app
 from .test_base import new_redflag,new_location,new_comment,new_redflag_response,token_header
 from api.helpers.auth import encode_token
@@ -102,20 +102,17 @@ class TestIntervention(unittest.TestCase):
         response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_error_redflag))
         self.assertEqual(response.status_code,400)
         data = response.data.decode()
-        message={"Required format": {
-                "comment": "RedFlag comment",
-                "images": "image name",
-                "locationLong": "0.0000",
-                "locationLat": "0.00000",
-                "videos": "video name"
-            }}
+        message={"message":invalid_key_msg,
+                "example":example_create_data}
         self.assertEqual(json.loads(data), message)
 
     def test_create_redflag_bad_error(self):
         response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_bad_redflag))
         self.assertEqual(response.status_code,400)
         data = response.data.decode()
-        self.assertEqual(json.loads(data), bad_message)
+        message={"message":invalid_key_msg,
+                "example":example_create_data}
+        self.assertEqual(json.loads(data), message)
 
 
     def test_create_intervention_key__error(self):
@@ -123,13 +120,8 @@ class TestIntervention(unittest.TestCase):
                                  data=json.dumps(new_error_intervention))
         self.assertEqual(response.status_code,400)
         data = response.data.decode()
-        message={"Required format": {
-                "comment": "Intervention comment",
-                "images": "image name",
-                "locationLong": 0.0576,
-                "locationLat": 0.001516,
-                "videos": "video name"
-            }}
+        message={"message":invalid_key_msg,
+                "example":example_create_data}
         self.assertEqual(json.loads(data), message)
 
     def test_create_intervention_bad__error(self):
@@ -137,7 +129,9 @@ class TestIntervention(unittest.TestCase):
                                  data=json.dumps(new_bad_intervention))
         self.assertEqual(response.status_code,400)
         data = response.data.decode()
-        self.assertEqual(json.loads(data), bad_message)
+        message={"message":invalid_key_msg,
+                "example":example_create_data}
+        self.assertEqual(json.loads(data), message)
 
     def test_create_intervention_user__error(self):
         response = self.app.post('/api/v1/intervention', headers=token_header(encode_token(1)),
