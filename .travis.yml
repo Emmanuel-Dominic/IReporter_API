@@ -9,7 +9,7 @@ install:
   - pip3 install coverage
 # command to run tests
 script:
-  - py.test --cov=.
+  - py.test -vv --cov
 
 after_success:
   - coveralls

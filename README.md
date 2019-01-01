@@ -25,7 +25,7 @@
 
 ## Prerequisites
 
-- A computer with an operating system (Linux, MacOS or Windows can do the job) Python 3.7
+-   A computer with an operating system (Linux, MacOS or Windows can do the job) Python 3.6.6
 - Pytest or any other preffered python tesing tool
 - Postman to test the API endpoints
 - A preffered text editor
@@ -40,14 +40,14 @@
 
 - $ cd IReporter_API
 - $ virtualenv venv
-- $ . venv/bin/activate
+- ($ . venv/bin/activate/ $ source venv/Scripts/activate)
 - $ git checkout develop
-- $ pip install -r requirements.txt
+- ($ pip install -r requirements.txt)
 - $ python run.py
 
 ## Deployment
 
-- The API is hosted on Heroku. Use the [[link](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
+-   The API is hosted on Heroku. Use the [[link](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
 
 ## Testing the Api
 
@@ -82,7 +82,7 @@ This is version one "v1" of the API
 |    PATCH  api/v1/intervention/<int:intervention_Id>location  |    Edit intervention location    |
 |    PATCH  api/v1/intervention/<int:intervention_Id>comment   |    Edit intervention comment     |
 |    PATCH  api/v1/red-flags/<int:redflag_Id>status            |    Edit red-flag status          |
-|    PATCH  api/v1/intervention/<int:intervention_Id>status    |    Edit intervention status
+|    PATCH  api/v1/intervention/<int:intervention_Id>status    |    Edit intervention status      |
 
 
 
