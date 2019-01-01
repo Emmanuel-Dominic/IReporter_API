@@ -9,65 +9,13 @@ class Incident:
 
     def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
         self.createdOn = datetime.datetime.today()
-        self.locationLong = self.set_locationLong(locationLong)
-        self.locationLat = self.set_locationLat(locationLat)
-        # self.createdBy = self.get_current_user()
+        self.locationLong = locationLong
+        self.locationLat = locationLat
         self.createdBy = createdBy
-        self.comment = self.set_comment(comment)
+        self.comment = comment
         self.images = images
         self.videos = videos
-        self.status = 'draft'
-
-
-    def set_locationLong(self,locationLong):
-        if isinstance(locationLong,int):
-            return "Invalid, locationLong must be a integer"
-        return locationLong
-
-    def set_locationLat(self,locationLat):
-        if isinstance(locationLat,int):
-            return "Invalid, locationLat must be a integer"
-        return locationLat
-
-    def set_comment(self,comment):
-        if not isinstance(comment,str):
-            return "Invalid, otherName must be a string"
-        return comment
-
-    def set_status(self,status):
-        if not isinstance(status,str):
-            return "Invalid, status must be a string"
-        return status
-
-    def set_lastName(self,lastName):
-        if not isinstance(lastName,str):
-            return "Invalid, lastName must be a string"
-        return lastName
-
-    def set_otherName(self,otherName):
-        if not isinstance(otherName,str):
-            return "Invalid, otherName must be a string"
-        return otherName
-    def set_firstName(self,firstName):
-        if not isinstance(firstName,str):
-            return "Invalid, firstName must be a string"
-        return firstName
-
-    def set_lastName(self,lastName):
-        if not isinstance(lastName,str):
-            return "Invalid, lastName must be a string"
-        return lastName
-
-    def set_otherName(self,otherName):
-        if not isinstance(otherName,str):
-            return "Invalid, otherName must be a string"
-        return otherName
-
-    def set_comment(self, comment):
-        return comment
-
-    def set_status(self, status):
-        return status
+        self.status = "draft"
 
 
     def get_incident_details(self):
