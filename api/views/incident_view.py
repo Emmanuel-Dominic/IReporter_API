@@ -67,8 +67,7 @@ def update_intervention_location(intervention_Id):
         incident_obj.locationLat=locationLat_value
         return jsonify({
             "status": 200,
-            "data":{"id": incident_obj.incidentId,
-            "message": "Updated intervention record's location"}}), 200    
+            "data":{"id": incident_obj.incidentId, "message": "Updated intervention record's location"}}), 200    
 
 @incident_bp.route('/red-flags/<int:redflag_Id>/location', methods=['PATCH'])
 @token_required
