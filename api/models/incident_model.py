@@ -1,7 +1,4 @@
-from flask import jsonify
 import datetime
-# from api.views.user_view import
-
 
 class Incident:
     """docstring for Incident."""
@@ -89,7 +86,7 @@ redflag_table = [
         comment="james was caught idle and disorderly",
         createdBy=2,
         images="1.jpeg",
-        locationLong= 0.33737, 
+        locationLong= 0.33737,
         locationLat= 5.38974,
         videos="1.gif"
     )]

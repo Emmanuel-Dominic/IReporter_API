@@ -203,6 +203,6 @@ def verify_create_incident_data(func):
                 "example":example_create_data}),400
         except:
             return jsonify({"message":"Please provide JSON data",
-                "example":example_create_data}),400            
+                "example":example_create_data}),400
         return func(*args, **kwargs)
     return wrapper

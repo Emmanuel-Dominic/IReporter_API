@@ -1,6 +1,5 @@
 from flask import jsonify
-from api.models.incident_model import Incident, intervention_table, redflag_table
-
+from api.models.incident_model import intervention_table,redflag_table
 
 def get_incidents_by_type_id(incident_type,incId):
 	incident_table = {"intervention": intervention_table, "redflag": redflag_table}
