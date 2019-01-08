@@ -6,15 +6,16 @@ class User:
 
     userId = 1
 
-    def __init__(self, userName, name, email, phoneNumber, password):
+    # def __init__(self, userName, name, email, phoneNumber, password):
+    def __init__(self, name, **kwargs):
         self.firstName = name["firstName"]
         self.lastName = name["lastName"]
         self.otherName = name["otherName"]
         self.name = name
-        self.email = email
-        self.phoneNumber = phoneNumber
-        self.password = generate_password_hash(password)
-        self.userName = userName
+        self.email = kwargs["email"]
+        self.phoneNumber = kwargs["phoneNumber"]
+        self.password = generate_password_hash(kwargs["password"])
+        self.userName = kwargs["userName"]
         self.date = datetime.datetime.now()
         self.userId = User.userId
         self.isAdmin = False

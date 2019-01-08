@@ -4,14 +4,15 @@ class Incident:
     """docstring for Incident."""
 
 
-    def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
+    # def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
+    def __init__(self, **kwargs):
         self.createdOn = datetime.datetime.today()
-        self.locationLong = locationLong
-        self.locationLat = locationLat
-        self.createdBy = createdBy
-        self.comment = comment
-        self.images = images
-        self.videos = videos
+        self.locationLong = kwargs["locationLong"]
+        self.locationLat = kwargs["locationLat"]
+        self.createdBy = kwargs["createdBy"]
+        self.comment = kwargs["comment"]
+        self.images = kwargs["images"]
+        self.videos = kwargs["videos"]
         self.status = "draft"
 
 
@@ -34,8 +35,8 @@ class RedFlag(Incident):
 
     redFlag_Id = 1
 
-    def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
-        Incident.__init__(self, createdBy, locationLong, locationLat, comment, images, videos)
+    def __init__(self, **kwargs):
+        Incident.__init__(self, **kwargs)
         self.type = 'red-flag'
         self.incidentId = RedFlag.redFlag_Id
         RedFlag.redFlag_Id += 1
@@ -45,8 +46,8 @@ class Intervention(Incident):
 
     intervention_Id = 1
 
-    def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
-        Incident.__init__(self, createdBy, locationLong, locationLat, comment, images, videos)
+    def __init__(self, **kwargs):
+        Incident.__init__(self, **kwargs)
         self.type = 'intervention'
         self.incidentId = Intervention.intervention_Id
         Intervention.intervention_Id += 1
