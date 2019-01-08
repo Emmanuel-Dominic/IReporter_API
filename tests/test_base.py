@@ -42,7 +42,7 @@ login_user = {
 }
 
 invalid_login_user={
-    "password": "admin",
+    "password": "admin589",
     "email": "admin@ireporter.com"
 }
 
@@ -74,7 +74,7 @@ new_intervention = {
     "images": "1.jpeg",
     "locationLong": 6.66666,
     "locationLat": 7.7777,
-    "type": "redflag",
+    "type": "intervention",
     "videos": "1.gif"
 }
 
