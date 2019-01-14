@@ -21,6 +21,15 @@ valid_type="Please provide valid data type for fields"
 json_data="Please provide JSON data"
 
 
+def pass_email():
+    data = request.get_json()
+    if len(data["password"]) < 6:
+        response = jsonify({"message":"Password must be atleast six characters or more"}), 406
+    elif not data["password"]:
+        response = jsonify({"message":"password {}".format(required_feild)}), 406
+    elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data["email"]):
+        response = jsonify({"message":"Your email address is not valid."}), 406
+
 
 def verify_login_data(func):
     @wraps(func)
@@ -32,13 +41,10 @@ def verify_login_data(func):
         error = None
         try:
             data = request.get_json()
+            epass=pass_email()
             response = None
-            if len(data["password"]) < 6:
-                response = jsonify({"message":"Password must be atleast six characters or more"}), 406
-            elif not data["password"]:
-                response = jsonify({"message":"password {}".format(required_feild)}), 406
-            elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data["email"]):
-                response = jsonify({"message":"Your email address is not valid."}), 406    
+            if epass:
+                response = epass   
             else:
                 response = func(*args , **kwargs)
             return response
@@ -63,6 +69,7 @@ def verify_signup_data(func):
         error = None
         try:
             data = request.get_json()
+            epass=pass_email()
             response = None
             if not data["firstName"].isalpha():
                 response = jsonify({"message":"{} string at firstName".format(Invalid_value_msg)}), 406
@@ -74,12 +81,6 @@ def verify_signup_data(func):
                 response = jsonify({"message":"lastName feild is required"}), 406
             elif not isinstance(data["otherName"],str):
                 response = jsonify({"message":"Invalid, otherName must be a string"}),406
-            elif len(data["password"]) < 6:
-                response = jsonify({"message":"Password must be atleast six characters or more"}), 406
-            elif not data["password"]:
-                response = jsonify({"message":"password {}".format(required_feild)}), 406
-            elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data["email"]):
-                response = jsonify({"message":"Your email address is not valid."}), 406
             elif not data["userName"].isalpha():
                 response = jsonify({"message":"{} at userName".format(Invalid_value_msg)}), 406
             elif not data["userName"]:
@@ -88,6 +89,8 @@ def verify_signup_data(func):
                 response = jsonify({"error":"Invalid, must be a phone number"}), 406
             elif not data["phoneNumber"]:
                 response = jsonify({"message":"phoneNumber feild is required"}), 406
+            elif epass:
+                response = epass
             else:
                 response = func(*args , **kwargs)
             return response
