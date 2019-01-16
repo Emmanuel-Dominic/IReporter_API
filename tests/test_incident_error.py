@@ -1,23 +1,16 @@
+from api.helpers.auth import encode_token
+from api.helpers.incidenthelper import get_incidents_by_type
+from .test_base import TestBase,invalid_key_msg,error,example_create_data,\
+                        new_status,new_bad_intervention,new_error_intervention,new_comment,\
+                        new_error_redflag,token_header,new_bad_redflag,new_location
 import json
 import unittest
 import os
 import sys
-
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-
-from api.models.incident_model import intervention_table
-from .test_base import new_intervention,invalid_key_msg,error,example_create_data,\
-                        new_status,new_bad_intervention,new_error_intervention,new_comment,\
-                        new_error_redflag,token_header,new_bad_redflag,new_location
-from api.app import app
-from api.helpers.auth import encode_token
-from api.helpers.incidenthelper import get_incidents_by_type
-from .test_base import TestBase
-
 
 
 class TestIntervention(TestBase):
-    
     def test_index(self):
         response = self.app.get('/api/v1/')
         self.assertEqual(response.status_code,200)

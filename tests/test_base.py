@@ -1,13 +1,11 @@
+import datetime
 import os
 import unittest
 import sys
-
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from api.helpers.auth import encode_token
-# from api.models.incident_model import intervention_list,redflag_list
-from api.app import app
 import jwt
-import datetime
+from api.helpers.auth import encode_token
+from api.app import app
 
 
 class TestBase(unittest.TestCase):

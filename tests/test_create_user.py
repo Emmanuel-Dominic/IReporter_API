@@ -4,14 +4,11 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from .test_base import new_user,new_user_response,token_signature_error,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
+from .test_base import TestBase,new_user,new_user_response,token_signature_error,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
 from api.helpers.auth import encode_token
-from api.app import app
-from .test_base import TestBase
 
 
 class TestUser(TestBase):
-
     def test_create_user(self):
         response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user))
         self.assertEqual(response.status_code,201)
