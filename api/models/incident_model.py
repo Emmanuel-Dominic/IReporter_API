@@ -53,43 +53,6 @@ class Intervention(Incident):
         Intervention.intervention_Id += 1
 
 
-intervention_table = [
-    Intervention(
-        comment="Mbale highway needs construction",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    ),
-    Intervention(
-        comment="Mbarara highway needs construction",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    )]
-intervention_table[0].createdOn = "Fri, 30 Nov 2018 13:09:32 GMT"
-intervention_table[1].createdOn = "Fri, 30 Nov 2018 12:09:32 GMT"
+intervention_table = [ ]
 
-
-redflag_table = [
-    RedFlag(
-        comment="Arnold was caught stealing jack fruit in hassan's Garden",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    ),
-    RedFlag(
-        comment="james was caught idle and disorderly",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    )]
-redflag_table[0].createdOn = "Fri, 30 Nov 2018 13:09:32 GMT"
-redflag_table[1].createdOn = "Fri, 30 Nov 2018 12:09:32 GMT"
+redflag_table = [ ]

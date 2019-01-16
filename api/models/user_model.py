@@ -47,13 +47,4 @@ admin_user =User(
     )
 admin_user.isAdmin = True
 users_table.append(admin_user)
-test_user =User(
-        name={"firstName": "manuel", "lastName": "manuelLastname", \
-              "otherName": "manuelOthername"},
-        userName="manuel",
-        email="manuel@ireporter.com",
-        phoneNumber=256700701616,
-        password="manuel123"
-    )
-users_table.append(test_user)
 

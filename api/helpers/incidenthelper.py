@@ -21,3 +21,7 @@ def get_incidents_by_type(incident_type):
 	for record in incident_table[incident_type]:
 		incidents_list.append(record.get_incident_details())
 	return incidents_list
+
+
+def not_found():
+    return jsonify({"status":404, "error": "Sorry, Incident Not Found"}),404
