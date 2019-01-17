@@ -9,7 +9,6 @@ from api.app import app
 
 
 class TestBase(unittest.TestCase):
-    """docstring for TestBase class"""
     def setUp(self):
         app.config['TESTING'] = True
         app.config['DEBUG'] = True

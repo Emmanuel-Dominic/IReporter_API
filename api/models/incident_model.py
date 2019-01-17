@@ -1,11 +1,9 @@
 import datetime
 
 class Incident:
-    """docstring for Incident."""
-
-
-    # def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
+    """Incident supper class"""
     def __init__(self, **kwargs):
+        """initialising data for super class"""
         self.createdOn = datetime.datetime.today()
         self.locationLong = kwargs["locationLong"]
         self.locationLat = kwargs["locationLat"]
@@ -17,6 +15,7 @@ class Incident:
 
 
     def get_incident_details(self):
+        """Return agiven form of data"""
         return {
             "locationLong": self.locationLong,
             "locationLat": self.locationLat,
@@ -32,10 +31,10 @@ class Incident:
 
 
 class RedFlag(Incident):
-
+    """Redflag inheritance class to incident class"""
     redFlag_Id = 1
-
     def __init__(self, **kwargs):
+        """initialising data for redflag class"""
         Incident.__init__(self, **kwargs)
         self.type = 'red-flag'
         self.incidentId = RedFlag.redFlag_Id
@@ -43,10 +42,10 @@ class RedFlag(Incident):
 
 
 class Intervention(Incident):
-
+    """Intervention inheritance class to incident class"""
     intervention_Id = 1
-
     def __init__(self, **kwargs):
+        """initialising data for intervention class"""
         Incident.__init__(self, **kwargs)
         self.type = 'intervention'
         self.incidentId = Intervention.intervention_Id

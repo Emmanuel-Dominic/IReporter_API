@@ -2,11 +2,8 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User:
-    """docstring for User."""
-
+    """User class"""
     userId = 1
-
-    # def __init__(self, userName, name, email, phoneNumber, password):
     def __init__(self, name, **kwargs):
         self.firstName = name["firstName"]
         self.lastName = name["lastName"]
@@ -23,14 +20,17 @@ class User:
 
 
     def check_password(self, password):
-            return check_password_hash(self.password, password)
+        """check for hashed password"""
+        return check_password_hash(self.password, password)
 
 
     def get_name(self):
+        """Returns joint names"""
         return " ".join([self.name["firstName"], self.name["lastName"], self.name["otherName"]])
 
 
     def get_user_details(self):
+        """Returns given user details"""
         data = {"name":self.get_name(), "userName": self.userName, \
             "email": self.email, "phoneNumber": self.phoneNumber, \
             "isAdmin": self.isAdmin, "userId": self.userId}

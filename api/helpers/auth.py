@@ -8,15 +8,18 @@ secret_key = "softwareDeveloper.Manuel@secret_key/mats.com"
 
 
 def encode_token(userId):
+    """Encode token for user access"""
     token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
         secret_key).decode('utf-8')
     return token
 
 def decode_token(token):
+    """Decode token for user infor"""
     decoded_token = jwt.decode(token, secret_key, algorithms=['HS256'])
     return decoded_token
 
 def token_required(func):
+    """Access token for userst access application"""
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:

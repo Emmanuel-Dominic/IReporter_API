@@ -12,6 +12,7 @@ intervention_bp = Blueprint('intervention_bp', __name__, url_prefix='/api/v1')
 @non_admin_required
 @verify_create_incident_data
 def create_intervention():
+    """Create an intervention record"""
     data = request.get_json()
     if data:
         newIncident = Intervention(locationLong=data["locationLong"], \
@@ -30,6 +31,7 @@ def create_intervention():
 @intervention_bp.route('/intervention', methods=['GET'])
 @token_required
 def get_all_intervention():
+    """Get all intervention records"""
     intervention=get_incidents_by_type("intervention")
     if intervention:
         return jsonify({
@@ -41,17 +43,19 @@ def get_all_intervention():
 @intervention_bp.route('/intervention/<int:intervention_Id>', methods=['GET'])
 @token_required
 def get_specific_intervention(intervention_Id):
+    """Get specific intervention record"""
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     if intervention:
         return jsonify({"data":intervention.get_incident_details(),
             "status": 200}), 200
-    return not_found() 
+    return not_found()
 
 
 @intervention_bp.route('/intervention/<int:intervention_Id>/location', methods=['PATCH'])
 @token_required
 @non_admin_required
 def update_intervention_location(intervention_Id):
+    """Updating a specific intervention location record"""
     incident_obj=get_incidents_by_type_id("intervention",int(intervention_Id))
     can_not_edit=get_incidents_by_status(incident_obj)
     if can_not_edit:
@@ -70,6 +74,7 @@ def update_intervention_location(intervention_Id):
 @token_required
 @non_admin_required
 def update_intervention_comment(intervention_Id):
+    """Updating a specific intervention comment record"""
     incident_obj=get_incidents_by_type_id("intervention",intervention_Id)
     can_not_edit=get_incidents_by_status(incident_obj)
     if can_not_edit:
@@ -87,6 +92,7 @@ def update_intervention_comment(intervention_Id):
 @token_required
 @non_admin_required
 def delete_intervention(intervention_Id):
+    """Deleting a specific intervention record"""
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     if intervention:
         incident_index = intervention_table.index(intervention)
@@ -102,6 +108,7 @@ def delete_intervention(intervention_Id):
 @token_required
 @admin_required
 def update_intervention_status(intervention_Id):
+    """Updating a specific intervention status record"""
     intervention=get_incidents_by_type_id("intervention",intervention_Id)
     if intervention:
         data = request.get_json()

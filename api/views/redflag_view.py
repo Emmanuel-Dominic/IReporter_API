@@ -10,6 +10,7 @@ redflag_bp = Blueprint('redflag_bp', __name__, url_prefix='/api/v1')
 
 @redflag_bp.route("/")
 def index():
+    """Returns message to a user"""
     return jsonify({
                 "IReporter": "This enables any/every citizen to bring"
                 " any form of corruption to the notice of appropriate"
@@ -21,6 +22,7 @@ def index():
 @non_admin_required
 @verify_create_incident_data
 def create_redflag():
+    """Create an redflag record"""
     data = request.get_json()
     if data:
         newIncident = RedFlag(locationLong=data["locationLong"], locationLat=data["locationLat"], createdBy=get_current_user()["userId"], \
@@ -39,6 +41,7 @@ def create_redflag():
 @redflag_bp.route('/red-flags', methods=['GET'])
 @token_required
 def get_all_redflag():
+    """Get all redflag records"""
     redflag=get_incidents_by_type("redflag")
     return jsonify({
                 "status": 200,
@@ -50,6 +53,7 @@ def get_all_redflag():
 @redflag_bp.route('/red-flags/<int:redflag_Id>', methods=['GET'])
 @token_required
 def get_specific_redflag(redflag_Id):
+    """Get specific redflag record"""
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     if red_flag:
         return jsonify({"data":red_flag.get_incident_details()},{
@@ -61,6 +65,7 @@ def get_specific_redflag(redflag_Id):
 @token_required
 @non_admin_required
 def update_redflag_location(redflag_Id):
+    """Updating a specific redflag location record"""
     incident_obj= get_incidents_by_type_id("redflag",redflag_Id)
     can_not_edit=get_incidents_by_status(incident_obj)
     if can_not_edit:
@@ -79,6 +84,7 @@ def update_redflag_location(redflag_Id):
 @token_required
 @non_admin_required
 def update_redflag_comment(redflag_Id):
+    """Updating a specific redflag comment record"""
     incident_obj=get_incidents_by_type_id("redflag",redflag_Id)
     can_not_edit=get_incidents_by_status(incident_obj)
     if can_not_edit:
@@ -96,6 +102,7 @@ def update_redflag_comment(redflag_Id):
 @token_required
 @non_admin_required
 def delete_redflag(redflag_Id):
+    """Deleting a specific redflag record"""
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     if red_flag:
         incident_index = redflag_table.index(red_flag)
@@ -111,6 +118,7 @@ def delete_redflag(redflag_Id):
 @token_required
 @admin_required
 def update_redflag_status(redflag_Id):
+    """Updating a specific redflag status record"""
     red_flag=get_incidents_by_type_id("redflag",redflag_Id)
     if red_flag:
         data = request.get_json()
