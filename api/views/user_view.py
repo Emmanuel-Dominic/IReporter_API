@@ -11,7 +11,7 @@ user_bp = Blueprint("user_bp", __name__, url_prefix="/api/v1")
 @token_required
 @admin_required
 def get_users():
-    """docstring function that return all users detials"""
+    """Return all users detials"""
     users_list = []
     for user_obj in users_table[1:]:
         users_list.append(user_obj.get_user_details())
@@ -21,6 +21,7 @@ def get_users():
 @user_bp.route("/auth/signup", methods=["POST"])
 @verify_signup_data
 def sign_up():
+    """Creates user"""
     data = request.get_json()
     name = {
         "firstName": data["firstName"],
@@ -51,6 +52,7 @@ def sign_up():
 @user_bp.route("/auth/login", methods=["POST"])
 @verify_login_data
 def login():
+    """Checks for the user password and email"""
     data = request.get_json()
     password = data["password"]
     email = data["email"]

@@ -4,20 +4,12 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from .test_base import new_user,new_user_response,token_signature_error,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
+from .test_base import TestBase,new_user,new_user_response,token_signature_error,token_expired,token_Invalid,token_header,login_user,all_users_response,invalid_login_user,login_user_response,new_user_error_mail
 from api.helpers.auth import encode_token
-from api.app import app
 
 
-class TestUser(unittest.TestCase):
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        self.app = app.test_client()
-        self.assertFalse(app.config['SECRET_KEY'] is 'softwareDeveloper.Manuel@secret_key/mats.com')
-
-
-    def test_sign_up(self):
+class TestUser(TestBase):
+    def test_create_user(self):
         response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user))
         self.assertEqual(response.status_code,201)
         data = response.data.decode()
@@ -47,7 +39,10 @@ class TestUser(unittest.TestCase):
         response = self.app.get('/api/v1/users',headers=token_header(encode_token(1)))
         self.assertEqual(response.status_code,200)
         data = response.data.decode()
-        self.assertEqual(json.loads(data), all_users_response)
+        self.assertEqual(json.loads(data)["users"][0]["email"], all_users_response["users"][0]["email"])
+        self.assertEqual(json.loads(data)["users"][0]["userName"], all_users_response["users"][0]["userName"])
+        self.assertEqual(json.loads(data)["users"][0]["phoneNumber"], all_users_response["users"][0]["phoneNumber"])
+
 
     def test_get_token_miss(self):
         response = self.app.get('/api/v1/users')
@@ -78,7 +73,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(json.loads(data), message)
 
 
-    def test_get_users_error(self):
+    def test_some_get_users_error(self):
         response = self.app.get('/api/v1/users',headers=token_header(encode_token(2)))
         self.assertEqual(response.status_code,401)
         data = response.data.decode()

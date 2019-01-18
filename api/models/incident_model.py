@@ -1,11 +1,9 @@
 import datetime
 
 class Incident:
-    """docstring for Incident."""
-
-
-    # def __init__(self, createdBy, locationLong, locationLat, comment, images, videos):
+    """Incident supper class"""
     def __init__(self, **kwargs):
+        """initialising data for super class"""
         self.createdOn = datetime.datetime.today()
         self.locationLong = kwargs["locationLong"]
         self.locationLat = kwargs["locationLat"]
@@ -17,6 +15,7 @@ class Incident:
 
 
     def get_incident_details(self):
+        """Return agiven form of data"""
         return {
             "locationLong": self.locationLong,
             "locationLat": self.locationLat,
@@ -32,10 +31,10 @@ class Incident:
 
 
 class RedFlag(Incident):
-
+    """Redflag inheritance class to incident class"""
     redFlag_Id = 1
-
     def __init__(self, **kwargs):
+        """initialising data for redflag class"""
         Incident.__init__(self, **kwargs)
         self.type = 'red-flag'
         self.incidentId = RedFlag.redFlag_Id
@@ -43,53 +42,16 @@ class RedFlag(Incident):
 
 
 class Intervention(Incident):
-
+    """Intervention inheritance class to incident class"""
     intervention_Id = 1
-
     def __init__(self, **kwargs):
+        """initialising data for intervention class"""
         Incident.__init__(self, **kwargs)
         self.type = 'intervention'
         self.incidentId = Intervention.intervention_Id
         Intervention.intervention_Id += 1
 
 
-intervention_table = [
-    Intervention(
-        comment="Mbale highway needs construction",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    ),
-    Intervention(
-        comment="Mbarara highway needs construction",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    )]
-intervention_table[0].createdOn = "Fri, 30 Nov 2018 13:09:32 GMT"
-intervention_table[1].createdOn = "Fri, 30 Nov 2018 12:09:32 GMT"
+intervention_table = [ ]
 
-
-redflag_table = [
-    RedFlag(
-        comment="Arnold was caught stealing jack fruit in hassan's Garden",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    ),
-    RedFlag(
-        comment="james was caught idle and disorderly",
-        createdBy=2,
-        images="1.jpeg",
-        locationLong= 0.33737,
-        locationLat= 5.38974,
-        videos="1.gif"
-    )]
-redflag_table[0].createdOn = "Fri, 30 Nov 2018 13:09:32 GMT"
-redflag_table[1].createdOn = "Fri, 30 Nov 2018 12:09:32 GMT"
+redflag_table = [ ]

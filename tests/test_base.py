@@ -1,8 +1,19 @@
+import datetime
 import os
+import unittest
 import sys
-
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-from api.helpers.auth import encode_token,encode_token_test
+import jwt
+from api.helpers.auth import encode_token
+from api.app import app
+
+
+class TestBase(unittest.TestCase):
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['DEBUG'] = True
+        self.app = app.test_client()        
+
 
 new_user = {
 "email": "ematembu@ireporter.com",
@@ -15,7 +26,7 @@ new_user = {
 }
 
 new_user_error_mail={
-"email": "manuel@ireporter.com",
+"email": "ematembu@ireporter.com",
 "firstName": "manuel",
 "lastName": "Dominic",
 "otherName": "highway",
@@ -31,7 +42,7 @@ new_user_response = {"status": 201,
         "isAdmin": False,
         "name": "manuel Dominic highway",
         "phoneNumber": 256700701616,
-        "userId": 3,
+        "userId": 2,
         "userName": "mats"
     }
 }
@@ -57,15 +68,15 @@ login_user_response = {
 all_users_response = {
     "status": 200,
     "users": [
-        {
-            "email": "manuel@ireporter.com",
-            "isAdmin": False,
-            "name": "manuel manuelLastname manuelOthername",
-            "phoneNumber": 256700701616,
-            "userId": 2,
-            "userName": "manuel"
-        }
-    ]
+{
+"email": "ematembu@ireporter.com",
+"firstName": "manuel",
+"lastName": "Dominic",
+"otherName": "highway",
+"password": "manuel123",
+"phoneNumber": 256700701616,
+"userName": "mats"
+}]
 }
 
 new_intervention = {
@@ -78,19 +89,40 @@ new_intervention = {
     "videos": "1.gif"
 }
 
-example_create_data={"comment": "comment","images": "image name",
-        "locationLat": 0.111111,"locationLong": 0.1111111,"videos": "video name"}
-invalid_key_msg = "Invalid Key in data,please provide valid input data"
-
 new_intervention_response = {
     "data": [
         {
-            "id": 3,
+            "id": 1,
             "message": "Created intervention record"
         }
     ],
     "status": 201
 }
+
+new_intervention1 = {
+    "comment": "Mbarara highway needs construction",
+    "createdOn": "Fri, 30 Nov 2018 12:09:32 GMT",
+    "images": "1.jpeg",
+    "locationLat": 5.38974,
+    "locationLong": 0.33737,
+    "type": "intervention",
+    "videos": "1.gif"
+}
+
+new_intervention1_response = {
+    "data": [
+        {
+            "id": 2,
+            "message": "Created intervention record"
+        }
+    ],
+    "status": 201
+}
+
+example_create_data={"comment": "comment","images": "image name",
+        "locationLat": 0.111111,"locationLong": 0.1111111,"videos": "video name"}
+invalid_key_msg = "Invalid Key in data,please provide valid input data"
+
 new_location = {
     "locationLong": 8.555555,
     "locationLat": 5.88289
@@ -98,7 +130,29 @@ new_location = {
 new_comment = {"comment": "Sorry!, error information"}
 
 new_redflag = {
-"comment": "Arnold was caught stealing jack fruit in hassan's Garden",
+"comment": "james was caught idle and disorderly",
+"images": "1.jpeg",
+"locationLat": 5.38974,
+"locationLong": 0.33737,
+"type": "red-flag",
+"videos": "1.gif"
+
+}
+
+
+new_redflag_response = {
+    "data": [
+        {
+            "id": 2,
+            "message": "Created redflag record"
+        }
+    ],
+    "status": 201
+}
+
+
+new_redflag1 = {
+"comment": "Arnold was caught taking jack fruit in hassan's Garden",
 "createdBy": 2,
 "images": "1.jpeg",
 "locationLong": 6.66666,
@@ -106,6 +160,16 @@ new_redflag = {
 "type": "redflag",
 "videos": "1.gif"
 
+}
+
+new_redflag1_response = {
+    "data": [
+        {
+            "id": 1,
+            "message": "Created redflag record"
+        }
+    ],
+    "status": 201
 }
 
 new_error_redflag={
@@ -132,24 +196,12 @@ new_bad_redflag={}
 new_bad_intervention={}
 
 
-new_redflag_response = {
-    "data": [
-        {
-            "id": 3,
-            "message": "Created redflag record"
-        }
-    ],
-    "status": 201
-}
-
-
 error = {"status":404, "error": "Sorry, Incident Not Found"}
 
 
 def get_incidents_by_type(incident_type):
     all_incidents = []
-
-    for incident in redflag_table:
+    for incident in incident_table:
         if incident.type == incident_type:
             all_incidents.append(
                 {
@@ -170,6 +222,11 @@ token_expired={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1QiLCJhb
 
 token_Invalid={"Content-Type": "application/json","token":"eyJ0eXAiOiJKV1iLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU0NjI2MzQxMn0.aszd39bdMvIZnOTfMkHCH5tESTd1cfav06hs0Pp58ko"}
 
+
+def encode_token_test(userId):
+    token = jwt.encode({'userId': userId, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=20)},
+        "secret_key")
+    return token
 
 token_signature_error={"Content-Type": "application/json","token": encode_token_test(1)}
 
