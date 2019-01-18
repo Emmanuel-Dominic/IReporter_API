@@ -21,7 +21,8 @@ valid_type="Please provide valid data type for fields"
 json_data="Please provide JSON data"
 
 
-def pass_email():
+def verify_password_and_email():
+    """verify password and email in user records"""
     data = request.get_json()
     if len(data["password"]) < 6:
         response = jsonify({"message":"Password must be atleast six characters or more"}), 406
@@ -32,6 +33,7 @@ def pass_email():
 
 
 def verify_login_data(func):
+    """Decorator for verifying user records at login"""
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not request.get_json():
@@ -41,10 +43,10 @@ def verify_login_data(func):
         error = None
         try:
             data = request.get_json()
-            epass=pass_email()
+            verify = verify_password_and_email()
             response = None
-            if epass:
-                response = epass   
+            if verify:
+                response = verify   
             else:
                 response = func(*args , **kwargs)
             return response
@@ -60,6 +62,7 @@ def verify_login_data(func):
 
 
 def verify_signup_data(func):
+    """Decorator for verifying user records at signup"""
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not request.get_json():
@@ -69,7 +72,7 @@ def verify_signup_data(func):
         error = None
         try:
             data = request.get_json()
-            epass=pass_email()
+            verify = verify_password_and_email()
             response = None
             if not data["firstName"].isalpha():
                 response = jsonify({"message":"{} string at firstName".format(Invalid_value_msg)}), 406
@@ -89,8 +92,8 @@ def verify_signup_data(func):
                 response = jsonify({"error":"Invalid, must be a phone number"}), 406
             elif not data["phoneNumber"]:
                 response = jsonify({"message":"phoneNumber feild is required"}), 406
-            elif epass:
-                response = epass
+            elif verify:
+                response = verify
             else:
                 response = func(*args , **kwargs)
             return response
@@ -107,6 +110,7 @@ def verify_signup_data(func):
 
 
 def verify_create_incident_data(func):
+    """Decorator for verifying user records at create incident"""
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not request.data:
