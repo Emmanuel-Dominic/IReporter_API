@@ -8,6 +8,5 @@ omit =
         *.pyc
         */home/travis/virtualenv/*
         */__init__.py
-        api/helpers/validators.py
         run.py
         
