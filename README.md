@@ -41,7 +41,7 @@
 -   $ cd IReporter_API
 -   $ virtualenv venv
 -   ($ . venv/bin/activate/ $ source venv/Scripts/activate)
--   $ git checkout develop
+-   $ git checkout database
 -   ($ pip install -r requirements.txt)
 -   $ python run.py
 
