@@ -9,7 +9,7 @@ class DatabaseConnection:
         """ create tables in the PostgreSQL database"""
         if environ.get('APP_SETTINGS') == 'testing':
             self.db = 'ireporter_testing_db'
-            print("connected to test_db")
+            print("connected to ireporter_testing_db")
         elif environ.get('APP_SETTINGS') == 'production':
             self.db = 'test_db'
             print("connected to test_db")
