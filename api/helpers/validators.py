@@ -10,7 +10,14 @@ example_signup_data = {
     "phoneNumber":"Your_phoneNumber", "password":"Your_password", \
     "userName":"Your_userName"
     }
-
+example_create_data = {
+    "title": "title",
+    "comment": "comment",
+    "images": "1.jpeg",
+    "longtitude": 6.66666,
+    "latitude": 7.7777,
+    "videos": "1.gif"
+}
 invalid_key_msg = "Invalid Key in data,please provide valid input data"
 required_feild = "field is Required"
 Invalid_value_msg = "Invalid value in data,please provide valid input data"
@@ -115,5 +122,51 @@ def verify_signup_data(func):
                 "example":example_signup_data}),400
         except TypeError:
             error = jsonify({"message": "Email already in use"}),406
+        return error
+    return wrapper
+
+
+
+def verify_create_incident_data(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not request.data:
+            return jsonify({"message": get_data,
+                "example":example_create_data}),400
+        # if data is not of type application/json
+        error = None
+        try:
+            data = request.get_json()
+            response = None
+            if not isinstance(data["longtitude"],float):
+                response = jsonify({"message":"Invalid, longtitude must be a float"}),406
+            elif not data["longtitude"]:
+                response = jsonify({"message":"longtitude feild is required"}), 406
+            elif not isinstance(data["latitude"],float):
+                response = jsonify({"message":"Invalid, latitude must be a float"}),406
+            elif not data["latitude"]:
+                response = jsonify({"message":"latitude feild is required"}), 406
+            elif not isinstance(data['videos'],str):
+                response = jsonify({"message":"Invalid, video name must be a string"}),406
+            elif not isinstance(data['images'],str):
+                response = jsonify({"message":"Invalid, image name must be a string"}),406
+            elif not isinstance(data["comment"],str):
+                response = jsonify({"message":"Invalid, comment must be a string"}),406
+            elif not data["comment"]:
+                response = jsonify({"message":"comment feild is required"}), 406
+            elif not data["title"].isalpha():
+                response = jsonify({"message":"title feild should have only alphabets"}), 406
+            else:
+                response = func(*args, **kwargs)
+            return response
+        # if does not contain valid keys
+        except KeyError:
+            error = jsonify({"message":invalid_key_msg,
+                "example":example_create_data}), 400
+        except ValueError:
+            error = jsonify({"message":valid_type,
+                "example":example_create_data}),400
+        except TypeError:
+            error = jsonify({"message": "Incident already exist"}),406
         return error
     return wrapper
