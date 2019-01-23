@@ -11,7 +11,7 @@ db =DatabaseConnection()
 
 
 def get_incidents_by_type(incident_type):
-    sql_command="""SELECT incident_id,title,created_by,{incident_Type},
+    sql_command="""SELECT incident_id,title,created_by,'{}',
             comment,status_,images,videos,created_On,latitude,
             longtitude FROM incidents;""".format(incident_type)
     db.cursor.execute(sql_command)

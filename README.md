@@ -100,4 +100,4 @@ $ pytest -vv --cov
 
 ## Acknowledgements
 
--   Acknowledgement to the Almighty God and Andela for making cohort 15/Andela 35 possible where cadidates are motivated.
+-   Acknowledgement to the Almighty God and Andela for making cohort 15 possible where cadidates are motivated.

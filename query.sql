@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS "incidents" (
    created_By  BIGSERIAL REFERENCES users (user_Id),
    incident_Type VARCHAR (255)   NOT NULL,
    comment  VARCHAR (255) UNIQUE  NOT NULL,
-   status_View  VARCHAR (255)  NOT NULL ,
+   title  VARCHAR (255)  NOT NULL,
+   status_  VARCHAR (255)  NOT NULL ,
    images   VARCHAR (255)   NOT NULL, 
    videos VARCHAR (255)   NOT NULL,
    created_On  timestamp   NOT NULL,
@@ -47,23 +48,23 @@ CREATE TABLE IF NOT EXISTS "incidents" (
    longititude  FLOAT(6) NOT NULL   
 );
 
-INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_View,
+INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_,
 	images,videos,created_On,latitude,longititude)
  VALUES (1,2,'redflag','Arnold was caught stealing jack fruit in hassan Garden','draft',
  	'1.jpeg','1.gif', now(),5.38974,0.33737);
 
-INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_View,
+INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_,
 images,videos,created_On,latitude,longititude)
  VALUES (4,2,'redflag','james was caught idle and disorderly','draft',
 	'1.jpeg','1.gif', now(),5.38974,0.33737);
 
 
-INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_View,
+INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_,
 	images,videos,created_On,latitude,longititude)
  VALUES (2,2,'interventon','Mbale highway needs construction','draft',
  	'1.jpeg','1.gif', now(),5.38974,0.33737);
 
-INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_View,
+INSERT INTO "incidents" (incident_Id,created_By,incident_Type,comment,status_,
 images,videos,created_On,latitude,longititude)
  VALUES (3,2,'interventon','Mbarara highway needs construction','draft',
 	'1.jpeg','1.gif', now(),5.38974,0.33737);
