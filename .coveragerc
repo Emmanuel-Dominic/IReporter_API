@@ -6,7 +6,6 @@ omit =
         */site-packages/nose/*
         */__pycache__/*
         *.pyc
-        api/helpers/validators.py
         */home/travis/virtualenv/*
         */__init__.py
         run.py

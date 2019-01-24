@@ -11,7 +11,7 @@ class DatabaseConnection:
             # self.db = 'ireporter_testing_db'
             print("connected to testing")
         elif environ.get('APP_SETTINGS') == app_config['production']:
-            # self.db = 'test_db'
+            # self.db = 'Database'
             print("connected to production")
         elif environ.get('APP_SETTINGS') == app_config['development']:
             # self.db = 'ireporter_Database'

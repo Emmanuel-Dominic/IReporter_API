@@ -58,7 +58,10 @@ def admin_required(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        isAdmin = get_current_user()["isadmin"]
+        try:
+            isAdmin = get_current_user()["isadmin"]
+        except TypeError:
+            return jsonify({"message": "Sorry incident not found"}), 404
         if isAdmin == False:
             return jsonify({"messsage": "Only admin can access this route"}), 401
         return func(*args, **kwargs)
@@ -74,7 +77,7 @@ def non_admin_required(func):
         try:
             isAdmin = get_current_user()["isadmin"]
         except TypeError:
-            return jsonify({"message": "Sorry user deactivated"}), 401
+            return jsonify({"message": "Sorry incident not found"}), 404
         if isAdmin == True:
             return jsonify({"messsage": "Only Non admin can access this route"}), 401
         return func(*args, **kwargs)
