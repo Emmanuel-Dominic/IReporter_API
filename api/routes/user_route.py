@@ -17,7 +17,6 @@ db = DatabaseConnection()
 def get_users():
     """docstring function that return all users detials"""
     users = get_all_users()
-    # if len(users)>0:
     if users:
         return jsonify({"status": 200, "data": [users]}), 200
     return bad_request()

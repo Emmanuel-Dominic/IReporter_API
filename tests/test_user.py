@@ -28,7 +28,7 @@ class TestUser(TestBase):
 
     def test_login(self):
         response = self.app.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(login_user))
-        # self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,200)
         data = response.data.decode()
         self.assertEqual(json.loads(data)["message"], login_user_response["message"])
 
