@@ -1,5 +1,6 @@
-from functools import wraps
 import re
+from functools import wraps
+
 from flask import request, jsonify
 
 example_login_data = {"email": "Your_email", "password": "Your_password"}

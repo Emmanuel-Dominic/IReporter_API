@@ -1,10 +1,11 @@
 from flask import Blueprint, jsonify, request
-from api.helpers.auth import encode_token, admin_required, token_required
+from werkzeug.security import check_password_hash
+
+from api.controllers.user_controller import get_all_users, signup_user, user_login_check
+from api.helpers.auth import admin_required
+from api.helpers.auth import encode_token, token_required
 from api.helpers.validators import verify_login_data, verify_signup_data
 from api.models.database_model import DatabaseConnection
-from api.helpers.auth import admin_required, non_admin_required
-from api.controllers.user_controller import get_all_users, signup_user, user_login_check
-from werkzeug.security import check_password_hash
 
 user_bp = Blueprint("user_bp", __name__, url_prefix="/api/v1")
 
@@ -19,7 +20,7 @@ def get_users():
     users = get_all_users()
     if users:
         return jsonify({"status": 200, "data": [users]}), 200
-    return bad_request()
+    return not_found()
 
 
 @user_bp.route("/auth/signup", methods=["POST"])
@@ -45,3 +46,7 @@ def user_login():
 
 def bad_request():
     return jsonify({"status": 400, "error": "Sorry, Bad request"}), 400
+
+
+def not_found():
+    return jsonify({"status": 400, "error": "Sorry, user not found"}), 404

@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify, request
-from api.helpers.auth import token_required, admin_required, non_admin_required, get_current_user
+from flask import Blueprint, jsonify
+
 from api.controllers.incident_controller import mailme, get_incidents_by_status, get_incidents_by_type, \
     get_incidents_by_id, create_incident, update_incident_comment, update_incident_location, update_incident_status, \
     delete_incident
+from api.helpers.auth import token_required, admin_required, non_admin_required
 from api.helpers.validators import verify_create_incident_data, bad_request, not_found
 from api.models.database_model import DatabaseConnection
 
@@ -16,7 +17,7 @@ intervention_bp = Blueprint('intervention_bp', __name__, url_prefix='/api/v1')
 @non_admin_required
 @verify_create_incident_data
 def create_intervention():
-    incident = create_incident()
+    incident = create_incident('intervention')
     if incident:
         return jsonify({"status": 201, "data": [incident,
                                                 {"message": "Intervention Successfully created"}]}), 201
@@ -35,7 +36,7 @@ def get_intervention():
 @intervention_bp.route('/intervention/<int:intervention_Id>', methods=['GET'])
 @token_required
 def get_specific_intervention(intervention_Id):
-    intervention = get_incidents_by_id(int(intervention_Id))
+    intervention = get_incidents_by_id(int(intervention_Id), 'intervention')
     if intervention:
         return jsonify({"status": 200, "data": intervention}), 200
     return not_found()
@@ -45,8 +46,9 @@ def get_specific_intervention(intervention_Id):
 @token_required
 @non_admin_required
 def update_intervention_location(intervention_Id):
-    can_not_edit = get_incidents_by_status(int(intervention_Id))
-    incident = update_incident_location(int(intervention_Id))
+    can_not_edit = get_incidents_by_status(int(intervention_Id)
+    'intervention')
+    incident = update_incident_location(int(intervention_Id), 'intervention')
     if can_not_edit:
         return can_not_edit
     elif incident:
@@ -59,8 +61,8 @@ def update_intervention_location(intervention_Id):
 @token_required
 @non_admin_required
 def update_intervention_comment(intervention_Id):
-    can_not_edit = get_incidents_by_status(int(intervention_Id))
-    incident = update_incident_comment(int(intervention_Id))
+    can_not_edit = get_incidents_by_status(int(intervention_Id), 'intervention')
+    incident = update_incident_comment(int(intervention_Id), 'intervention')
     if can_not_edit:
         return can_not_edit
     elif incident:
@@ -73,8 +75,8 @@ def update_intervention_comment(intervention_Id):
 @token_required
 @non_admin_required
 def delete_intervention(intervention_Id):
-    incident = get_incidents_by_id(int(intervention_Id))
-    delete = delete_incident(intervention_Id,'intervention')
+    incident = get_incidents_by_id(int(intervention_Id), 'intervention')
+    delete = delete_incident(intervention_Id, 'intervention')
     if not incident:
         return not_found()
     elif delete:
@@ -87,8 +89,8 @@ def delete_intervention(intervention_Id):
 @token_required
 @admin_required
 def update_intervention_status(intervention_Id):
-    incident = get_incidents_by_id(int(intervention_Id))
-    incident_status = update_incident_status(int(intervention_Id))
+    incident = get_incidents_by_id(int(intervention_Id), 'intervention')
+    incident_status = update_incident_status(int(intervention_Id), 'intervention')
     if not incident:
         return not_found()
     elif incident_status:
