@@ -19,7 +19,7 @@ def get_users():
     users = get_all_users()
     if users:
         return jsonify({"status": 200, "data": [users]}), 200
-    return bad_request()
+    return not_request()
 
 
 @user_bp.route("/auth/signup", methods=["POST"])
@@ -45,3 +45,6 @@ def user_login():
 
 def bad_request():
     return jsonify({"status": 400, "error": "Sorry, Bad request"}), 400
+
+def not_request():
+    return jsonify({"status": 404, "error": "Sorry, users not found"}), 404

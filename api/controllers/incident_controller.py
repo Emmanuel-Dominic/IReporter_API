@@ -18,22 +18,23 @@ def get_incidents_by_type(incident_type):
     return incident
 
 
-def get_incidents_by_id(incident_id):
+def get_incidents_by_id(incident_id,incident_type):
     sql_command = """SELECT incident_id,title,created_by,incident_Type,
             comment,status_,images,videos,created_On,latitude,
-            longtitude FROM incidents WHERE incident_id={};""".format(incident_id)
+            longtitude FROM incidents WHERE incident_id={}
+             AND incident_Type='{}';""".format(incident_id,incident_type)
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchone()
     return incident
 
 
-def get_incidents_by_status(incId):
+def get_incidents_by_status(incId,incident_type):
     data = request.get_json()
-    incident = get_incidents_by_id(incId)
+    incident = get_incidents_by_id(incId,incident_type)
     sql_command = """SELECT incident_id,title,created_by,incident_Type,
             comment,status_,images,videos,created_On,latitude,
             longtitude FROM incidents WHERE status_='{}' AND 
-            incident_id={}""".format('draft', incId)
+            incident_id={} AND incident_Type='{}'""".format('draft', incId,incident_type)
     db.cursor.execute(sql_command)
     incident_status = db.cursor.fetchone()
     if not incident:
@@ -44,13 +45,13 @@ def get_incidents_by_status(incId):
         return jsonify({"status": 406, "message": "Sorry, No input value is inserted"}), 406
 
 
-def create_incident():
+def create_incident(incident_type):
     data = request.get_json()
     sql_command = """INSERT INTO incidents (title,created_By,incident_Type,
         comment,status_,images,videos,created_On,latitude,longtitude)
-        VALUES ('{}','{}','interventon','{}','draft','{}','{}',now(),
+        VALUES ('{}','{}','{}','{}','draft','{}','{}',now(),
         '{}','{}') RETURNING incident_id""".format(data["title"],
-                                                   get_current_user()["userId"],
+                                                   get_current_user()["userId"],incident_type,
                                                    data["comment"], data["images"], data["videos"], data["latitude"],
                                                    data["longtitude"])
     try:
@@ -61,22 +62,22 @@ def create_incident():
     return incident
 
 
-def update_incident_location(incident_Id):
+def update_incident_location(incident_Id,incident_type):
     data = request.get_json()
     sql_command = """UPDATE incidents SET (latitude,longtitude) = ('{}','{}')
-                WHERE incident_id='{}' RETURNING incident_id""".format(
+                WHERE incident_id='{}' AND incident_Type='{}' RETURNING incident_id""".format(
         float(data['latitude']), float(data['longtitude']),
-        int(incident_Id))
+        int(incident_Id),incident_type)
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchall()
     return incident
 
 
-def update_incident_comment(incident_Id):
+def update_incident_comment(incident_Id,incident_type):
     data = request.get_json()
     sql_command = """UPDATE incidents SET comment = '{}'
-                WHERE incident_id='{}' RETURNING incident_id""".format(
-        str(data['comment']), int(incident_Id))
+                WHERE incident_id='{}' AND incident_Type='{}' RETURNING incident_id""".format(
+        str(data['comment']), int(incident_Id),incident_type)
     try:
         db.cursor.execute(sql_command)
     except psycopg2.IntegrityError:
@@ -85,20 +86,20 @@ def update_incident_comment(incident_Id):
     return incident
 
 
-def delete_incident(incident_Id,incident_Type):
+def delete_incident(incident_Id,incident_type):
     sql_command = """DELETE FROM incidents WHERE incident_Id = '{}' AND
              incident_Type= '{}' RETURNING incident_Id
-             """.format(incident_Id,incident_Type)
+             """.format(incident_Id,incident_type)
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchone()
     return incident
 
 
-def update_incident_status(incident_Id):
+def update_incident_status(incident_Id,incident_type):
     data = request.get_json()
     sql_command = """UPDATE incidents SET status_ = '{}'
                 WHERE incident_id='{}' RETURNING incident_id""".format(
-        str(data['status']), int(incident_Id))
+        str(data['status']), int(incident_Id),incident_type)
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchone()
     return incident

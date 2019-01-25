@@ -21,7 +21,7 @@ def index():
 @non_admin_required
 @verify_create_incident_data
 def create_redflag():
-    incident = create_incident()
+    incident = create_incident('redflag')
     if incident:
         return jsonify({"status": 201, "data": [incident,
                                                 {"message": "Redflag Successfully created"}]}), 201
@@ -39,7 +39,7 @@ def get_all_redflags():
 @redflag_bp.route('/red-flags/<int:redflag_Id>', methods=['GET'])
 @token_required
 def get_specific_redflag(redflag_Id):
-    intervention = get_incidents_by_id(int(redflag_Id))
+    intervention = get_incidents_by_id(int(redflag_Id),'redflag')
     if intervention:
         return jsonify({"status": 200, "data": intervention}), 200
     return not_found()
@@ -49,8 +49,8 @@ def get_specific_redflag(redflag_Id):
 @token_required
 @non_admin_required
 def update_redflag_location(redflag_Id):
-    not_incident_status = get_incidents_by_status(int(redflag_Id))
-    incident = update_incident_location(int(redflag_Id))
+    not_incident_status = get_incidents_by_status(int(redflag_Id),'redflag')
+    incident = update_incident_location(int(redflag_Id),'redflag')
     if not_incident_status:
         return not_incident_status
     elif incident:
@@ -63,8 +63,8 @@ def update_redflag_location(redflag_Id):
 @token_required
 @non_admin_required
 def update_redflag_comment(redflag_Id):
-    not_incident_status = get_incidents_by_status(int(redflag_Id))
-    incident = update_incident_comment(int(redflag_Id))
+    not_incident_status = get_incidents_by_status(int(redflag_Id),'redflag')
+    incident = update_incident_comment(int(redflag_Id),'redflag')
     if not_incident_status:
         return not_incident_status
     if incident:
@@ -77,7 +77,7 @@ def update_redflag_comment(redflag_Id):
 @token_required
 @non_admin_required
 def delete_redflag(redflag_Id):
-    not_found_id = get_incidents_by_id(int(redflag_Id))
+    not_found_id = get_incidents_by_id(int(redflag_Id),'redflag')
     incident = delete_incident(redflag_Id,'redflag')
     if not not_found_id:
         return not_found()
@@ -91,13 +91,12 @@ def delete_redflag(redflag_Id):
 @token_required
 @admin_required
 def update_redflag_status(redflag_Id):
-    not_incident_id = get_incidents_by_id(int(redflag_Id))
-    incident = update_incident_status(int(redflag_Id))
+    not_incident_id = get_incidents_by_id(int(redflag_Id),'redflag')
+    incident = update_incident_status(int(redflag_Id),'redflag')
     if not not_incident_id:
         return not_found()
     if incident:
-        mail = mailme(int(incident["incident_id"]))
         return jsonify({"status": 200, "Data": [incident,
-                                                {"message": "Redflag status successfully Updated"},
-                                                {"Email": mail}]}), 200
+                                                {"message": "Redflag status successfully Updated"}]}), 200
     return bad_request()
+
