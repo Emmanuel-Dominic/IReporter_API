@@ -125,20 +125,20 @@ class TestIncindent(TestBase):
         self.assertEqual(json.loads(data), message)
 
 
-    # def test_update_intervention_status(self):
-    #     response = self.app.patch('/api/v1/intervention/1/status', headers=token_header(encode_token(1)),
-    #                               data=json.dumps(new_status))
-    #     self.assertEqual(response.status_code,200)
-    #     data = response.data.decode()
-    #     self.assertEqual(json.loads(data), intervention_status_response)
+    def test_update_intervention_status(self):
+        response = self.app.patch('/api/v1/intervention/5/status', headers=token_header(encode_token(1)),
+                                  data=json.dumps(new_status))
+        self.assertEqual(response.status_code,200)
+        data = response.data.decode()
+        self.assertEqual(json.loads(data), intervention_status_response)
 
 
-    # def test_update_redflag_status(self):
-    #     response = self.app.patch('/api/v1/red-flags/1/status', headers=token_header(encode_token(1)),\
-    #                                       data=json.dumps(new_status))
-    #     self.assertEqual(response.status_code,200)
-    #     data = response.data.decode()
-    #     self.assertEqual(json.loads(data), redflag_status_response)
+    def test_update_redflag_status(self):
+        response = self.app.patch('/api/v1/red-flags/1/status', headers=token_header(encode_token(1)),\
+                                          data=json.dumps(new_status))
+        self.assertEqual(response.status_code,200)
+        data = response.data.decode()
+        self.assertEqual(json.loads(data), redflag_status_response)
 
 
 if __name__ == '__main__':

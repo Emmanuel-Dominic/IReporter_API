@@ -16,7 +16,7 @@ intervention_bp = Blueprint('intervention_bp', __name__, url_prefix='/api/v1')
 @non_admin_required
 @verify_create_incident_data
 def create_intervention():
-    incident = create_incident()
+    incident = create_incident('intervention')
     if incident:
         return jsonify({"status": 201, "data": [incident,
                                                 {"message": "Intervention Successfully created"}]}), 201
@@ -35,7 +35,7 @@ def get_intervention():
 @intervention_bp.route('/intervention/<int:intervention_Id>', methods=['GET'])
 @token_required
 def get_specific_intervention(intervention_Id):
-    intervention = get_incidents_by_id(int(intervention_Id))
+    intervention = get_incidents_by_id(int(intervention_Id),'intervention')
     if intervention:
         return jsonify({"status": 200, "data": intervention}), 200
     return not_found()
@@ -45,8 +45,8 @@ def get_specific_intervention(intervention_Id):
 @token_required
 @non_admin_required
 def update_intervention_location(intervention_Id):
-    can_not_edit = get_incidents_by_status(int(intervention_Id))
-    incident = update_incident_location(int(intervention_Id))
+    can_not_edit = get_incidents_by_status(int(intervention_Id),'intervention')
+    incident = update_incident_location(int(intervention_Id),'intervention')
     if can_not_edit:
         return can_not_edit
     elif incident:
@@ -59,8 +59,8 @@ def update_intervention_location(intervention_Id):
 @token_required
 @non_admin_required
 def update_intervention_comment(intervention_Id):
-    can_not_edit = get_incidents_by_status(int(intervention_Id))
-    incident = update_incident_comment(int(intervention_Id))
+    can_not_edit = get_incidents_by_status(int(intervention_Id),'intervention')
+    incident = update_incident_comment(int(intervention_Id),'intervention')
     if can_not_edit:
         return can_not_edit
     elif incident:
@@ -73,7 +73,7 @@ def update_intervention_comment(intervention_Id):
 @token_required
 @non_admin_required
 def delete_intervention(intervention_Id):
-    incident = get_incidents_by_id(int(intervention_Id))
+    incident = get_incidents_by_id(int(intervention_Id),'intervention')
     delete = delete_incident(intervention_Id,'intervention')
     if not incident:
         return not_found()
@@ -87,13 +87,12 @@ def delete_intervention(intervention_Id):
 @token_required
 @admin_required
 def update_intervention_status(intervention_Id):
-    incident = get_incidents_by_id(int(intervention_Id))
-    incident_status = update_incident_status(int(intervention_Id))
+    incident = get_incidents_by_id(int(intervention_Id),'intervention')
+    incident_status = update_incident_status(int(intervention_Id),'intervention')
     if not incident:
         return not_found()
     elif incident_status:
-        mail = mailme(int(incident_status["incident_id"]))
         return jsonify({"status": 200, "Data": [incident_status,
-                                                {"message": "Intervention status successfully Updated"},
-                                                {"Email": mail}]}), 200
+                                                {"message": "Intervention status successfully Updated"}]}), 200
     return bad_request()
+

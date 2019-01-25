@@ -312,9 +312,6 @@ redflag_status_response = {
         },
         {
             "message": "Redflag status successfully Updated"
-        },
-        {
-            "Email": "Email sent"
         }
     ],
     "status": 200
@@ -323,13 +320,10 @@ redflag_status_response = {
 intervention_status_response = {
     "Data": [
         {
-            "incident_id": 1
+            "incident_id": 5
         },
         {
             "message": "Intervention status successfully Updated"
-        },
-        {
-            "Email": "Email sent"
         }
     ],
     "status": 200
