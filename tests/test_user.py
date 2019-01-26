@@ -11,12 +11,12 @@ from api.app import app
 
 
 class TestUser(TestBase):
-    def test_sign_up(self):
-        response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user))
-        # self.assertEqual(response.status_code,201)
-        data = response.data.decode()
-        self.assertEqual(json.loads(data)["data"]["user_name"], new_user_response["data"]["user_name"])
-        self.assertEqual(json.loads(data)["data"]["phone_number"], new_user_response["data"]["phone_number"])
+    # def test_sign_up(self):
+    #     response = self.app.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(new_user))
+    #     # self.assertEqual(response.status_code,201)
+    #     data = response.data.decode()
+    #     self.assertEqual(json.loads(data)["data"]["user_name"], new_user_response["data"]["user_name"])
+    #     self.assertEqual(json.loads(data)["data"]["phone_number"], new_user_response["data"]["phone_number"])
 
     def test_sign_up_with_used_mail(self):
         response = self.app.post('/api/v1/auth/signup', content_type="application/json",
@@ -28,7 +28,7 @@ class TestUser(TestBase):
 
     def test_login(self):
         response = self.app.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(login_user))
-        # self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,200)
         data = response.data.decode()
         self.assertEqual(json.loads(data)["message"], login_user_response["message"])
 

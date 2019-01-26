@@ -88,7 +88,7 @@ new_intervention = {
 }
 
 new_intervention_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 8
         },
@@ -114,7 +114,7 @@ new_redflag = {
 }
 
 new_redflag_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": int
         },
