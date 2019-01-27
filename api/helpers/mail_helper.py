@@ -1,6 +1,7 @@
+from os import environ
+
 from flask import Flask
 from flask_mail import Mail, Message
-from os import environ
 
 app = Flask(__name__)
 mail = Mail(app)

@@ -1,15 +1,13 @@
 import json
-import unittest
 import os
 import sys
+import unittest
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 
 from .test_base import TestBase, get_all_intervention, get_intervention, get_redflag, get_all_redflags, \
-    new_intervention, error, new_location, new_status, \
-    new_bad_intervention, new_error_intervention, \
-    new_comment, intervention_status_response, new_error_redflag, \
-    new_intervention_response, redflag_status_response, new_redflag, \
+    new_intervention, new_location, new_status, \
+    new_comment, intervention_status_response, new_intervention_response, redflag_status_response, new_redflag, \
     new_redflag_response, token_header
 from api.helpers.auth import encode_token
 
@@ -93,18 +91,16 @@ class TestIncindent(TestBase):
         self.assertEqual(json.loads(data), message)
 
     def test_create_redflag(self):
-        response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_redflag))
+        response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)),
+                                 data=json.dumps(new_redflag))
         data = response.data.decode()
         self.assertTrue(json.loads(data), new_redflag_response)
-
 
     def test_create_intervention(self):
         response = self.app.post('/api/v1/intervention', headers=token_header(encode_token(2)),
                                  data=json.dumps(new_intervention))
         data = response.data.decode()
         self.assertTrue(json.loads(data), new_intervention_response)
-
-
 
     def test_delete_intervention(self):
         response = self.app.delete('/api/v1/intervention/7', headers=token_header(encode_token(2)))
@@ -122,19 +118,17 @@ class TestIncindent(TestBase):
                             {"message": "Redflag successfully Deleted"}], "status": 200}
         self.assertEqual(json.loads(data), message)
 
-
     def test_update_intervention_status(self):
         response = self.app.patch('/api/v1/intervention/5/status', headers=token_header(encode_token(1)),
                                   data=json.dumps(new_status))
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
         data = response.data.decode()
         self.assertEqual(json.loads(data), intervention_status_response)
 
-
     def test_update_redflag_status(self):
-        response = self.app.patch('/api/v1/red-flags/1/status', headers=token_header(encode_token(1)),\
-                                          data=json.dumps(new_status))
-        self.assertEqual(response.status_code,200)
+        response = self.app.patch('/api/v1/red-flags/1/status', headers=token_header(encode_token(1)), \
+                                  data=json.dumps(new_status))
+        self.assertEqual(response.status_code, 200)
         data = response.data.decode()
         self.assertEqual(json.loads(data), redflag_status_response)
 

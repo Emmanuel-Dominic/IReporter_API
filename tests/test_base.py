@@ -1,13 +1,11 @@
-import unittest
-import datetime
 import os
 import sys
+import unittest
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from api.app import app
 from api.helpers.auth import encode_token, encode_token_test
 from api.models.database_model import DatabaseConnection
-from werkzeug.security import check_password_hash
 
 
 class TestBase(unittest.TestCase):
@@ -17,6 +15,7 @@ class TestBase(unittest.TestCase):
         self.app = app.test_client()
         self.db = DatabaseConnection()
         self.db.cursor.execute(open('work.sql', 'r').read())
+
 
 new_user = {
     "email": "ematembu3@gmail.com",

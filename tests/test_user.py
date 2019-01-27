@@ -1,13 +1,12 @@
 import json
-import unittest
 import os
 import sys
+import unittest
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from .test_base import TestBase, token_signature_error, token_Invalid, token_expired, invalid_login_user, \
     new_user_error_mail, new_user, new_user_response, token_header, login_user, all_users_response, login_user_response
 from api.helpers.auth import encode_token
-from api.app import app
 
 
 class TestUser(TestBase):
@@ -26,7 +25,7 @@ class TestUser(TestBase):
 
     def test_login(self):
         response = self.app.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(login_user))
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
         data = response.data.decode()
         self.assertEqual(json.loads(data)["message"], login_user_response["message"])
 

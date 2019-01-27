@@ -1,40 +1,40 @@
 import psycopg2
 import psycopg2.extras
-import datetime
 from flask import jsonify, request
-from api.helpers.mail_helper import status_emailing
+
 from api.helpers.auth import get_current_user
+from api.helpers.mail_helper import status_emailing
 from api.models.database_model import DatabaseConnection
 
 db = DatabaseConnection()
 
 
 def get_incidents_by_type(incident_type):
-    sql_command = """SELECT incident_id,title,created_by,incident_Type,
+    sql_command = f"""SELECT incident_id,title,created_by,incident_Type,
             comment,status_,images,videos,created_On,latitude,
-            longtitude FROM incidents WHERE incident_Type='{}';""".format(incident_type)
+            longtitude FROM incidents WHERE incident_Type='{incident_type}';"""
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchall()
     return incident
 
 
-def get_incidents_by_id(incident_id,incident_type):
-    sql_command = """SELECT incident_id,title,created_by,incident_Type,
+def get_incidents_by_id(incident_id, incident_type):
+    sql_command = f"""SELECT incident_id,title,created_by,incident_Type,
             comment,status_,images,videos,created_On,latitude,
-            longtitude FROM incidents WHERE incident_id={}
-             AND incident_Type='{}';""".format(incident_id,incident_type)
+            longtitude FROM incidents WHERE incident_id='{incident_id}'
+             AND incident_Type='{incident_type}';"""
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchone()
     return incident
 
 
-def get_incidents_by_status(incId,incident_type):
+def get_incidents_by_status(incId, incident_type):
     data = request.get_json()
-    incident = get_incidents_by_id(incId,incident_type)
-    sql_command = """SELECT incident_id,title,created_by,incident_Type,
+    incident = get_incidents_by_id(incId, incident_type)
+    sql_command = f"""SELECT incident_id,title,created_by,incident_Type,
             comment,status_,images,videos,created_On,latitude,
-            longtitude FROM incidents WHERE status_='{}' AND 
-            incident_id={} AND incident_Type='{}'""".format('draft', incId,incident_type)
+            longtitude FROM incidents WHERE status_='draft' AND 
+            incident_id='{incId}' AND incident_Type='{incident_type}'"""
     db.cursor.execute(sql_command)
     incident_status = db.cursor.fetchone()
     if not incident:
@@ -47,13 +47,11 @@ def get_incidents_by_status(incId,incident_type):
 
 def create_incident(incident_type):
     data = request.get_json()
-    sql_command = """INSERT INTO incidents (title,created_By,incident_Type,
+    sql_command = f"""INSERT INTO incidents (title,created_By,incident_Type,
         comment,status_,images,videos,created_On,latitude,longtitude)
-        VALUES ('{}','{}','{}','{}','draft','{}','{}',now(),
-        '{}','{}') RETURNING incident_id""".format(data["title"],
-                                                   get_current_user()["userId"],incident_type,
-                                                   data["comment"], data["images"], data["videos"], data["latitude"],
-                                                   data["longtitude"])
+        VALUES ('{data["title"]}','{get_current_user()["userId"]}','{incident_type}',
+        '{data["comment"]}','draft','{data["images"]}','{data["videos"]}',now(),
+        '{data["latitude"]}','{data["longtitude"]}') RETURNING incident_id"""
     try:
         db.cursor.execute(sql_command)
     except psycopg2.IntegrityError:
@@ -62,22 +60,19 @@ def create_incident(incident_type):
     return incident
 
 
-def update_incident_location(incident_Id,incident_type):
+def update_incident_location(incident_Id, incident_type):
     data = request.get_json()
-    sql_command = """UPDATE incidents SET (latitude,longtitude) = ('{}','{}')
-                WHERE incident_id='{}' AND incident_Type='{}' RETURNING incident_id""".format(
-        float(data['latitude']), float(data['longtitude']),
-        int(incident_Id),incident_type)
+    sql_command = f"""UPDATE incidents SET (latitude,longtitude) = ('{data['latitude']}','{data['longtitude']}')
+                WHERE incident_id='{incident_Id}' AND incident_Type='{incident_type}' RETURNING incident_id"""
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchall()
     return incident
 
 
-def update_incident_comment(incident_Id,incident_type):
+def update_incident_comment(incident_Id, incident_type):
     data = request.get_json()
-    sql_command = """UPDATE incidents SET comment = '{}'
-                WHERE incident_id='{}' AND incident_Type='{}' RETURNING incident_id""".format(
-        str(data['comment']), int(incident_Id),incident_type)
+    sql_command = f"""UPDATE incidents SET comment = '{data['comment']}'
+                WHERE incident_id='{incident_Id}' AND incident_Type='{incident_type}' RETURNING incident_id"""
     try:
         db.cursor.execute(sql_command)
     except psycopg2.IntegrityError:
@@ -86,34 +81,33 @@ def update_incident_comment(incident_Id,incident_type):
     return incident
 
 
-def delete_incident(incident_Id,incident_type):
-    sql_command = """DELETE FROM incidents WHERE incident_Id = '{}' AND
-             incident_Type= '{}' RETURNING incident_Id
-             """.format(incident_Id,incident_type)
+def delete_incident(incident_Id, incident_type):
+    sql_command = f"""DELETE FROM incidents WHERE incident_Id = '{incident_Id}' AND
+             incident_Type= '{incident_type}' RETURNING incident_Id"""
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchone()
     return incident
 
 
-def update_incident_status(incident_Id,incident_type):
+def update_incident_status(incident_Id, incident_type):
     data = request.get_json()
-    sql_command = """UPDATE incidents SET status_ = '{}'
-                WHERE incident_id='{}' RETURNING incident_id""".format(
-        str(data['status']), int(incident_Id),incident_type)
+    sql_command = f"""UPDATE incidents SET status_ = '{data['status']}'
+                WHERE incident_id='{incident_Id}' AND
+                 incident_Type='{incident_type}' RETURNING incident_id"""
     db.cursor.execute(sql_command)
     incident = db.cursor.fetchone()
     return incident
 
 
 def mailme(myid):
-    sql_command = """SELECT 
+    sql_command = f"""SELECT 
             users.user_Name,
             users.email,
             tbl_name.status_,
             tbl_name.incident_Id
         FROM incidents tbl_name
         LEFT JOIN users ON tbl_name.created_By=users.user_Id
-        WHERE tbl_name.incident_Id={}""".format(int(myid))
+        WHERE tbl_name.incident_Id='{myid}'"""
     db.cursor.execute(sql_command)
     me = db.cursor.fetchone()
     hello = status_emailing(me["email"], me["user_name"], me["incident_id"], me["status_"])

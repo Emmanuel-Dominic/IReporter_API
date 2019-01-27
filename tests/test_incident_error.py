@@ -1,14 +1,13 @@
 import json
-import unittest
 import os
 import sys
+import unittest
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 
-from .test_base import TestBase, new_intervention, invalid_key_msg, error, example_create_data, \
+from .test_base import TestBase, invalid_key_msg, error, example_create_data, \
     new_status, new_bad_intervention, new_error_intervention, new_comment, \
     new_error_redflag, token_header, new_bad_redflag, new_location
-from api.app import app
 from api.helpers.auth import encode_token
 
 
