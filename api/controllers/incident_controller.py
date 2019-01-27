@@ -100,7 +100,7 @@ def update_incident_status(incident_Id, incident_type):
 
 
 def mailme(myid):
-    sql_command = f"""SELECT 
+    sql_command = f"""SELECT
             users.user_Name,
             users.email,
             tbl_name.status_,
