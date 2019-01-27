@@ -99,7 +99,7 @@ new_intervention_response = {
     "status": 201
 }
 
-new_intervention_response["Data"][1] = {"message": "Intervention Successfully created"}
+new_intervention_response["data"][1] = {"message": "Intervention Successfully created"}
 
 new_redflag = {
     "title": "Theft",
