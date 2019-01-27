@@ -21,13 +21,10 @@ class TestBase(unittest.TestCase):
 new_user = {
     "email": "ematembu3@gmail.com",
     "firstName": "Emmanuel",
-    "isadmin": False,
-    "joinning": "Thu, 10 Jan 2019 04:01:14 GMT",
     "lastName": "Matembu",
     "otherName": "Dominic",
-    "password": "pbkdf2:sha256:50000$sQueRoWd$816cacdef85cee03292df7cb84af19f9a0fb10a547d31178d9fccdf55fe80698",
+    "password": "manuel123",
     "phoneNumber": 256700701616,
-    "user_id": 3,
     "userName": "Manuel"
 }
 
