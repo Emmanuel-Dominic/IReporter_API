@@ -125,7 +125,7 @@ new_redflag_response = {
     "status": 201
 }
 
-new_redflag_response["Data"][1] = {"message": "Redflag Successfully created"}
+new_redflag_response["data"][1] = {"message": "Redflag Successfully created"}
 
 get_all_redflags = {
     "data": [
@@ -271,7 +271,7 @@ get_intervention = {
 new_comment = {"comment": "Just testing comment"}
 
 new_comment_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 1
         },
@@ -288,7 +288,7 @@ new_location = {
 }
 
 new_location_response = {
-    "Data": [
+    "data": [
         [
             {
                 "incident_id": 1
@@ -306,7 +306,7 @@ new_status = {
 }
 
 redflag_status_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 1
         },
@@ -318,7 +318,7 @@ redflag_status_response = {
 }
 
 intervention_status_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 5
         },

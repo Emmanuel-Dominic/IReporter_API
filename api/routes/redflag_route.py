@@ -54,7 +54,7 @@ def update_redflag_location(redflag_Id):
     if not_incident_status:
         return not_incident_status
     elif incident:
-        return jsonify({"status": 200, "Data": [incident,
+        return jsonify({"status": 200, "data": [incident,
                                                 {"message": "Redflag location successfully Updated"}]}), 200
     return bad_request()
 
@@ -68,7 +68,7 @@ def update_redflag_comment(redflag_Id):
     if not_incident_status:
         return not_incident_status
     if incident:
-        return jsonify({"status": 200, "Data": [incident,
+        return jsonify({"status": 200, "data": [incident,
                                                 {"message": "Redflag comment successfully Updated"}]}), 200
     return bad_request()
 
@@ -82,7 +82,7 @@ def delete_redflag(redflag_Id):
     if not not_found_id:
         return not_found()
     if incident:
-        return jsonify({"status": 200, "Data": [incident,
+        return jsonify({"status": 200, "data": [incident,
                                                 {"message": "Redflag successfully Deleted"}]}), 200
     return bad_request()
 
@@ -96,7 +96,7 @@ def update_redflag_status(redflag_Id):
     if not not_incident_id:
         return not_found()
     if incident:
-        return jsonify({"status": 200, "Data": [incident,
+        return jsonify({"status": 200, "data": [incident,
                                                 {"message": "Redflag status successfully Updated"}]}), 200
     return bad_request()
 

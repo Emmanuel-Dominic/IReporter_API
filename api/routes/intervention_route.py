@@ -50,7 +50,7 @@ def update_intervention_location(intervention_Id):
     if can_not_edit:
         return can_not_edit
     elif incident:
-        return jsonify({"status": 200, "Data": [incident,
+        return jsonify({"status": 200, "data": [incident,
                                                 {"message": "Intervention location successfully Updated"}]}), 200
     return bad_request()
 
@@ -64,7 +64,7 @@ def update_intervention_comment(intervention_Id):
     if can_not_edit:
         return can_not_edit
     elif incident:
-        return jsonify({"status": 200, "Data": [incident,
+        return jsonify({"status": 200, "data": [incident,
                                                 {"message": "Intervention comment successfully Updated"}]}), 200
     return bad_request()
 
@@ -78,7 +78,7 @@ def delete_intervention(intervention_Id):
     if not incident:
         return not_found()
     elif delete:
-        return jsonify({"status": 200, "Data": [delete,
+        return jsonify({"status": 200, "data": [delete,
                                                 {"message": "Intervention successfully Deleted"}]}), 200
     return bad_request()
 
@@ -92,7 +92,7 @@ def update_intervention_status(intervention_Id):
     if not incident:
         return not_found()
     elif incident_status:
-        return jsonify({"status": 200, "Data": [incident_status,
+        return jsonify({"status": 200, "data": [incident_status,
                                                 {"message": "Intervention status successfully Updated"}]}), 200
     return bad_request()
 

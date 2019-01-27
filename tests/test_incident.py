@@ -60,7 +60,7 @@ class TestIncindent(TestBase):
                                   data=json.dumps(new_location))
         self.assertEqual(response.status_code, 200)
         data = response.data.decode()
-        message = {"status": 200, "Data": [[{"incident_id": 6}],
+        message = {"status": 200, "data": [[{"incident_id": 6}],
                                            {"message": "Intervention location successfully Updated"}]}
         self.assertEqual(json.loads(data), message)
 
@@ -69,7 +69,7 @@ class TestIncindent(TestBase):
                                   data=json.dumps(new_location))
         self.assertEqual(response.status_code, 200)
         data = response.data.decode()
-        message = {"Data": [[{"incident_id": 2}],
+        message = {"data": [[{"incident_id": 2}],
                             {"message": "Redflag location successfully Updated"}],
                    "status": 200}
         self.assertEqual(json.loads(data), message)
@@ -79,7 +79,7 @@ class TestIncindent(TestBase):
                                   data=json.dumps(new_comment))
         self.assertEqual(response.status_code, 200)
         data = response.data.decode()
-        message = {"Data": [{"incident_id": 2},
+        message = {"data": [{"incident_id": 2},
                             {"message": "Redflag comment successfully Updated"}], "status": 200}
         self.assertEqual(json.loads(data), message)
 
@@ -88,7 +88,7 @@ class TestIncindent(TestBase):
                                   data=json.dumps(new_comment))
         self.assertEqual(response.status_code, 200)
         data = response.data.decode()
-        message = {"Data": [{"incident_id": 6},
+        message = {"data": [{"incident_id": 6},
                             {"message": "Intervention comment successfully Updated"}], "status": 200}
         self.assertEqual(json.loads(data), message)
 
@@ -96,7 +96,7 @@ class TestIncindent(TestBase):
     #     response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_redflag))
     #     # self.assertEqual(response.status_code,201)
     #     data = response.data.decode()
-    #     self.assertEqual(json.loads(data)["data"][1], new_redflag_response["Data"][1])
+    #     self.assertEqual(json.loads(data)["data"][1], new_redflag_response["data"][1])
 
 
     # def test_create_intervention(self):
@@ -112,7 +112,7 @@ class TestIncindent(TestBase):
         response = self.app.delete('/api/v1/intervention/7', headers=token_header(encode_token(2)))
         self.assertEqual(response.status_code, 200)
         data = response.data.decode()
-        message = {"Data": [{"incident_id": 7},
+        message = {"data": [{"incident_id": 7},
                             {"message": "Intervention successfully Deleted"}], "status": 200}
         self.assertEqual(json.loads(data), message)
 
@@ -120,7 +120,7 @@ class TestIncindent(TestBase):
         response = self.app.delete('/api/v1/red-flags/3', headers=token_header(encode_token(2)))
         self.assertEqual(response.status_code, 200)
         data = response.data.decode()
-        message = {"Data": [{"incident_id": 3},
+        message = {"data": [{"incident_id": 3},
                             {"message": "Redflag successfully Deleted"}], "status": 200}
         self.assertEqual(json.loads(data), message)
 
