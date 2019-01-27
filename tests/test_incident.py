@@ -94,7 +94,6 @@ class TestIncindent(TestBase):
 
     def test_create_redflag(self):
         response = self.app.post('/api/v1/red-flags', headers=token_header(encode_token(2)), data=json.dumps(new_redflag))
-        self.assertEqual(response.status_code,201)
         data = response.data.decode()
         self.assertTrue(json.loads(data), new_redflag_response)
 
@@ -102,7 +101,6 @@ class TestIncindent(TestBase):
     def test_create_intervention(self):
         response = self.app.post('/api/v1/intervention', headers=token_header(encode_token(2)),
                                  data=json.dumps(new_intervention))
-        self.assertEqual(response.status_code,201)
         data = response.data.decode()
         self.assertTrue(json.loads(data), new_intervention_response)
 
