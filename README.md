@@ -21,7 +21,7 @@
 
 ## Getting Started
 
--   Clone the project from this [[link](https://github.com/ManuelDominic/IReporter_API.git)]
+-   Access API Documentation for the project from this [[link](https://app.swaggerhub.com/apis/ManuelDominic/ManuelDominic/1.0.0)]
 
 ## Prerequisites
 
@@ -47,7 +47,7 @@
 
 ## Deployment
 
--   The API is hosted on Heroku. Use the [[link](https://query-api.herokuapp.com/api/v1/)] below to navigate to it.
+-   The API is hosted on Heroku. Use the [[link](https://ireporter-api-database.herokuapp.com/api/v1/)] to navigate to it.
 
 ## Testing the Api
 
