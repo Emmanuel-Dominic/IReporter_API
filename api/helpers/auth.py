@@ -1,10 +1,11 @@
 import datetime
 from functools import wraps
 from os import environ
+
 import jwt
 from flask import request, jsonify
+
 from api.models.database_model import DatabaseConnection
-import psycopg2
 
 SECRET_KEY = environ.get("SECRET_KEY")
 
@@ -47,7 +48,7 @@ def get_current_user():
     token = request.headers['token']
     decoded_token = decode_token(token)
     user_id = decoded_token["userId"]
-    sql_command = """SELECT user_id,isadmin  FROM users WHERE user_id='{}'""".format(user_id)
+    sql_command = f"""SELECT user_id,isadmin  FROM users WHERE user_id='{user_id}'"""
     db.cursor.execute(sql_command)
     the_id = db.cursor.fetchone()
     return {"userId": the_id["user_id"], "isadmin": the_id["isadmin"]}

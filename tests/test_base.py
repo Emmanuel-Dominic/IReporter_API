@@ -1,13 +1,11 @@
-import unittest
-import datetime
 import os
 import sys
+import unittest
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from api.app import app
 from api.helpers.auth import encode_token, encode_token_test
 from api.models.database_model import DatabaseConnection
-from werkzeug.security import check_password_hash
 
 
 class TestBase(unittest.TestCase):
@@ -18,16 +16,14 @@ class TestBase(unittest.TestCase):
         self.db = DatabaseConnection()
         self.db.cursor.execute(open('work.sql', 'r').read())
 
+
 new_user = {
     "email": "ematembu3@gmail.com",
     "firstName": "Emmanuel",
-    "isadmin": False,
-    "joinning": "Thu, 10 Jan 2019 04:01:14 GMT",
     "lastName": "Matembu",
     "otherName": "Dominic",
-    "password": "pbkdf2:sha256:50000$sQueRoWd$816cacdef85cee03292df7cb84af19f9a0fb10a547d31178d9fccdf55fe80698",
+    "password": "manuel123",
     "phoneNumber": 256700701616,
-    "user_id": 3,
     "userName": "Manuel"
 }
 
@@ -88,7 +84,7 @@ new_intervention = {
 }
 
 new_intervention_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 8
         },
@@ -99,7 +95,7 @@ new_intervention_response = {
     "status": 201
 }
 
-new_intervention_response["Data"][1] = {"message": "Intervention Successfully created"}
+new_intervention_response["data"][1] = {"message": "Intervention Successfully created"}
 
 new_redflag = {
     "title": "Theft",
@@ -114,7 +110,7 @@ new_redflag = {
 }
 
 new_redflag_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": int
         },
@@ -125,7 +121,7 @@ new_redflag_response = {
     "status": 201
 }
 
-new_redflag_response["Data"][1] = {"message": "Redflag Successfully created"}
+new_redflag_response["data"][1] = {"message": "Redflag Successfully created"}
 
 get_all_redflags = {
     "data": [
@@ -271,7 +267,7 @@ get_intervention = {
 new_comment = {"comment": "Just testing comment"}
 
 new_comment_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 1
         },
@@ -288,7 +284,7 @@ new_location = {
 }
 
 new_location_response = {
-    "Data": [
+    "data": [
         [
             {
                 "incident_id": 1
@@ -306,7 +302,7 @@ new_status = {
 }
 
 redflag_status_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 1
         },
@@ -318,7 +314,7 @@ redflag_status_response = {
 }
 
 intervention_status_response = {
-    "Data": [
+    "data": [
         {
             "incident_id": 5
         },
