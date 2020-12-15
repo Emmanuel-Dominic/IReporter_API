@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS "users" (
    UNIQUE(email)
 );
 
+
 TRUNCATE TABLE users CASCADE;
 
 INSERT INTO users (
